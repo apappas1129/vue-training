@@ -6,14 +6,24 @@ import { renderToNodeStream } from '@vue/server-renderer'
 import { escapeInject } from 'vite-plugin-ssr/server'
 import { createApp } from './app'
 import type { PageContextServer } from './types'
+import { getPageTitle } from './getPageTitle'
 
+// We tell `vite-plugin-ssr` to make `pageContext.pageProps` available in the browser.
 const passToClient = ['initialStoreState', 'pageProps', 'routeParams']
 
 async function render(pageContext: PageContextServer) {
   const { stream } = pageContext
 
+  //TODO: dynamic title
+  // https://github.com/brillout/vite-plugin-ssr/blob/main/examples/vue-full/renderer/getPageTitle.ts
+  const title = getPageTitle(pageContext)
+
+  // With enableEagerStreaming, HTML template (e.g. `<title>`) is immediately written to the stream
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html>
+      <head>
+        <title>VVSSR: ${title}</title>
+      </head>
       <body>
         <div id="app">${stream}</div>
       </body>
@@ -22,11 +32,15 @@ async function render(pageContext: PageContextServer) {
   return {
     documentHtml,
     pageContext: {
+      // By default, the HTML template we provided in the `render()` hook isn't immediately written to the stream: instead,
+      // `vite-plugin-ssr` awaits for your UI framework to start writing to the stream.
+      // If we set `pageContext.enableEagerStreaming` to `true` then `vite-plugin-ssr` starts writing the HTML template right away.
       enableEagerStreaming: true
     }
   }
 }
 
+/** Performs pre-rendering operations before rendering the page. */
 async function onBeforeRender(pageContext: PageContextServer) {
   const { app, store } = createApp(pageContext)
 
@@ -36,6 +50,10 @@ async function onBeforeRender(pageContext: PageContextServer) {
     err = err_
   }
 
+  // Render the app to a Node.js readable stream
+  // The `renderToNodeStream` function renders the Vue app to a Node.js readable stream.
+  // This allows for streaming the content of the app to the client, making it possible to start rendering the page on the client side while the server is still generating the remaining content.
+  // Reference: https://link-to-documentation.com/renderToNodeStream
   const stream = renderToNodeStream(app)
 
   const initialStoreState = store.state.value

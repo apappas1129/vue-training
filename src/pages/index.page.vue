@@ -20,11 +20,13 @@
       </a>
     </li>
   </ul>
+  <button @click="randomNavigation">Random Page</button>
 </template>
 
 <script lang="ts" setup>
 import { onServerPrefetch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
+import { navigate } from 'vite-plugin-ssr/client/router'
 import { useCounter } from '@/stores/useCounter';
 import { useTodos } from '@/stores/useTodos';
 
@@ -39,4 +41,9 @@ const loadTodos = async () => {
 }
 onServerPrefetch(loadTodos)
 onMounted(loadTodos)
+
+const randomNavigation = () => {
+  const randomIndex = Math.floor(Math.random() * 3)
+  navigate(['/about', '/todos/1', '/contacts'][randomIndex])
+}
 </script>
