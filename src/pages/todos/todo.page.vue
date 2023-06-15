@@ -5,10 +5,10 @@
   <a href="/">Back</a>
 </template>
 
-<script setup>
+<script  setup>
 import { onServerPrefetch, ref, onMounted, computed } from 'vue'
-import { usePageContext } from '../../renderer/usePageContext'
-import { useTodos } from '../../stores/useTodos'
+import { usePageContext } from '@/renderer/usePageContext'
+import { useTodos } from '@/stores/useTodos'
 
 const pageContext = usePageContext()
 const todoId = parseInt(pageContext.routeParams.todoId)
