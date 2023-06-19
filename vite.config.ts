@@ -13,5 +13,9 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
     }
+  },
+  // We manually add a list of dependencies to be pre-bundled, in order to avoid a page reload at dev start which breaks vite-plugin-ssr's CI
+  ssr : {
+    optimizeDeps: { include: ['express', 'compression', 'vue', 'pinia'] }
   }
 })

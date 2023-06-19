@@ -36,6 +36,11 @@ export type PageContextCustom = {
   enableEagerStreaming: boolean,
 }
 
+// Refer to pageContext https://vite-plugin-ssr.com/pageContext
+// Refer to Lifecycle: https://vite-plugin-ssr.com/pageContext#lifecycle
+// > "Vite-plugin-ssr adds information to pageContext only while rendering the page,
+//   and we recommend to treat pageContext as read-only after the rendering of the page is finished."
+
 type PageContextServer = PageContextBuiltIn<Component> & PageContextCustom
 type PageContextClient = PageContextBuiltInClient<Component> & PageContextCustom
 

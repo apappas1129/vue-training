@@ -2,10 +2,11 @@ import { createPinia } from 'pinia'
 import { App, createSSRApp, h, reactive, markRaw } from 'vue'
 import { setPageContext } from './usePageContext'
 import { PageContext } from './types'
+import GuestLayout from '@/layouts/guest.layout.vue';
 
 export { createApp }
 
-interface AppPageElemnent extends App<Element> {
+interface AppPageElement extends App<Element> {
   changePage: (pageContext: PageContext) => void;
 }
 
@@ -17,12 +18,14 @@ function createApp(pageContext: PageContext) {
       pageProps: markRaw(pageContext.pageProps || {}),
     }),
     render() {
-      return h(this.Page, this.pageProps)
+      const renderLayoutSlot = () => h(this.Page, this.pageProps || {});
+      // TODO: Role based layout
+      return h(GuestLayout, {}, { default: renderLayoutSlot });
     },
     created() {
       rootComponentContext = this;
     },
-  }) as AppPageElemnent;
+  }) as AppPageElement;
 
   const store = createPinia()
   app.use(store)

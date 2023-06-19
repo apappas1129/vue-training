@@ -2,13 +2,15 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
+    "esModuleInterop": true,
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
     "skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "Node",
     "allowImportingTsExtensions": true,
+    "allowJs": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -27,5 +29,13 @@
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "ts-node": {
+    "transpileOnly": true,
+    "experimentalResolver": true,
+    "esm": true,
+    "compilerOptions": {
+      "moduleResolution": "Node16"
+    }
+  }
 }

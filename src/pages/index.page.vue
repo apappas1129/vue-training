@@ -23,6 +23,11 @@
   <button @click="randomNavigation">Random Page</button>
 </template>
 
+<script lang="ts">
+/* Refer to [vite-plugin-ssr Custom Exports/Hooks] */
+export const documentProps = { title: 'Home' };
+</script>
+
 <script lang="ts" setup>
 import { onServerPrefetch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'

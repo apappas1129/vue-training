@@ -17,11 +17,14 @@ async function render(pageContext: PageContextServer) {
   //TODO: dynamic title
   // https://github.com/brillout/vite-plugin-ssr/blob/main/examples/vue-full/renderer/getPageTitle.ts
   const title = getPageTitle(pageContext)
+  const tabIconUrl = import.meta.env.BASE_URL + "vite.svg";
 
   // With enableEagerStreaming, HTML template (e.g. `<title>`) is immediately written to the stream
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html>
       <head>
+        <link rel="icon" href="${tabIconUrl}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>VVSSR: ${title}</title>
       </head>
       <body>
@@ -53,7 +56,7 @@ async function onBeforeRender(pageContext: PageContextServer) {
   // Render the app to a Node.js readable stream
   // The `renderToNodeStream` function renders the Vue app to a Node.js readable stream.
   // This allows for streaming the content of the app to the client, making it possible to start rendering the page on the client side while the server is still generating the remaining content.
-  // Reference: https://link-to-documentation.com/renderToNodeStream
+  // Reference: https://vite-plugin-ssr.com/stream
   const stream = renderToNodeStream(app)
 
   const initialStoreState = store.state.value
