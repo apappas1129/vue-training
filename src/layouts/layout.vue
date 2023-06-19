@@ -4,8 +4,12 @@
 </template>
 
 <script lang="ts" setup>
+import { usePageContext } from '#root/renderer/usePageContext';
+
 // import { onMounted, ref } from 'vue'
 
+const pageContext = usePageContext();
+console.log('pageContext', pageContext.user?.role.name);
 // let layout = ref(null)
 
 // // const userRole = userStore.user?.role; // Assuming you have a 'role' property in the user object

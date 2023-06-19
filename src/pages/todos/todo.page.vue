@@ -7,8 +7,8 @@
 
 <script  setup>
 import { onServerPrefetch, ref, onMounted, computed } from 'vue'
-import { usePageContext } from '@/renderer/usePageContext'
-import { useTodos } from '@/stores/useTodos'
+import { usePageContext } from '#root/renderer/usePageContext'
+import { useTodos } from '#root/stores/useTodos'
 
 const pageContext = usePageContext()
 const todoId = parseInt(pageContext.routeParams.todoId)

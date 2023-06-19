@@ -8,8 +8,8 @@ import { createApp } from './app'
 import type { PageContextServer } from './types'
 import { getPageTitle } from './getPageTitle'
 
-// We tell `vite-plugin-ssr` to make `pageContext.pageProps` available in the browser.
-const passToClient = ['initialStoreState', 'pageProps', 'routeParams']
+// We tell `vite-plugin-ssr` to make the following data available from `pageContext` in the browser.
+const passToClient = ['initialStoreState', 'pageProps', 'routeParams', 'user']
 
 async function render(pageContext: PageContextServer) {
   const { stream } = pageContext
@@ -25,7 +25,7 @@ async function render(pageContext: PageContextServer) {
       <head>
         <link rel="icon" href="${tabIconUrl}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>VVSSR: ${title}</title>
+        <title>${title}</title>
       </head>
       <body>
         <div id="app">${stream}</div>

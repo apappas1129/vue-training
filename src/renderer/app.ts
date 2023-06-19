@@ -2,7 +2,7 @@ import { createPinia } from 'pinia'
 import { App, createSSRApp, h, reactive, markRaw } from 'vue'
 import { setPageContext } from './usePageContext'
 import { PageContext } from './types'
-import GuestLayout from '@/layouts/guest.layout.vue';
+import GuestLayout from '#root/layouts/guest.layout.vue';
 
 export { createApp }
 

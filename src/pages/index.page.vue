@@ -32,8 +32,8 @@ export const documentProps = { title: 'Home' };
 import { onServerPrefetch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { navigate } from 'vite-plugin-ssr/client/router'
-import { useCounter } from '@/stores/useCounter';
-import { useTodos } from '@/stores/useTodos';
+import { useCounter } from '#root/stores/useCounter';
+import { useTodos } from '#root/stores/useTodos';
 
 const counterStore = useCounter()
 const { count } = storeToRefs(counterStore)

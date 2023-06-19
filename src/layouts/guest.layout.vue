@@ -17,5 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-import RouterLink from '@/components/RouterLink.vue'
+import RouterLink from '#root/components/RouterLink.vue'
+import { usePageContext } from '#root/renderer/usePageContext';
+
+const pageContext = usePageContext();
+console.log('guest layout pageContext user:', pageContext.user?.role.name);
 </script>

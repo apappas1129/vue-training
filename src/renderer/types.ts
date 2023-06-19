@@ -14,6 +14,7 @@ import type {
   // PageContextBuiltInClientWithServerRouting as PageContextBuiltInClient
 } from 'vite-plugin-ssr/types'
 import type { ComponentPublicInstance } from 'vue'
+import { User } from '#root/common/interfaces/user.interface'
 
 type Component = ComponentPublicInstance // https://stackoverflow.com/questions/63985658/how-to-type-vue-instance-out-of-definecomponent-in-vue-3/63986086#63986086
 type PageProps = Record<string, unknown>
@@ -32,6 +33,7 @@ export type PageContextCustom = {
     title: string
   }
   initialStoreState: Pinia['state']['value'],
+  user?: User,
   stream: ReturnType<typeof renderToNodeStream>,
   enableEagerStreaming: boolean,
 }
