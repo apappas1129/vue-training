@@ -2,7 +2,6 @@ import { createPinia } from 'pinia'
 import { App, createSSRApp, h, reactive, markRaw } from 'vue'
 import { setPageContext } from './usePageContext'
 import { PageContext } from './types'
-import GuestLayout from '@/layouts/guest.layout.vue';
 
 export { createApp }
 
@@ -18,16 +17,7 @@ function createApp(pageContext: PageContext) {
       pageProps: markRaw(pageContext.pageProps || {}),
     }),
     render() {
-      return h(
-        // TODO: Role based layout
-        GuestLayout,
-        {},
-        {
-          default: () => {
-            return h(this.Page, this.pageProps);
-          },
-        }
-      );
+      return h(this.Page, this.pageProps)
     },
     created() {
       rootComponentContext = this;
