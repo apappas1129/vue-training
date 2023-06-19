@@ -40,7 +40,7 @@ async function startServer() {
     // #endregion
     const user = {
       fullName: "Alex Papps",
-      role: { name: "instructor" },
+      role: { name: "asdad" },
     };
 
     const pageContextInit = {

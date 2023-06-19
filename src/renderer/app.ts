@@ -2,7 +2,7 @@ import { createPinia } from 'pinia'
 import { App, createSSRApp, h, reactive, markRaw } from 'vue'
 import { setPageContext } from './usePageContext'
 import { PageContext } from './types'
-import GuestLayout from '#root/layouts/guest.layout.vue';
+import { GuestLayout, InstructorLayout, StudentLayout } from '#root/layouts';
 
 export { createApp }
 
@@ -20,7 +20,7 @@ function createApp(pageContext: PageContext) {
     render() {
       const renderLayoutSlot = () => h(this.Page, this.pageProps || {});
       // TODO: Role based layout
-      return h(GuestLayout, {}, { default: renderLayoutSlot });
+      return h(selectLayout(pageContext), {}, { default: renderLayoutSlot });
     },
     created() {
       rootComponentContext = this;
@@ -46,4 +46,15 @@ function createApp(pageContext: PageContext) {
   setPageContext(app, pageContextReactive)
 
   return { app, store }
+}
+
+function selectLayout(pageContext: PageContext) {
+  switch (pageContext.user?.role.name) {
+    case 'instructor':
+      return InstructorLayout;
+    case 'student':
+      return StudentLayout;
+    default:
+      return GuestLayout;
+  }
 }
