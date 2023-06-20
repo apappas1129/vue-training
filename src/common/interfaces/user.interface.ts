@@ -6,3 +6,8 @@ export interface User {
   fullName: string;
   role: Role
 }
+
+export type UserAuth = User & {
+  // TODO: CASL implementation
+  ability: { [key in string]: any };
+}
