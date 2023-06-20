@@ -13,8 +13,6 @@ const passToClient = ['initialStoreState', 'pageProps', 'routeParams', 'user']
 
 async function render(pageContext: PageContextServer) {
   const { stream } = pageContext
-
-  //TODO: dynamic title
   // https://github.com/brillout/vite-plugin-ssr/blob/main/examples/vue-full/renderer/getPageTitle.ts
   const title = getPageTitle(pageContext)
   const tabIconUrl = import.meta.env.BASE_URL + "vite.svg";

@@ -20,7 +20,6 @@ function createApp(pageContext: PageContext) {
     }),
     render() {
       const renderLayoutSlot = () => h(this.Page, this.pageProps || {});
-      // TODO: Role based layout
       return h(this.Layout, {}, { default: renderLayoutSlot });
     },
     created() {
