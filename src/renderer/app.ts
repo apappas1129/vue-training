@@ -28,6 +28,13 @@ function createApp(pageContext: PageContext) {
   }) as AppPageElement;
 
   const store = createPinia()
+  // TODO: 3 OPTIONS
+  // [1] Check if passToClient has serialized CASL ability class instance successfully (not becoming [Object object])
+  // [2] Check if we can utilize composables from here on
+  // to unpack abilities?
+  // [3] Otherwise, revamp how dynamic layout works
+  // to make it so that there is only one single application component entry point
+  // where you can unpack pageContext.user.ability then store it.
   app.use(store)
 
   // We use `app.changePage()` to do Client Routing, see `_default.page.client.js`
