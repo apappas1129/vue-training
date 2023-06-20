@@ -16,11 +16,12 @@ function createApp(pageContext: PageContext) {
     data: () => ({
       Page: markRaw(pageContext.Page),
       pageProps: markRaw(pageContext.pageProps || {}),
+      Layout: markRaw(pageContext.exports.Layout || selectLayout(pageContext))
     }),
     render() {
       const renderLayoutSlot = () => h(this.Page, this.pageProps || {});
       // TODO: Role based layout
-      return h(selectLayout(pageContext), {}, { default: renderLayoutSlot });
+      return h(this.Layout, {}, { default: renderLayoutSlot });
     },
     created() {
       rootComponentContext = this;
