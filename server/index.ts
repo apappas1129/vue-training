@@ -1,6 +1,6 @@
 // Note that this file isn't processed by Vite, see https://github.com/brillout/vite-plugin-ssr/issues/562
 
-import express from "express";
+import express, { RequestHandler } from "express";
 import compression from "compression";
 import { renderPage } from "vite-plugin-ssr/server";
 import { root } from "./root.js";
@@ -10,6 +10,8 @@ startServer();
 
 async function startServer() {
   const app = express();
+
+  // Refer to https://expressjs.com/en/guide/using-middleware.html#middleware.application
 
   app.use(compression());
 
@@ -27,25 +29,10 @@ async function startServer() {
     app.use(viteDevMiddleware);
   }
 
-  app.get("*", async (req, res, next) => {
-    // #region Copied code from documentation: https://vite-plugin-ssr.com/auth
-
-    // Authentication middlewares (e.g. Passport.js or Grant) provide information
-    // about the logged-in user on the `req` object.
-    // const user = req.user
-
-    // Or when using a third-party authentication provider (e.g. Auth0):
-    // const user = await authProviderApi.getUser(req.headers)
-
-    // #endregion
-    const user = {
-      fullName: "Alex Papps",
-      role: { name: "asdad" },
-    };
-
+  app.get("*", auth, async (req, res, next) => {
     const pageContextInit = {
       urlOriginal: req.originalUrl,
-      user,
+      user: req.user,
     };
     const pageContext = await renderPage(pageContextInit);
     const { httpResponse } = pageContext;
@@ -53,11 +40,39 @@ async function startServer() {
     const { getBody, statusCode, contentType, earlyHints } = httpResponse;
     if (res.writeEarlyHints)
       res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) });
-    res.status(statusCode).type(contentType).send(await getBody());
-
+    res
+      .status(statusCode)
+      .type(contentType)
+      .send(await getBody());
   });
 
   const port = process.env.PORT || 3000;
   app.listen(port);
   console.log(`Server running at http://localhost:${port}`);
 }
+
+const auth: RequestHandler = (req, res, next) => {
+  // #region Copied code from documentation: https://vite-plugin-ssr.com/auth
+
+  // Authentication middlewares (e.g. Passport.js or Grant) provide information
+  // about the logged-in user on the `req` object.
+  // const user = req.user
+
+  // Or when using a third-party authentication provider (e.g. Auth0):
+  // const user = await authProviderApi.getUser(req.headers)
+
+  // #endregion
+  const user = {
+    fullName: "Alex Papps",
+    role: { name: "student" },
+    id: 1,
+    username: 'apapps'
+  };
+
+  // TODO: acquire ability here
+  // might need to pack here if renderPage cant serialize ability in pageContext
+  // https://casl.js.org/v6/en/api/casl-ability-extra#pack-rules
+
+  req.user = user;
+  next();
+};
