@@ -1,4 +1,4 @@
-import { User } from "#root/common/interfaces/user.interface";
+import { User } from "#root/common/entities/user.interface";
 
 // Module augmentation
 declare global {

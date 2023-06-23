@@ -56,7 +56,7 @@ function createApp(pageContext: PageContext) {
 }
 
 function selectLayout(pageContext: PageContext) {
-  switch (pageContext.user?.role.name) {
+  switch (pageContext.user?.role) {
     case 'instructor':
       return InstructorLayout;
     case 'student':

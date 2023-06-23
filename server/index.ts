@@ -63,10 +63,11 @@ const auth: RequestHandler = (req, res, next) => {
 
   // #endregion
   const user = {
-    fullName: "Alex Papps",
-    role: { name: "student" },
     id: 1,
-    username: 'apapps'
+    firstName:'Alex',
+    lastName: 'Pappas',
+    role: 'student',
+    email: 'apappas@arcanys.com',
   };
 
   // TODO: acquire ability here

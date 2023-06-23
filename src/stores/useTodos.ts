@@ -10,7 +10,7 @@ export const useTodos = defineStore("todos", {
     todoList: [],
   }),
   getters: {
-    todoById: (state) => (id: Todo["id"]) =>
+    todoById: (state) => (id: Todo['id']) =>
       state.todoList.find((todo: Todo) => todo.id === id),
   },
   actions: {
@@ -21,7 +21,7 @@ export const useTodos = defineStore("todos", {
       );
       this.todoList = result;
     },
-    async fetchTodoById(id: Todo["id"]) {
+    async fetchTodoById(id: Todo['id']) {
       const result = await new Promise<Todo | undefined>((resolve) =>
         setTimeout(() => resolve(todos.find((todo) => todo.id === id)))
       );
