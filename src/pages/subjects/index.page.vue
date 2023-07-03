@@ -1,0 +1,3 @@
+<template>
+  Subjects Page
+</template>
