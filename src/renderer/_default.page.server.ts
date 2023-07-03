@@ -19,13 +19,13 @@ async function render(pageContext: PageContextServer) {
 
   // With enableEagerStreaming, HTML template (e.g. `<title>`) is immediately written to the stream
   const documentHtml = escapeInject`<!DOCTYPE html>
-    <html>
+    <html class="h-full bg-gray-100">
       <head>
         <link rel="icon" href="${tabIconUrl}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>${title}</title>
       </head>
-      <body>
+      <body class="h-full">
         <div id="app">${stream}</div>
       </body>
     </html>`

@@ -1,6 +1,17 @@
 <template>
   <h1>Instructor Layout</h1>
-  <div class="content">
+  <main class="content h-screen bg-white">
     <slot />
-  </div>
+  </main>
+  <Footer></Footer>
 </template>
+
+<script lang="ts" setup>
+import Footer from '#root/components/Footer.vue'
+</script>
+
+<style>
+main {
+  min-height: calc(100vh - 64px);
+}
+</style>

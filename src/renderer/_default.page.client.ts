@@ -7,6 +7,9 @@ export { onPageTransitionEnd }
 // WARNING: Before doing so, read https://vite-plugin-ssr.com/clientRouting */
 export const clientRouting = true
 
+// Import Tailwind directives
+import './index.css';
+
 import { createApp } from './app'
 import type { PageContextClient } from './types'
 

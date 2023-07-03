@@ -14,7 +14,7 @@ import type {
   // PageContextBuiltInClientWithServerRouting as PageContextBuiltInClient
 } from 'vite-plugin-ssr/types'
 import type { ComponentPublicInstance } from 'vue'
-import { User } from '#root/common/interfaces/user.interface'
+import { User } from '#root/common/entities/user.interface'
 
 type Component = ComponentPublicInstance // https://stackoverflow.com/questions/63985658/how-to-type-vue-instance-out-of-definecomponent-in-vue-3/63986086#63986086
 type PageProps = Record<string, unknown>
