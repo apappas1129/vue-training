@@ -11,7 +11,8 @@
       "paths": {
       "#root/*": ["./src/*"]
     },
-    "typeRoots": ["./@types", "./node_modules/@types", "./node_modules"]
+    "typeRoots": ["./@types", "./node_modules/@types", "./node_modules"],
+    "allowJs": true
   },
   "ts-node": {
     "transpileOnly": true,

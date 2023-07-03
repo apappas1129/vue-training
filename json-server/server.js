@@ -1,8 +1,19 @@
-const jsonServer = require('json-server');
+import dotenv from 'dotenv';
+import jsonServer from 'json-server';
+import mockedLogin from './mocked-auth/login.handler.js';
+import mockedLogout from './mocked-auth/logout.handler.js';
+import cors from 'cors';
+
+dotenv.config();
+
 const server = jsonServer.create();
-const router = jsonServer.router('./server/db.json');
+const router = jsonServer.router('./json-server/db.json');
 const middlewares = jsonServer.defaults();
 
+// Enable All CORS Requests
+server.use(cors());
+
+// #region json-server configuration
 middlewares.push((req, res, next) => {
     if (req.originalUrl.indexOf('_limit') === -1)
         req.query = { ...req.query, _limit: 10 } // default limit
@@ -39,9 +50,18 @@ router.render = (req, res) => {
 
     if (!req.query._limit) req.query._limit = 8;
 };
+// #endregion json-server configuration
+
+// #region mocked auth API endpoints
+server.use(mockedLogin(router));
+server.use(mockedLogout());
+// #endregion mocked auth API endpoints
 
 server.use(middlewares);
 server.use(router);
-server.listen(3000, () => {
-    console.log('\x1b[32m%s\x1b[0m', 'JSON Server is running at http://localhost:3000/')
+
+const port = process.env.JSON_SERVER_PORT || 4000;
+
+server.listen(port, () => {
+    console.log('\x1b[32m%s\x1b[0m', `JSON Server is running at http://localhost:${port}/`)
 });

@@ -1,8 +1,8 @@
-const faker = require('faker');
-const _ = require('lodash');
+import { faker } from '@faker-js/faker';
+import _ from 'lodash';
 
 /** Takes the first 25 instructors from given `users` and generates 10-25 subjects owned by each.*/
-module.exports = function (users) {
+export default function seedSubjects (users) {
     // Get 50 instructors
     const instructors = users.filter(u => u.role === 'instructor').slice(0, 25);
     const subjects = [];
@@ -11,11 +11,11 @@ module.exports = function (users) {
         const count = _.random(10, 25);
         for (let i = 0; i < count; i++)
             subjects.push({
-                id: faker.datatype.uuid(),
-                title: faker.unique(faker.name.title),
-                isPublished: faker.datatype.boolean(),
-                createdAt: faker.datatype.datetime(),
-                updatedAt: faker.datatype.datetime(),
+                id: faker.string.uuid(),
+                // The team recently let go of faker.helpers.unique. See https://github.com/faker-js/faker/issues/1785
+                isPublished: faker.datatype.boolean() + faker.git.commitSha({ length: 7 }),
+                createdAt: faker.date.anytime(),
+                updatedAt: faker.date.anytime(),
       /** FK*/  ownerId: instructor.id
             });
     });

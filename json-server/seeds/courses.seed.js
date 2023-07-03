@@ -1,21 +1,21 @@
-const faker = require('faker');
-const _ = require('lodash');
+import { faker } from '@faker-js/faker';
+import _ from 'lodash';
 
 /** Generates 3-8 courses per subject */
-module.exports = function (subjects) {
+export default function seedCourses(subjects) {
     const courses = [];
 
     subjects.forEach(subject => {
         const count = _.random(3, 8);
         for (let i = 0; i < count; i++)
             courses.push({
-                id: faker.datatype.uuid(),
-                title: faker.name.jobTitle + ' ' + faker.git.shortSha,
+                id: faker.string.uuid(),
+                title: faker.person.jobTitle + ' ' + faker.git.commitSha({ length: 7 }),
                 description: faker.lorem.sentences(),
-                icon: faker.image.imageUrl,
+                icon: faker.image.url,
                 isPublished: faker.datatype.boolean(),
-                createdAt: faker.datatype.datetime(),
-                updatedAt: faker.datatype.datetime(),
+                createdAt: faker.date.anytime(),
+                updatedAt: faker.date.anytime(),
       /** FK*/  subjectId: subject.id,
       /** FK*/  authorId: subject.ownerId
             });
