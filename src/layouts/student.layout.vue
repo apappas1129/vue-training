@@ -5,7 +5,7 @@
       <div class="flex flex-col justify-between mt-6">
         <aside>
           <nav>
-            <ul>
+            <ul role="list">
               <li>
                 <a class="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-md " href="/courses">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"

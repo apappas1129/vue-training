@@ -4,7 +4,7 @@
       <!-- <div class="hidden md:block">
           </div> -->
 
-      <ul class="flex items-center justify-between h-16 space-x-4">
+      <ul role="list" class="flex items-center justify-between h-16 space-x-4">
         <li>
           <a href="/" class="flex items-center flex-shrink-0 text-white">
             <img class="h-8 w-8" src="../assets/pinia.svg" alt="Pinia logo">

@@ -13,7 +13,7 @@
   <span>Counter that keeps its state on navigation</span>:
   <button type="button" @click="counterStore.increment">Counter {{ count }}</button>
   <h2>To-do List</h2>
-  <ul>
+  <ul role="list">
     <li v-for="item in todoList" :key="item.id">
       <a :href="`/todos/${item.id}`">
         {{ item.text }}

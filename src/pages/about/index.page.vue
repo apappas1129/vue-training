@@ -1,7 +1,14 @@
 <template>
-  <h1>About</h1>
-  <p>Example of app using <code>vite-plugin-ssr</code>.</p>
+  <section class="w-full flex flex-col items-center">
+    <div class="layout py-6">
+      <Readme/>
+    </div>
+  </section>
 </template>
+
+<script setup>
+import Readme from '../../../README.md'
+</script>
 
 <style>
 code {

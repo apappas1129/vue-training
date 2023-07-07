@@ -21,7 +21,8 @@ export function useFetch<T = any, R extends ResponseType = "json">(
   ...args: Parameters<$Fetch>
 ): UseFetchResponse<T> {
   const data = ref<null | T>(null);
-  const error = ref<null | Record<string, any>>(null);
+  const error = ref<null | Record<
+  string, any>>(null);
   const isLoading = ref(false);
 
   async function doFetch() {

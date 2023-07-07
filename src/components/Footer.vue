@@ -9,6 +9,9 @@
           <img class="h-8 w-8" src="../assets/vue.svg" alt="Vue logo">
           <span class="mr-2">+</span>
           <img style="height:44px" src="../assets/pinia.svg" class="logo vue" alt="Pinia logo" />
+          <span class="mr-2">+</span>
+          <img style="height:24px" src="../../public/tailwind.svg" class="logo vue" alt="tailwind" />
+
         </a>
         <p class="mt-2 text-sm text-gray-500">Unravel Your Potential, Learn Your Future!</p>
         <div class="mt-4">
@@ -50,58 +53,66 @@
         <div class="w-full px-4 lg:w-1/4 md:w-1/2">
           <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">About</h2>
           <nav class="mb-10 list-none">
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900" href="/about">Company</a>
-            </li>
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">Careers</a>
-            </li>
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">Blog</a>
-            </li>
+            <ul role="list">
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900" href="/about">Company</a>
+              </li>
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">Careers</a>
+              </li>
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">Blog</a>
+              </li>
+            </ul>
           </nav>
         </div>
         <div class="w-full px-4 lg:w-1/4 md:w-1/2">
           <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">Support</h2>
           <nav class="mb-10 list-none">
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">Contact Support</a>
-            </li>
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">Help Resources</a>
-            </li>
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">Release Updates</a>
-            </li>
+            <ul role="list">
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">Contact Support</a>
+              </li>
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">Help Resources</a>
+              </li>
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">Release Updates</a>
+              </li>
+            </ul>
           </nav>
         </div>
         <div class="w-full px-4 lg:w-1/4 md:w-1/2">
           <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">Platform
           </h2>
           <nav class="mb-10 list-none">
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">Terms &amp; Privacy</a>
-            </li>
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">Pricing</a>
-            </li>
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">FAQ</a>
-            </li>
+            <ul role="list">
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">Terms &amp; Privacy</a>
+              </li>
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">Pricing</a>
+              </li>
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">FAQ</a>
+              </li>
+            </ul>
           </nav>
         </div>
         <div class="w-full px-4 lg:w-1/4 md:w-1/2">
           <h2 class="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">Contact</h2>
           <nav class="mb-10 list-none">
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">Send a Message</a>
-            </li>
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">Request a Quote</a>
-            </li>
-            <li class="mt-3">
-              <a class="text-gray-500 cursor-pointer hover:text-gray-900">+123-456-7890</a>
-            </li>
+            <ul role="list">
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">Send a Message</a>
+              </li>
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">Request a Quote</a>
+              </li>
+              <li class="mt-3">
+                <a class="text-gray-500 cursor-pointer hover:text-gray-900">+123-456-7890</a>
+              </li>
+            </ul>
           </nav>
         </div>
       </div>
