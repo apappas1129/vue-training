@@ -1,7 +1,16 @@
 {
   "recommendations": [
-    "Vue.volar",
-    "Vue.vscode-typescript-vue-plugin",
-    "bradlc.vscode-tailwindcss"
+    "vue.volar",
+    "vue.vscode-typescript-vue-plugin",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    // Extras
+    "hediet.vscode-drawio",
+    "bierner.markdown-preview-github-styles",
+    "viktorzetterstrom.non-breaking-space-highlighter",
+    "wayou.vscode-todo-highlight",
+    "shardulm94.trailing-spaces",
+    "formulahendry.auto-rename-tag"
   ]
 }

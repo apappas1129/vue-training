@@ -1,192 +1,105 @@
-# Dillinger
-## _The Last Markdown Editor, Ever_
+# ![](public/vite.svg) vue-e-learning
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+[![](https://img.shields.io/badge/made%20with-vue-4FC08D?style=for-the-badge&logo=vuedotjs)](https://vuejs.org/) [![](https://img.shields.io/badge/powered%20by-vite-B242FE?style=for-the-badge&logo=vite&logoColor=FFD42C)](https://vitejs.dev/guide/)
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+## Prerequisite
 
-Dillinger is a cloud-enabled, mobile-ready, offline-storage compatible,
-AngularJS-powered HTML5 Markdown editor.
+### Requirements
 
-- Type some Markdown on the left
-- See HTML in the right
-- ✨Magic ✨
+### Front-end
 
-## Features
+- [Vue](https://vuejs.org/)
+- [Vite](https://vitejs.dev/guide/) (introductory/fundamentals)
+- [SSR](https://vuejs.org/guide/scaling-up/ssr.html), [(Vite) SSR](https://vitejs.dev/guide/ssr.html)
+- [`vite-plugin-ssr`](https://vite-plugin-ssr.com/) - important to go through all in the docs since everything else that aren't out-of-the-box were set up manually (for educational purposes).
+- [Tailwind CSS](https://tailwindcss.com/docs) and [Vite Integration](https://tailwindcss.com/docs/guides/vite).
+- [Pinia](https://pinia.vuejs.org/) and [`vite-plugin-ssr` Integration](https://vite-plugin-ssr.com/pinia)
+- [Webfont DL](https://github.com/feat-agency/vite-plugin-webfont-dl) (Not yet impemented)
 
-- Import a HTML file and watch it magically convert to Markdown
-- Drag and drop images (requires your Dropbox account be linked)
-- Import and save files from GitHub, Dropbox, Google Drive and One Drive
-- Drag and drop markdown and HTML files into Dillinger
-- Export documents as Markdown, HTML and PDF
+#### Documents
 
-Markdown is a lightweight markup language based on the formatting conventions
-that people naturally use in email.
-As [John Gruber] writes on the [Markdown site][df1]
+- [User Stories](https://docs.google.com/document/d/1JsGsiNg07R9YdC7NnHcfoiwxikiIcznCF4tCBQXY_YI/edit) - request access to Google Drive
+- [e-Learning Portal UI - Figma](https://www.figma.com/file/GWF1nhwVVyf9yBfpnPUnYv/eLearning?node-id=446%3A188) - request access to Figma
 
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
+### Back-end
 
-This text you see here is *actually- written in Markdown! To get a feel
-for Markdown's syntax, type some text into the left window and
-watch the results in the right.
+The Web API endpoints are mocked with the following:
 
-## Tech
+- [faker.js](https://github.com/marak/Faker.js/) on seeders
+- [JSON Server](https://github.com/typicode/json-server) to host db.json
 
-Dillinger uses a number of open source projects to work properly:
+#### Documents
 
-- [AngularJS] - HTML enhanced for web apps!
-- [Ace Editor] - awesome web-based text editor
-- [markdown-it] - Markdown parser done right. Fast and easy to extend.
-- [Twitter Bootstrap] - great UI boilerplate for modern web apps
-- [node.js] - evented I/O for the backend
-- [Express] - fast node.js network app framework [@tjholowaychuk]
-- [Gulp] - the streaming build system
-- [Breakdance](https://breakdance.github.io/breakdance/) - HTML
-to Markdown converter
-- [jQuery] - duh
+- [API Specs](https://docs.google.com/document/d/1L0hdRgWpCUyc0EigpzBTy65xjDudIaS3opKrboPwCaQ/edit) - request access to Google Drive
+- You can refer to [`docs/erd.drawio`](docs/erd.drawio) for a quick access to the ERD using [VS Code Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) plugin.
 
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
+## Running the Project
 
-## Installation
+#### For newly cloned repo
 
-Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
+- `npm i` or `yarn` to install dependencies.
+- `npm run faker` or `yarn faker` to run seeders for the mocked db.
 
-Install the dependencies and devDependencies and start the server.
+Run applications
 
-```sh
-cd dillinger
-npm i
-node app
+- `npm run json-server` or `yarn json-server` to run mocked Web API application.
+- `npm run dev` or `yarn dev` to run the SSR Web application.
+
+## Environment
+
+### VS Code Setup
+
+Some VS Code Extensions Recommendations are already defined in `.vscode/extensions.json`. Also, `./vscode/settings.json` is included for a few prettier & eslint configurations.
+
+### Code Comments
+
+- Please utilize [JSDoc](https://devhints.io/jsdoc) as much as possible.
+- Consider using the common [Comment Tags](<https://en.wikipedia.org/wiki/Comment_(computer_programming)#Tags>) to prefix your comments appropriately. You may refer to Python's _[PEP 350 -- Codetags: Mnemonics](https://www.python.org/dev/peps/pep-0350/#mnemonics)_ for more about this.
+- **Install the [TODO Highlight](https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight) extension** as recommended in the `.vscode/extensions.json`. The settings already include a configuration for this plugin.
+
+> Note that the idea behind the vibrant colors is to poke your eyes with its brightness, ensuring that they capture the reader's attention and provide a slight discomfort to motivate cleaning them up. Feel free to **modify the hex values to prevent any significant discomfort or potential risks such as photosensitive epilepsy**.
+
+### Tailwind CSS on VS Code
+
+Install [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss) Plugin and Follow their official _Recommended VS Code Settings_
+
+VS Code has built-in CSS validation which may display errors when using Tailwind-specific syntax, such as `@apply`. You can disable this with the `css.validate` setting:
+
+```
+"css.validate": false,
+"scss.validate": false,
 ```
 
-For production environments...
+By default, VS Code will not trigger completions when editing "string" content, for example within JSX attribute values. Updating the editor.quickSuggestions setting may improve your experience:
 
-```sh
-npm install --production
-NODE_ENV=production node app
+```
+"editor.quickSuggestions": {
+  "strings": true
+}
 ```
 
-## Plugins
+### Project Directory Structure
 
-Dillinger is currently extended with the following plugins.
-Instructions on how to use them in your own application are linked below.
+The current file structure is mainly based on `vite-ssr-plugin`'s [Basic File Structre](https://vite-plugin-ssr.com/file-structure#basic-apps). Mainly, the `pages` folder for [Filesystem Routing](https://vite-plugin-ssr.com/filesystem-routing). And `renderer` folder, although not explicitly required, is where SSR related files (such as your SSR entrypoints) should be in. The [Domain Driven Structure](https://vite-plugin-ssr.com/file-structure#domain-driven) scales better for large applications but for this project, basic will suffice.
 
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+The rest is personal preference that attempts to emulate some parts of [Nuxt's directory structure](https://nuxt.com/docs/guide/directory-structure/nuxt).
 
-## Development
+## Implementation Details
 
-Want to contribute? Great!
+### Routing
+The application uses the **Client-side Routing** method (DOM mutations upon page navigation). See [*#Server Routing or Client Routing?*](https://vite-plugin-ssr.com/routing#server-routing-or-client-routing).
 
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantaneously see your updates!
-
-Open your favorite Terminal and run these commands.
-
-First Tab:
-
-```sh
-node app
+As [documented](https://vite-plugin-ssr.com/filesystem-routing), creating a landing page can either be done with `pages/module/index.page.vue` or `pages/module.page.vue`. Organizing our page files according to available features of the current File System Routing will inevitably make multiple `index` files. *Attow.*, there is no simple way around this if you find the `Ctrl` + `P` + `"index"` results unbearable. Best we can do is do something like:
+```
+pages/products.page.vue             (outside "products" folder)
+pages/products/page/@id.page.vue
+```
+As suppose to:
+```
+pages/products/page/index.page.vue  (inevitable repitition)
+pages/products/page/@id.page.vue
 ```
 
-Second Tab:
+//TODOC: Route Guards / CASL
 
-```sh
-gulp watch
-```
-
-(optional) Third:
-
-```sh
-karma test
-```
-
-#### Building for source
-
-For production release:
-
-```sh
-gulp build --prod
-```
-
-Generating pre-built zip archives for distribution:
-
-```sh
-gulp build dist --prod
-```
-
-## Docker
-
-Dillinger is very easy to install and deploy in a Docker container.
-
-By default, the Docker will expose port 8080, so change this within the
-Dockerfile if necessary. When ready, simply use the Dockerfile to
-build the image.
-
-```sh
-cd dillinger
-docker build -t <youruser>/dillinger:${package.json.version} .
-```
-
-This will create the dillinger image and pull in the necessary dependencies.
-Be sure to swap out `${package.json.version}` with the actual
-version of Dillinger.
-
-Once done, run the Docker image and map the port to whatever you wish on
-your host. In this example, we simply map port 8000 of the host to
-port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
-
-```sh
-docker run -d -p 8000:8080 --restart=always --cap-add=SYS_ADMIN --name=dillinger <youruser>/dillinger:${package.json.version}
-```
-
-> Note: `--capt-add=SYS-ADMIN` is required for PDF rendering.
-
-Verify the deployment by navigating to your server address in
-your preferred browser.
-
-```sh
-127.0.0.1:8000
-```
-
-## License
-
-MIT
-
-**Free Software, Hell Yeah!**
-
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-
-   [dill]: <https://github.com/joemccann/dillinger>
-   [git-repo-url]: <https://github.com/joemccann/dillinger.git>
-   [john gruber]: <http://daringfireball.net>
-   [df1]: <http://daringfireball.net/projects/markdown/>
-   [markdown-it]: <https://github.com/markdown-it/markdown-it>
-   [Ace Editor]: <http://ace.ajax.org>
-   [node.js]: <http://nodejs.org>
-   [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
-   [jQuery]: <http://jquery.com>
-   [@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
-   [express]: <http://expressjs.com>
-   [AngularJS]: <http://angularjs.org>
-   [Gulp]: <http://gulpjs.com>
-
-   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-   [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-   [PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-   [PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
+//TODOC: Prefetching data with [`onBeforeRender()` hook in `.page.server`](https://vite-plugin-ssr.com/onBeforeRender-isomorphic) to alleviate the workload from the browser for the first page (i.e., of a paginated list). Further pagination is fetched client-side as usual.

@@ -1,0 +1,57 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"todohighlight.keywords": [
+			{
+				"text": "NOTE:",
+				"color": "#FFFFFF",
+				"backgroundColor": "#00FFFF"
+			},
+			{
+				"text": "BUG:",
+				"color": "#FFFFFF",
+				"backgroundColor": "#FF0000"
+			},
+			{
+				"text": "HACK:",
+				"color": "#FFFFFF",
+				"backgroundColor": "#7FFF00"
+			},
+			{
+				"text": "TODO:",
+				"backgroundColor": "#FFFF33",
+				"color": "#FFFFFF"
+			},
+			{
+				"text": "FIXME:",
+				"backgroundColor": "#ffa6da",
+				"color": "#FFFFFF"
+			},
+			{
+				"text": "TODOC:",
+				"backgroundColor": "#09FBD3",
+				"color": "#FFFFFF"
+			},
+			{
+				"text": "FK",
+				"backgroundColor": "#0000FF",
+				"color": "#FFFFFF"
+			}
+		],
+		"editor.formatOnPaste": false,
+		"editor.formatOnType": false,
+		"editor.formatOnSave": true,
+		"editor.formatOnSaveMode": "file",
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true,
+			"source.fixAll.stylelint": true
+		},
+		"[vue]": {
+			"editor.defaultFormatter": "esbenp.prettier-vscode"
+		}
+	}
+}
