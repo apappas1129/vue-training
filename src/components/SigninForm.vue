@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, email, minLength } from '@vuelidate/validators';
 
@@ -29,17 +29,13 @@ const { login } = useAuth();
 const isSubmitting = ref(false);
 const emit = defineEmits<{ (e: 'success'): void }>();
 
-const form = reactive<ILoginForm>({
-  email: '',
-  password: '',
-  remember: false,
-});
+const emailStorage = useAppStorage<string>('email', '', { prefix: 'remember:' });
 
-onMounted(() => {
-  const emailStorage = useAppStorage<string>('email', '', { prefix: 'remember:' });
-  form.email = emailStorage.value;
-  form.remember = !!emailStorage.value;
-})
+const form = reactive<ILoginForm>({
+  email: emailStorage.value,
+  password: '',
+  remember: !!emailStorage.value,
+});
 
 const rules = {
   email: { required, email },
@@ -60,10 +56,7 @@ async function tryLogin() {
   try {
     await login(form.email, form.password);
 
-    // TODO: refactor
-    const emailStorage = useAppStorage<string>('email', '', { prefix: 'remember:' });
     emailStorage.value = form.remember ? form.email : '';
-
     emit('success');
   } catch {
     isSubmitting.value = false;
