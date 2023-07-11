@@ -1,8 +1,13 @@
 <template>
   <form class="grid gap-y-spacer" @submit.prevent="tryLogin()">
     <BaseInput id="email" v-model="form.email" label="Email" type="email" :error="v$.email.$errors[0]?.$message" />
-    <BaseInput id="password" v-model="form.password" label="Password" type="password"
-      :error="v$.password.$errors[0]?.$message" />
+    <BaseInput
+      id="password"
+      v-model="form.password"
+      label="Password"
+      type="password"
+      :error="v$.password.$errors[0]?.$message"
+    />
 
     <BaseCheckbox v-model="form.remember" label="Remember me" />
 
@@ -55,7 +60,7 @@ async function tryLogin() {
 
   try {
     await login(form.email, form.password);
-
+    // Remember
     emailStorage.value = form.remember ? form.email : '';
     emit('success');
   } catch {

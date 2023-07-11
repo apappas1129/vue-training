@@ -1,5 +1,5 @@
-import { Course } from "./course.interface";
-import { User } from "./user.interface";
+import { Course } from './course.interface';
+import { User } from './user.interface';
 
 export interface Module {
   /** Primary Key */

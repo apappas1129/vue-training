@@ -1,6 +1,6 @@
 <template>
   <div v-bind="$attrs" class="flex items-center mb-4">
-    <input v-model="modelValue" type="checkbox"  />
+    <input v-model="modelValue" type="checkbox" />
     <label class="ml-2 block text-sm">
       <slot>{{ label }}</slot>
     </label>

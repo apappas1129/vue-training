@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import { ofetch } from 'ofetch';
 
 /**
  * See https://vite-plugin-ssr.com/auth
@@ -9,10 +10,14 @@ import { RequestHandler } from 'express';
  */
 
 /** An auth request handler that expects a session cookie written by `express-session`. */
-const auth: RequestHandler = (req, res, next) => {
-  if (!req.session?.user) return next();
+const auth: RequestHandler = async (req, res, next) => {
+  console.log('\x1b[32m%s\x1b[0m', '※ Entrypoint Express-session middleware\n');
+  console.log(req.headers.cookie);
 
-  req.user = req.session.user;
+  console.log('[REDIS SESSION]\n', req.session);
+  const user = req.session?.user;
+  if (!user) return next();
+  req.user = user;
 
   // TODO: acquire ability here
   // might need to pack here if renderPage cant serialize ability in pageContext

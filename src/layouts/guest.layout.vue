@@ -7,7 +7,7 @@
       <ul role="list" class="flex items-center justify-between h-16 space-x-4">
         <li>
           <a href="/" class="flex items-center flex-shrink-0 text-white">
-            <img class="h-8 w-8" src="../assets/pinia.svg" alt="Pinia logo">
+            <img class="h-8 w-8" src="../assets/pinia.svg" alt="Pinia logo" />
             <span class="ml-1.5">eLearning</span>
           </a>
         </li>
@@ -38,8 +38,8 @@
 </template>
 
 <script lang="ts" setup>
-import RouterLink from '#root/components/RouterLink.vue'
-import Footer from '#root/components/Footer.vue'
+import RouterLink from '#root/components/RouterLink.vue';
+import Footer from '#root/components/Footer.vue';
 </script>
 
 <style>

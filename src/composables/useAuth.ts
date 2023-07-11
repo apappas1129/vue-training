@@ -1,8 +1,10 @@
 import { useCookies } from '@vueuse/integrations/useCookies';
 import { useClearAppStorage } from './useAppStorage';
+import { useFetch } from './useFetch';
+import { User } from '#root/common';
 
 export function useAuth() {
-  const cookieName = 'email';
+  const cookieName = 'connect.sid'; // The default name set by express-session.
   const cookies = useCookies([]);
   const { clear } = useClearAppStorage();
 
@@ -11,26 +13,29 @@ export function useAuth() {
   }
 
   async function login(email: string, password: string) {
-    // TODO: Implement login
     // Do auth request with your API
-    console.info({ email, password });
+    console.info('Sending HTTP Request to login.', { email, password });
 
-    cookies.set(cookieName, email, {
-      maxAge: 60 * 60 * 24 * 7, // 1 week,
+    const { $fetch } = useFetch<{ user: User }>('login', {
+      method: 'POST',
+      body: { email, password },
+      credentials: 'include',
     });
+    // FIXME: TS inferred type is still Promise<void> despite having T defined in useFetch above.
+    return $fetch();
 
-    // Simulate 2s delay
-    return new Promise((resolve) => {
-      setTimeout(resolve, 2000);
-    });
+    // NOTE: The mocked login API uses express-session which automatically writes an
+    // HttpOnly cookie on the browser upon response.
   }
 
   async function logout() {
-    // TODO: Implement logout
-    // Do auth request with your API
+    const { $fetch } = useFetch<{ user: User }>('logout', { method: 'POST', credentials: 'include' });
 
-    cookies.remove(cookieName);
-    clear();
+    return $fetch().then(() => {
+      // TODO: Confirm that express-session logout response automatically clears cookie as expected.
+      // cookies.remove(cookieName);
+      clear();
+    });
   }
 
   return {

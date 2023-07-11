@@ -1,13 +1,20 @@
 <template>
   <section class="w-full flex flex-col items-center">
     <div class="layout py-6">
-      <Readme/>
+      <Readme />
     </div>
   </section>
 </template>
 
+<script>
+// Refer to: https://vite-plugin-ssr.com/layouts#custom-export
+// Forcing layout for Home Page to be GuestLayout regardless of auth state
+export { default as Layout } from '#root/layouts/guest.layout.vue';
+// onSuccess navigate
+</script>
+
 <script setup>
-import Readme from '../../../README.md'
+import Readme from '../../../README.md';
 </script>
 
 <style>

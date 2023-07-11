@@ -1,21 +1,21 @@
-export { render }
-export { onBeforeRender }
-export { passToClient }
+export { render };
+export { onBeforeRender };
+export { passToClient };
 
-import { renderToNodeStream } from '@vue/server-renderer'
-import { escapeInject } from 'vite-plugin-ssr/server'
-import { createApp } from './app'
-import type { PageContextServer } from './types'
-import { getPageTitle } from './getPageTitle'
+import { renderToNodeStream } from '@vue/server-renderer';
+import { escapeInject } from 'vite-plugin-ssr/server';
+import { createApp } from './app';
+import type { PageContextServer } from './types';
+import { getPageTitle } from './getPageTitle';
 
 // We tell `vite-plugin-ssr` to make the following data available from `pageContext` in the browser.
-const passToClient = ['initialStoreState', 'pageProps', 'routeParams', 'user']
+const passToClient = ['initialStoreState', 'pageProps', 'routeParams', 'user'];
 
 async function render(pageContext: PageContextServer) {
-  const { stream } = pageContext
+  const { stream } = pageContext;
   // https://github.com/brillout/vite-plugin-ssr/blob/main/examples/vue-full/renderer/getPageTitle.ts
-  const title = getPageTitle(pageContext)
-  const tabIconUrl = import.meta.env.BASE_URL + "vite.svg";
+  const title = getPageTitle(pageContext);
+  const tabIconUrl = import.meta.env.BASE_URL + 'vite.svg';
 
   // With enableEagerStreaming, HTML template (e.g. `<title>`) is immediately written to the stream
   const documentHtml = escapeInject`<!DOCTYPE html>
@@ -28,7 +28,7 @@ async function render(pageContext: PageContextServer) {
       <body class="h-full">
         <div id="app">${stream}</div>
       </body>
-    </html>`
+    </html>`;
 
   return {
     documentHtml,
@@ -36,35 +36,35 @@ async function render(pageContext: PageContextServer) {
       // By default, the HTML template we provided in the `render()` hook isn't immediately written to the stream: instead,
       // `vite-plugin-ssr` awaits for your UI framework to start writing to the stream.
       // If we set `pageContext.enableEagerStreaming` to `true` then `vite-plugin-ssr` starts writing the HTML template right away.
-      enableEagerStreaming: true
-    }
-  }
+      enableEagerStreaming: true,
+    },
+  };
 }
 
 /** Performs pre-rendering operations before rendering the page. */
 async function onBeforeRender(pageContext: PageContextServer) {
-  const { app, store } = createApp(pageContext)
+  const { app, store } = createApp(pageContext);
 
-  let err: unknown
+  let err: unknown;
   // Workaround: renderToString_() swallows errors in production, see https://github.com/vuejs/core/issues/7876
-  app.config.errorHandler = (err_) => {
-    err = err_
-  }
+  app.config.errorHandler = err_ => {
+    err = err_;
+  };
 
   // Render the app to a Node.js readable stream
   // The `renderToNodeStream` function renders the Vue app to a Node.js readable stream.
   // This allows for streaming the content of the app to the client, making it possible to start rendering the page on the client side while the server is still generating the remaining content.
   // Reference: https://vite-plugin-ssr.com/stream
-  const stream = renderToNodeStream(app)
+  const stream = renderToNodeStream(app);
 
-  const initialStoreState = store.state.value
+  const initialStoreState = store.state.value;
 
-  if (err) throw err
+  if (err) throw err;
 
   return {
     pageContext: {
       initialStoreState,
-      stream
-    }
-  }
+      stream,
+    },
+  };
 }

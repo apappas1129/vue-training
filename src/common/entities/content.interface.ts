@@ -1,5 +1,5 @@
-import { Module } from "./module.interface";
-import { User } from "./user.interface";
+import { Module } from './module.interface';
+import { User } from './user.interface';
 
 export interface Content {
   /** Primary Key */
@@ -9,8 +9,8 @@ export interface Content {
   /** Foreign Key */
   authorId: User['id'];
   /** API Specs: "For images and documents the data type should be a file." */
-  type: 'text' | 'image' | 'video' | 'document' | 'url' ;
-   // TODO: planning and implementation
+  type: 'text' | 'image' | 'video' | 'document' | 'url';
+  // TODO: planning and implementation
   content: File | string;
   isPublished: boolean;
   /** stringified ISO 8601 date */

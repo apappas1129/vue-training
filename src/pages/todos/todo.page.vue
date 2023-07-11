@@ -2,24 +2,24 @@
   <h1>To-do</h1>
   <span>{{ todo?.text }}</span>
   <br />
-  <a href="/">Back</a>
+  <a href="/example">Back</a>
 </template>
 
-<script  setup>
-import { onServerPrefetch, ref, onMounted, computed } from 'vue'
-import { usePageContext } from '#root/renderer/usePageContext'
-import { useTodos } from '#root/stores/useTodos'
+<script setup>
+import { onServerPrefetch, ref, onMounted, computed } from 'vue';
+import { usePageContext } from '#root/renderer/usePageContext';
+import { useTodos } from '#root/stores/useTodos';
 
-const pageContext = usePageContext()
-const todoId = parseInt(pageContext.routeParams.todoId)
+const pageContext = usePageContext();
+const todoId = parseInt(pageContext.routeParams.todoId);
 
-const todosStore = useTodos()
+const todosStore = useTodos();
 
-const todo = computed(() => todosStore.todoById(todoId))
+const todo = computed(() => todosStore.todoById(todoId));
 
 const loadTodo = async () => {
-  await todosStore.fetchTodoById(todoId)
-}
-onServerPrefetch(loadTodo)
-onMounted(loadTodo)
+  await todosStore.fetchTodoById(todoId);
+};
+onServerPrefetch(loadTodo);
+onMounted(loadTodo);
 </script>

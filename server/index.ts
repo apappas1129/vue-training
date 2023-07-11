@@ -6,7 +6,7 @@ import express from 'express';
 import compression from 'compression';
 import { root } from './root.js';
 
-import expressCookieSession from '../json-server/mocked-auth/session.middleware.js';
+import { expressCookieSession } from '../json-server/mocked-auth/session.middleware.js';
 import auth from './middlewares/auth.middleware.js';
 import ssr from './middlewares/ssr.middleware.js';
 
@@ -34,7 +34,7 @@ async function startServer() {
     ).middlewares;
     app.use(viteDevMiddleware);
 
-    // using mocked auth on local/development
+    // using redis
     app.use(expressCookieSession);
   }
 
@@ -44,4 +44,3 @@ async function startServer() {
   app.listen(port);
   console.log(`Server running at http://localhost:${port}`);
 }
-

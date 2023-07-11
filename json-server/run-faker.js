@@ -4,7 +4,7 @@ import seedCourses from './seeds/courses.seed.js';
 import seedModules from './seeds/modules.seed.js';
 import seedEnrollments from './seeds/enrollments.seed.js';
 
-const db = { };
+const db = {};
 
 db.users = seedUsers();
 db.subjects = seedSubjects(db.users);

@@ -1,27 +1,27 @@
-export { render }
-export { onHydrationEnd }
-export { onPageTransitionStart }
-export { onPageTransitionEnd }
+export { render };
+export { onHydrationEnd };
+export { onPageTransitionStart };
+export { onPageTransitionEnd };
 
 // enable Client-side Routing
 // WARNING: Before doing so, read https://vite-plugin-ssr.com/clientRouting */
-export const clientRouting = true
+export const clientRouting = true;
 
 // Import Tailwind directives
 import './index.css';
 
-import { createApp } from './app'
-import type { PageContextClient } from './types'
+import { createApp } from './app';
+import type { PageContextClient } from './types';
 
 let app: ReturnType<typeof createApp>['app'];
 function render(pageContext: PageContextClient) {
   if (!app) {
-    const instance = createApp(pageContext)
-    app = instance.app
-    instance.store.state.value = pageContext.initialStoreState
-    app.mount('#app')
+    const instance = createApp(pageContext);
+    app = instance.app;
+    instance.store.state.value = pageContext.initialStoreState;
+    app.mount('#app');
   } else {
-    app.changePage(pageContext)
+    app.changePage(pageContext);
   }
 }
 
@@ -29,14 +29,14 @@ function render(pageContext: PageContextClient) {
 
 // #region TODO: apply
 function onHydrationEnd() {
-  console.log('Hydration finished; page is now interactive.')
+  console.log('Hydration finished; page is now interactive.');
 }
 function onPageTransitionStart() {
-  console.log('Page transition start')
-  document.querySelector('.content')?.classList.add('page-transition')
+  console.log('Page transition start');
+  document.querySelector('.content')?.classList.add('page-transition');
 }
 function onPageTransitionEnd() {
-  console.log('Page transition end')
-  document.querySelector('.content')?.classList.remove('page-transition')
+  console.log('Page transition end');
+  document.querySelector('.content')?.classList.remove('page-transition');
 }
 // #endregion TODO: apply

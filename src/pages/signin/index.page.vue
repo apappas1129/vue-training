@@ -12,23 +12,23 @@
 <script lang="ts">
 // Refer to: https://vite-plugin-ssr.com/layouts#custom-export
 // Forcing layout for Home Page to be GuestLayout regardless of auth state
-export { default as Layout } from '#root/layouts/guest.layout.vue'
+export { default as Layout } from '#root/layouts/guest.layout.vue';
 // onSuccess navigate
 </script>
 
 <script lang="ts" setup>
-import SigninForm from '#root/components/SigninForm.vue'
-import { navigate } from 'vite-plugin-ssr/client/router'
+import SigninForm from '#root/components/SigninForm.vue';
+import { navigate } from 'vite-plugin-ssr/client/router';
 
 function onSuccess() {
-  navigate('/about');
+  navigate('/subjects');
 }
 </script>
 
 <style>
 div.background-pattern {
-  background-color: #D7B7FF;
-  background-image: url("../../../public/pattern-bg.svg");
+  background-color: #d7b7ff;
+  background-image: url('../../../public/pattern-bg.svg');
   background-attachment: fixed;
   background-size: cover;
   position: absolute;
