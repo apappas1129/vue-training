@@ -20,42 +20,34 @@
         </tr>
       </tbody>
     </table>
-    <div className="h-2">
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          @click="() => table.setPageIndex(0)"
-          :disabled="!table.getCanPreviousPage()"
-        >
+    <div class="h-2">
+      <div class="flex items-center gap-2">
+        <button class="border rounded p-1" @click="() => table.setPageIndex(0)" :disabled="!table.getCanPreviousPage()">
           «
         </button>
-        <button
-          className="border rounded p-1"
-          @click="() => table.previousPage()"
-          :disabled="!table.getCanPreviousPage()"
-        >
+        <button class="border rounded p-1" @click="() => table.previousPage()" :disabled="!table.getCanPreviousPage()">
           ‹
         </button>
-        <button className="border rounded p-1" @click="() => table.nextPage()" :disabled="!table.getCanNextPage()">
+        <button class="border rounded p-1" @click="() => table.nextPage()" :disabled="!table.getCanNextPage()">
           ›
         </button>
         <button
-          className="border rounded p-1"
+          class="border rounded p-1"
           @click="() => table.setPageIndex(table.getPageCount() - 1)"
           :disabled="!table.getCanNextPage()"
         >
           »
         </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
+        <span class="flex items-center gap-1">
+          <span>Page</span>
           <strong>
             {{ table.getState().pagination.pageIndex + 1 }} of
             {{ table.getPageCount() }}
           </strong>
         </span>
-        <span className="flex items-center gap-1">
+        <span class="flex items-center gap-1">
           | Go to page:
-          <input type="number" :value="goToPageNumber" @change="handleGoToPage" className="border p-1 rounded w-16" />
+          <input type="number" :value="goToPageNumber" @change="handleGoToPage" class="border p-1 rounded w-16" />
         </span>
         <select :value="table.getState().pagination.pageSize" @change="handlePageSizeChange">
           <option :key="pageSize" :value="pageSize" v-for="pageSize in pageSizes">Show {{ pageSize }}</option>
