@@ -85,11 +85,11 @@ const pagination = ref<PaginationState>({
 
 const goToPageNumber = ref(INITIAL_PAGE_INDEX + 1);
 
-const { data, isLoading, pageCount, fetchTable } = useTableService<Subject>('subjects', pagination);
+const { data, isLoading, pageCount } = useTableService<Subject>('subjects', pagination);
 
 const table = useVueTable({
   get data() {
-    return data.value?.data ?? [];
+    return data.value ?? [];
   },
   get pageCount() {
     return pageCount.value ?? -1;
@@ -133,5 +133,5 @@ function handlePageSizeChange(e: Event) {
   table.setPageSize(+(e.target as HTMLInputElement).value);
 }
 
-onMounted(() => fetchTable());
+// onMounted(() => fetchTable());
 </script>
