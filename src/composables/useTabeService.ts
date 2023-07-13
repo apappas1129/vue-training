@@ -27,7 +27,7 @@ export default function useTableService<T>(domain: string, pagination: Ref<Pagin
 
   const { data, error, isLoading, $fetch } = useFetch<PaginatedResponse<T>>(domain, {
     method: 'GET',
-    query: () => requestParams.value, // BUG: can't handle
+    query: requestParams, // BUG: can't handle
   });
 
   async function fetchTable() {
