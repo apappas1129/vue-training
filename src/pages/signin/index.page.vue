@@ -21,7 +21,8 @@ import SigninForm from '#root/components/SigninForm.vue';
 import { navigate } from 'vite-plugin-ssr/client/router';
 
 function onSuccess() {
-  navigate('/subjects');
+  // FIXME: Have to trigger page reload fro Layout to change.
+  navigate('/subjects').then(() => location.reload());
 }
 </script>
 

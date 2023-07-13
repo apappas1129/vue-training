@@ -56,7 +56,6 @@ function createApp(pageContext: PageContext) {
 }
 
 function selectLayout(pageContext: PageContext) {
-  console.log(' ===== TESTING USER ROLE =====\n', pageContext.user);
   switch (pageContext.user?.role) {
     case 'instructor':
       return InstructorLayout;

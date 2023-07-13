@@ -1,4 +1,4 @@
-import { ref, Ref, UnwrapRef } from 'vue';
+import { reactive, ref, Ref, UnwrapRef } from 'vue';
 // NOTE: ResponseType is exported through module augmentation
 import { ofetch, $Fetch, ResponseType, MappedType } from 'ofetch';
 
@@ -9,7 +9,7 @@ type UseFetchResponse<T> = {
   data: Ref<UnwrapRef<T> | null>;
   error: Ref<Record<string, any> | null>;
   isLoading: Ref<boolean>;
-  $fetch: () => Promise<void>;
+  $fetch: () => Promise<T>;
 };
 
 /**
@@ -25,11 +25,7 @@ export function useFetch<T = any, R extends ResponseType = 'json'>(...args: Para
   async function $fetch() {
     isLoading.value = true;
 
-    // FIXME: Must be something wrong with module augmentation as the inferred type here is `any`.
-    // Also, explicitly adding type to the variable below as a work around causes issue
-    // between the inferred type of data.value vs response.
-    // TS error:  Type 'T' is not assignable to type 'UnwrapRef<T> | null'.
-    const response: MappedType<R, T> = await apiFetch<T, R>(...args)
+    const response = await apiFetch<T, R>(...args)
       .catch(err => (error.value = err.data))
       .finally(() => (isLoading.value = false));
 
@@ -39,9 +35,8 @@ export function useFetch<T = any, R extends ResponseType = 'json'>(...args: Para
      *  See: https://github.com/unjs/ofetch#%EF%B8%8F-handling-errors
      */
 
-    // FIXME: forced to do type assertion here. Not sure what should be the correct TS typings here
-    // and if the current module augmentation is also correct. Ask senior/reviewer's inputs on this matter.
-    data.value = response as UnwrapRef<T>;
+    data.value = response;
+    return response as T;
   }
 
   return { data, error, isLoading, $fetch };

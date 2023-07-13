@@ -3,15 +3,17 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "concurrently --kill-others  \"npm run server\" \"npm run json-server\"",
+    "dev": "npm run check-redis &&  concurrently --kill-others \"npm run json-server\" \"npm run server\"",
     "prod": "npm run build && npm run server:prod",
     "build": "vite build",
     "server": "ts-node ./server/index.ts",
     "server:prod": "cross-env NODE_ENV=production ts-node ./server/index.ts",
     "json-server": "node ./json-server/server.js",
-    "seeder": "node ./json-server/run-faker.js > ./json-server/db.json"
+    "seeder": "node ./json-server/run-faker.js > ./json-server/db.json",
+    "check-redis": "node scripts/check-docker-redis.js"
   },
   "dependencies": {
+    "@tanstack/vue-table": "^8.9.3",
     "@vuelidate/core": "2.0.2",
     "@vuelidate/validators": "2.0.2",
     "@vueuse/components": "^10.2.0",
@@ -49,6 +51,8 @@
     "autoprefixer": "^10.4.14",
     "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
+    "dockerode": "^3.3.5",
+    "dotenv-run-script": "^0.3.0",
     "postcss": "^8.4.24",
     "tailwindcss": "^3.3.2",
     "ts-node": "^10.9.1",

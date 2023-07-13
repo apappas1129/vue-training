@@ -15,6 +15,8 @@ This project serves as an exercise for my Vue 3 Training program. **eLearning Pl
 - [`vite-plugin-ssr`](https://vite-plugin-ssr.com/) - important to go through all in the docs since everything else that aren't out-of-the-box were set up manually (for educational purposes).
 - [Tailwind CSS](https://tailwindcss.com/docs) and [Vite Integration](https://tailwindcss.com/docs/guides/vite).
 - [Pinia](https://pinia.vuejs.org/) and [`vite-plugin-ssr` Integration](https://vite-plugin-ssr.com/pinia)
+- [Vuelidate](https://vuelidate-next.netlify.app/)
+- [Iconify](https://iconify.design/docs/icon-components/vue/) (Not yet impemented)
 - [Webfont DL](https://github.com/feat-agency/vite-plugin-webfont-dl) (Not yet impemented)
 
 #### Documents
@@ -28,6 +30,7 @@ The Web API endpoints are mocked with the following tools:
 
 - [faker.js](https://github.com/marak/Faker.js/) for seeders
 - [JSON Server](https://github.com/typicode/json-server) to host db.json
+- [Docker](https://www.docker.com/) to host dockerized [redis](https://redis.io/).
 
 #### Documents
 
@@ -39,12 +42,12 @@ The Web API endpoints are mocked with the following tools:
 #### For newly cloned repo
 
 - `npm i` or `yarn` to install dependencies.
-- `npm run faker` or `yarn faker` to run seeders for the mocked db.
+- `npm run seeder` or `yarn seeder` to run seeders for the mocked db.
+- `docker-compose up -d` to create and run a redis server
 
 Run applications
 
-- `npm run json-server` or `yarn json-server` to run mocked Web API application.
-- `npm run dev` or `yarn dev` to run the SSR Web application.
+- `npm run dev` or `yarn dev` to run the SSR Web application and mocked Web API concurrently.
 
 ## Environment
 

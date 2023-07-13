@@ -22,7 +22,7 @@ const sessionConfig = {
   cookie: {
     // secure: true, // Set 'secure' to true if using HTTPS
     httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
-    sameSite: false,
+    sameSite: 'lax',
     domain: `localhost`, // NOTE: after hours of troubleshooting, please remember to not add port and even http:// here!
   },
   store: redisStore,

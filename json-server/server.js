@@ -5,7 +5,6 @@ import jsonServer from 'json-server';
 
 import mockLogin from './mocked-auth/login.handler.js';
 import mockLogout from './mocked-auth/logout.handler.js';
-import me from './mocked-auth/me.handler.js';
 import { expressCookieSession } from './mocked-auth/session.middleware.js';
 
 dotenv.config();
@@ -45,8 +44,8 @@ router.render = (req, res) => {
 
   if (req.originalUrl.includes('?')) {
     const params = new URLSearchParams(req.originalUrl.split('?').pop());
-    page = Number(params.get('_page')) || 1;
-    limit = Number(params.get('_limit')) || 10;
+    page = Number(params.get('_page')) || page;
+    limit = Number(params.get('_limit')) || limit;
   }
   // #endregion extract query params
 
@@ -66,7 +65,6 @@ router.render = (req, res) => {
 server.use(bodyParser.json());
 mockLogin(server, router); // POST /login
 mockLogout(server);
-me(server);
 // #endregion mocked auth API endpoints
 
 // TODO: add middleware to authorize requests to json-server endpoints
@@ -77,5 +75,5 @@ server.use(router);
 const port = process.env.JSON_SERVER_PORT || 4000;
 
 server.listen(port, () => {
-  console.log('\x1b[32m%s\x1b[0m', `JSON Server is running at http://localhost:${port}/`);
+  console.log('\x1b[32m%s\x1b[0m', `🌐 JSON Server is running at http://localhost:${port}/`);
 });
