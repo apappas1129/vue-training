@@ -40,7 +40,7 @@ async function startServer() {
 
   app.get('*', auth, ssr);
 
-  const port = process.env.VITE_SSR_PORT || 3200;
+  const port = process.env.SSR_SERVER_PORT || 3200;
   app.listen(port);
   console.log('\x1b[33m%s\x1b[0m', `⚡ Vite Server is running at http://localhost:${port}/`);
   console.log(`Server running at http://localhost:${port}`);

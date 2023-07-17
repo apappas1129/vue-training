@@ -25,10 +25,7 @@ export function useFetch<T = any, R extends ResponseType = 'json'>(...args: Para
   async function $fetch() {
     isLoading.value = true;
 
-    let [request, opts] = args;
-    if (opts) opts = normalizeOptions(opts);
-
-    const response = await apiFetch<T, R>(request, opts)
+    const response = await apiFetch<T, R>(...args)
       .catch(err => (error.value = err.data))
       .finally(() => (isLoading.value = false));
 
@@ -40,18 +37,6 @@ export function useFetch<T = any, R extends ResponseType = 'json'>(...args: Para
 
     data.value = response;
     return response as T;
-  }
-
-  function normalizeOptions(opts: FetchOptions) {
-    if (opts) {
-      Object.keys(opts).forEach(k => {
-        if (Object.hasOwnProperty.call(opts, k)) {
-          const key = k as keyof FetchOptions;
-          opts[key] = unref(opts[key]) as any;
-        }
-      });
-    }
-    return opts;
   }
 
   return { data, error, isLoading, $fetch };

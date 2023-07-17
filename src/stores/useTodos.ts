@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { Todo } from '#root/common';
+import { Todo } from '#root/common/index';
 
 interface TodoStoreState {
   todoList: Todo[];

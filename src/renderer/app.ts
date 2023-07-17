@@ -2,7 +2,7 @@ import { createPinia } from 'pinia';
 import { App, createSSRApp, h, reactive, markRaw } from 'vue';
 import { setPageContext } from './usePageContext';
 import { PageContext } from './types';
-import { GuestLayout, InstructorLayout, StudentLayout } from '#root/layouts';
+import { GuestLayout, InstructorLayout, StudentLayout } from '#root/layouts/index';
 
 export { createApp };
 

@@ -16,7 +16,7 @@ const middlewares = jsonServer.defaults();
 
 // Enable All CORS Requests
 const corsOptions = {
-  origin: `http://localhost:${process.env.VITE_SSR_PORT}`,
+  origin: `http://localhost:${process.env.SSR_SERVER_PORT}`,
   methods: ['POST', 'PUT', 'PATCH', 'GET', 'OPTIONS', 'HEAD'],
   credentials: true,
 };

@@ -1,7 +1,7 @@
 import { useCookies } from '@vueuse/integrations/useCookies';
 import { useClearAppStorage } from './useAppStorage';
 import { useFetch } from './useFetch';
-import { User } from '#root/common';
+import { User } from '#root/common/index';
 
 export function useAuth() {
   const cookieName = 'connect.sid'; // The default name set by express-session.
