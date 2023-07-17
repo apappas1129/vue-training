@@ -13,7 +13,9 @@ export interface UseTableConfig<TData = any> {
   onChange?: () => void;
 }
 
-export type UseTableColumns<TData = any> = Parameters<ColumnHelper<TData>['accessor']>[];
+export type UseTableColumns<TData = any> = Array<
+  Parameters<ColumnHelper<TData>['accessor']> | Parameters<ColumnHelper<TData>['display']>[0]
+>;
 
 const INITIAL_PAGE_INDEX = 0;
 const INITIAL_PAGE_SIZE = 10;
@@ -23,7 +25,9 @@ export default function useTable<T>({ domain, ...config }: UseTableConfig<T>) {
 
   const columnHelper = createColumnHelper<T>();
 
-  const columns = config.columns.map(args => columnHelper.accessor(...args));
+  const columns = config.columns.map(args =>
+    Array.isArray(args) ? columnHelper.accessor(...args) : columnHelper.display(args),
+  );
 
   const pagination = ref<PaginationState>({
     pageIndex: config.initialPageIndex || INITIAL_PAGE_INDEX,
@@ -40,6 +44,7 @@ export default function useTable<T>({ domain, ...config }: UseTableConfig<T>) {
       return pageCount.value ?? -1;
     },
     columns,
+    defaultColumn: { size: -1, minSize: -1 }, // -1 is 'auto', n=<0 is in %
     state: {
       pagination: pagination.value,
     },

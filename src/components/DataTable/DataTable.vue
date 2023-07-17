@@ -2,18 +2,44 @@
   <table>
     <thead>
       <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-        <th v-for="header in headerGroup.headers" :key="header.id" :colSpan="header.colSpan">
-          <FlexRender
-            v-if="!header.isPlaceholder"
-            :render="header.column.columnDef.header"
-            :props="header.getContext()"
-          />
+        <th
+          v-for="header in headerGroup.headers"
+          :key="header.id"
+          :colSpan="header.colSpan"
+          :aria-sort="header.column.getCanSort() ? ariaSortMap[header.column.getIsSorted() || 'default'] : undefined"
+          :style="{
+              width: `${header.getSize() >= 0 ? header.getSize() + '%' :  'auto'}`,
+              ...(header.column.columnDef?.meta as any)?.style,
+            }"
+          @click="toggleSort(header, $event)"
+        >
+          <template v-if="!header.isPlaceholder">
+            <div class="flex justify-between gap-2">
+              <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
+              <SortButton v-if="header.column.getCanSort()" :header="header" />
+            </div>
+          </template>
         </th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="row in table.getRowModel().rows" :key="row.id">
-        <td v-for="cell in row.getVisibleCells()" :key="cell.id">
+        <td
+          v-for="cell in row.getVisibleCells()"
+          :key="cell.id"
+          :style="{
+              width: `${cell.column.getSize() >= 0 ? cell.column.getSize() + '%' :  'auto'}`,
+              ...(cell.column.columnDef?.meta as any)?.style,
+            }"
+          :class="{
+              'truncate ': (cell.column.columnDef?.meta as any)?.truncate,
+              'whitespace-nowrap': (cell.column.columnDef?.meta as any)?.nowrap,
+              'whitespace-pre': (cell.column.columnDef?.meta as any)?.pre,
+              'whitespace-pre-line': (cell.column.columnDef?.meta as any)?.preLine,
+              'whitespace-pre-wrap': (cell.column.columnDef?.meta as any)?.preWrap,
+              'whitespace-break-spaces': (cell.column.columnDef?.meta as any)?.breakSpaces,
+            }"
+        >
           <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
         </td>
       </tr>
@@ -57,10 +83,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { FlexRender } from '@tanstack/vue-table';
+import { useDebounceFn } from '@vueuse/core';
+import { FlexRender, Header, RowData } from '@tanstack/vue-table';
 import useTable, { UseTableColumns, UseTableConfig } from '#root/composables/useTable';
-
-const DEFAULT_PAGE_SIZES = [10, 20, 30, 40, 50];
+import SortButton from './SortButton.vue';
+import { ariaSortMap, DEFAULT_PAGE_SIZES } from './constants';
 
 const { domain, columns, ...props } = defineProps<{
   domain: string;
@@ -92,6 +119,15 @@ function handleGoToPage(e: Event) {
 function handlePageSizeChange(e: Event) {
   table.setPageSize(+(e.target as HTMLInputElement).value);
 }
+
+// TODO: Sort toggles should fetch from API
+// HACK: strange behavior, rapid toggles on a single click. Fixed with debounce
+const toggleSort = useDebounceFn(
+  <TData extends RowData, TValue = unknown>(header: Header<TData, TValue>, event: MouseEvent) => {
+    header.column.getToggleSortingHandler()?.(event);
+  },
+  100,
+);
 
 function emitChange() {
   emit('change', { data, pagination });
