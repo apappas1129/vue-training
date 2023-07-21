@@ -17,7 +17,8 @@ export default function seedSubjects(users) {
         isPublished: faker.datatype.boolean() + faker.git.commitSha({ length: 7 }),
         createdAt: faker.date.anytime(),
         updatedAt: faker.date.anytime(),
-        /** FK*/ ownerId: instructor.id,
+        ownerId: instructor.id, //FK
+        owner: instructor, // mock join
       });
   });
 

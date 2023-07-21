@@ -1,7 +1,7 @@
 <template>
-  <div class="p-2">
+  <section class="p-2">
     <DataTable :domain="'subjects'" :columns="columns" />
-  </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
@@ -13,7 +13,7 @@ import CommonActions from '#root/components/CommonActions.vue';
 
 const columns: UseTableColumns<Subject> = [
   ['title', { header: 'Title', size: 100 }],
-  ['ownerId', { header: 'Author', meta: { nowrap: true } }],
+  [s => `${s.owner.firstName} ${s.owner.lastName}`, { header: 'Author', meta: { nowrap: true } }],
   ['isPublished', { header: 'Status', cell: title => (title.getValue() ? 'Published' : 'Draft') }],
   {
     id: 'actions',

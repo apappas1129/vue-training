@@ -4,10 +4,14 @@ import { User } from './user.interface';
 export interface Module {
   /** Primary Key */
   id: number;
+  title: string;
   /** Foreign Key */
-  subjectId: Course['id'];
+  courseId: Course['id'];
+  /** Joined table */
+  course: Course;
   /** Foreign Key */
   authorId: User['id'];
+  author: User;
   duration: number;
   isPublished: boolean;
   /** stringified ISO 8601 date */

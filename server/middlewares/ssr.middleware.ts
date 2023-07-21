@@ -2,9 +2,11 @@ import { RequestHandler } from 'express';
 import { renderPage } from 'vite-plugin-ssr/server';
 
 const ssr: RequestHandler = async (req, res, next) => {
+  console.log('ssr middleware', req.ability);
   const pageContextInit = {
     urlOriginal: req.originalUrl,
     user: req.user,
+    ability: req.ability,
   };
   const pageContext = await renderPage(pageContextInit);
   const { httpResponse } = pageContext;

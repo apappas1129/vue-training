@@ -6,13 +6,15 @@
     "dev": "npm run check-redis &&  concurrently --kill-others \"npm run json-server\" \"npm run server\"",
     "prod": "npm run build && npm run server:prod",
     "build": "vite build",
-    "server": "ts-node ./server/index.ts",
+    "server": "node --experimental-specifier-resolution=node --loader ts-node/esm ./server/index.ts",
     "server:prod": "cross-env NODE_ENV=production ts-node ./server/index.ts",
     "json-server": "node ./json-server/server.js",
     "seeder": "node ./json-server/run-faker.js > ./json-server/db.json",
     "check-redis": "node scripts/check-docker-redis.js"
   },
   "dependencies": {
+    "@casl/ability": "^6.5.0",
+    "@casl/vue": "^2.2.1",
     "@tanstack/vue-table": "^8.9.3",
     "@vuelidate/core": "2.0.2",
     "@vuelidate/validators": "2.0.2",
@@ -36,7 +38,7 @@
     "vite": "^4.0.3",
     "vite-plugin-md": "^0.21.5",
     "vite-plugin-ssr": "^0.4.131",
-    "vue": "^3.2.33"
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

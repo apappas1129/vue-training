@@ -5,6 +5,8 @@ export interface Subject {
   id: number;
   /** Foreign Key */
   ownerId: User['id'];
+  /** Joined table */
+  owner: User;
   title: string;
   isPublished: boolean;
   /** stringified ISO 8601 date */

@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
-import { ofetch } from 'ofetch';
+import { packRules } from '@casl/ability/extra';
+import { defineAbilityFor } from '../../casl/defineAbilityFor';
 
 /**
  * See https://vite-plugin-ssr.com/auth
@@ -12,16 +13,19 @@ import { ofetch } from 'ofetch';
 /** An auth request handler that expects a session cookie written by `express-session`. */
 const auth: RequestHandler = async (req, res, next) => {
   console.log('\x1b[32m%s\x1b[0m', '※ Entrypoint Express-session middleware\n');
-  console.log(req.headers.cookie);
+  console.log('[Request Headers Cookie]\n', req.headers.cookie);
+  console.log('[REDIS SESSION]\n', req.session?.user);
 
-  console.log('[REDIS SESSION]\n', req.session);
   const user = req.session?.user;
   if (!user) return next();
   req.user = user;
 
-  // TODO: acquire ability here
-  // might need to pack here if renderPage cant serialize ability in pageContext
-  // https://casl.js.org/v6/en/api/casl-ability-extra#pack-rules
+  try {
+    const ability = defineAbilityFor(user);
+    req.ability = packRules(ability.rules);
+  } catch (error) {
+    console.log('Failed to build CASL ability! Error:\n', error);
+  }
 
   next();
 };

@@ -15,6 +15,7 @@ import type {
 } from 'vite-plugin-ssr/types';
 import type { ComponentPublicInstance } from 'vue';
 import { User } from '#root/common/entities/user.interface';
+import { packRules } from '@casl/ability/extra';
 
 type Component = ComponentPublicInstance; // https://stackoverflow.com/questions/63985658/how-to-type-vue-instance-out-of-definecomponent-in-vue-3/63986086#63986086
 type PageProps = Record<string, unknown>;
@@ -34,6 +35,13 @@ export type PageContextCustom = {
   };
   initialStoreState: Pinia['state']['value'];
   user?: User;
+  /** `passToClient` cannot serialize CASL ability  and, therefore, cannot be passed to the client.
+   * Thus, it must be packed first using CASL's `packRules` feature and then unpacked on client.
+   *
+   * * Refer to https://casl.js.org/v6/en/api/casl-ability-extra#pack-rules for the method
+   * * Refer to https://github.com/brillout/json-serializer for the serializer
+   */
+  ability?: ReturnType<typeof packRules>;
   stream: ReturnType<typeof renderToNodeStream>;
   enableEagerStreaming: boolean;
 };

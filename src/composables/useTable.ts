@@ -1,15 +1,33 @@
 import useTableService from '#root/composables/useTabeService';
-import { getCoreRowModel, useVueTable, createColumnHelper, PaginationState, ColumnHelper } from '@tanstack/vue-table';
+import {
+  getCoreRowModel,
+  useVueTable,
+  createColumnHelper,
+  PaginationState,
+  ColumnHelper,
+  TableOptions,
+} from '@tanstack/vue-table';
 import { ref } from 'vue';
 
 // TODO: Sorting feature
 
-export interface UseTableConfig<TData = any> {
-  domain: string;
-  columns: UseTableColumns<TData>;
+// NOTE: We ommit column here and have decalred our own column typing since
+// we have only hardcoded the use of columnHelper.accessor and columnHelper.display only.
+// columnHelper.group is not yet supported. Until useTable is patched to support all the three
+// options provided by columnHelper, we will ommit this field 'column'.
+export interface UseTableConfig<TData = any> extends Omit<TableOptions<TData>, 'columns' | 'getCoreRowModel' | 'data'> {
+  columns: UseTableColumns<TData>; // required
+  domain: string; // required
+  /** Sets the initial page if provided. */
   initialPageIndex?: number;
+  /** Sets the initial page size if provided */
   initialPageSize?: number;
-  debugTable?: boolean;
+  /**
+   * Invoked every time the table state is changed (e.g. paginated, sorted).
+   *
+   * > *This is useful for use cases like storing the table state on a state management tool,
+   * or listening to any changes on table state to update and sync the current URL.*
+   */
   onChange?: () => void;
 }
 
@@ -20,21 +38,28 @@ export type UseTableColumns<TData = any> = Array<
 const INITIAL_PAGE_INDEX = 0;
 const INITIAL_PAGE_SIZE = 10;
 
-export default function useTable<T>({ domain, ...config }: UseTableConfig<T>) {
+export default function useTable<T>({
+  columns,
+  domain,
+  initialPageIndex,
+  initialPageSize,
+  onChange,
+  ...config // We make sure to destructure every UseTableConfig custom fields above
+}: UseTableConfig<T>) {
   // foolproofing
 
   const columnHelper = createColumnHelper<T>();
 
-  const columns = config.columns.map(args =>
+  const columnDefs = columns.map(args =>
     Array.isArray(args) ? columnHelper.accessor(...args) : columnHelper.display(args),
   );
 
   const pagination = ref<PaginationState>({
-    pageIndex: config.initialPageIndex || INITIAL_PAGE_INDEX,
-    pageSize: config.initialPageSize || INITIAL_PAGE_SIZE,
+    pageIndex: initialPageIndex || INITIAL_PAGE_INDEX,
+    pageSize: initialPageSize || INITIAL_PAGE_SIZE,
   });
 
-  const { data, isLoading, pageCount } = useTableService<T>({ domain, pagination, onChange: config.onChange });
+  const { data, isLoading, pageCount } = useTableService<T>({ domain, pagination, onChange });
 
   const table = useVueTable({
     get data() {
@@ -43,7 +68,7 @@ export default function useTable<T>({ domain, ...config }: UseTableConfig<T>) {
     get pageCount() {
       return pageCount.value ?? -1;
     },
-    columns,
+    columns: columnDefs,
     defaultColumn: { size: -1, minSize: -1 }, // -1 is 'auto', n=<0 is in %
     state: {
       pagination: pagination.value,
@@ -63,6 +88,7 @@ export default function useTable<T>({ domain, ...config }: UseTableConfig<T>) {
     },
     getCoreRowModel: getCoreRowModel(),
     debugTable: config.debugTable,
+    ...config, // should be safe after destructuring off custom fields from UseTableColumns
   });
 
   function setPagination({ pageIndex, pageSize }: PaginationState): PaginationState {

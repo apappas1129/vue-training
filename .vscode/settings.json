@@ -34,6 +34,11 @@
       "text": "FK",
       "backgroundColor": "#0000FF",
       "color": "#FFFFFF"
+    },
+    {
+      "text": "required",
+      "backgroundColor": "#1f0b0d",
+      "color": "#FF0000"
     }
   ],
   "typescript.preferences.quoteStyle": "single",

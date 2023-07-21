@@ -1,7 +1,14 @@
-import { createPinia } from 'pinia';
 import { App, createSSRApp, h, reactive, markRaw } from 'vue';
+
+import { createMongoAbility } from '@casl/ability';
+import { unpackRules } from '@casl/ability/extra';
+import { abilitiesPlugin as casl } from '@casl/vue';
+
+import { createPinia } from 'pinia';
+
 import { setPageContext } from './usePageContext';
 import { PageContext } from './types';
+
 import { GuestLayout, InstructorLayout, StudentLayout } from '#root/layouts/index';
 
 export { createApp };
@@ -28,14 +35,19 @@ function createApp(pageContext: PageContext) {
   }) as AppPageElement;
 
   const store = createPinia();
-  // TODO: 3 OPTIONS
-  // [1] Check if passToClient has serialized CASL ability class instance successfully (not becoming [Object object])
-  // [2] Check if we can utilize composables from here on
-  // to unpack abilities?
-  // [3] Otherwise, revamp how dynamic layout works
-  // to make it so that there is only one single application component entry point
-  // where you can unpack pageContext.user.ability then store it.
   app.use(store);
+
+  if (pageContext.ability) {
+    try {
+      const unpackedRules = unpackRules(pageContext.ability);
+      const ability = createMongoAbility(unpackedRules as any); // FIXME: lazy bypass
+      app.use(casl, ability, {
+        useGlobalProperties: true,
+      });
+    } catch (e) {
+      console.error('Failed to unpack ability. Error:\n', e);
+    }
+  }
 
   // We use `app.changePage()` to do Client Routing, see `_default.page.client.js`
   Object.assign(app, {
