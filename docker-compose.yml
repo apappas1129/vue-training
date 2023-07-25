@@ -6,4 +6,4 @@ services:
       - '6379:6379'
     volumes:
       - /data
-    restart: no
+    restart: 'no'

@@ -38,7 +38,7 @@
     {
       "text": "required",
       "backgroundColor": "#1f0b0d",
-      "color": "#FF0000"
+      "color": "#FFFFFF"
     }
   ],
   "typescript.preferences.quoteStyle": "single",

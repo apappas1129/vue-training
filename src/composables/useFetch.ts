@@ -1,6 +1,6 @@
 import { ref, Ref, unref, UnwrapRef } from 'vue';
 // NOTE: ResponseType is exported through module augmentation
-import { ofetch, $Fetch, ResponseType, MappedType, FetchOptions } from 'ofetch';
+import { ofetch, $Fetch, ResponseType } from 'ofetch';
 
 // TODO: Add default/global request interceptor if found necessary later on.
 const apiFetch = ofetch.create({ baseURL: 'http://localhost:4400/' });
