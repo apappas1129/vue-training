@@ -29,7 +29,7 @@ function onSuccess() {
 <style>
 div.background-pattern {
   background-color: #d7b7ff;
-  background-image: url('../../../public/pattern-bg.svg');
+  background-image: url('pattern-bg.svg');
   background-attachment: fixed;
   background-size: cover;
   position: absolute;

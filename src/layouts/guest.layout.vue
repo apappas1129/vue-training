@@ -31,15 +31,15 @@
       </ul>
     </div>
   </nav>
-  <main class="content bg-white">
+  <main class="content bg-white p-4 overflow-y-auto">
     <slot />
   </main>
   <Footer></Footer>
 </template>
 
 <script lang="ts" setup>
-import RouterLink from '#root/components/RouterLink.vue';
-import Footer from '#root/components/Footer.vue';
+import RouterLink from '#root/components/layout/RouterLink.vue';
+import Footer from '#root/components/layout/Footer.vue';
 </script>
 
 <style>

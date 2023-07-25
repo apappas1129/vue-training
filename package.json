@@ -38,7 +38,8 @@
     "vite": "^4.0.3",
     "vite-plugin-md": "^0.21.5",
     "vite-plugin-ssr": "^0.4.131",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue3-tabs": "^0.1.13-beta.3"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",

@@ -11,7 +11,7 @@
 
     <BaseCheckbox v-model="form.remember" label="Remember me" />
 
-    <BaseButton :disabled="isSubmitting" type="submit">Login</BaseButton>
+    <BaseButton :disabled="isSubmitting" color="primary" type="submit">Login</BaseButton>
   </form>
 </template>
 

@@ -72,5 +72,5 @@
 </template>
 
 <script lang="ts" setup>
-import Footer from '#root/components/Footer.vue';
+import Footer from '#root/components/layout/Footer.vue';
 </script>

@@ -6,11 +6,11 @@
 </template>
 
 <script lang="ts" setup>
-import DataTable from '#root/components/DataTable/DataTable.vue';
+import DataTable from '#root/components/shared/DataTable/DataTable.vue';
 import { Module } from '#root/common/index';
 import { UseTableColumns } from '#root/composables/useTable';
 import { h } from 'vue';
-import CommonActions from '#root/components/CommonActions.vue';
+import SubjectRowActions from '#root/components/subject/SubjectRowActions.vue';
 
 const columns: UseTableColumns<Module> = [
   ['title', { header: 'Title', size: 100 }],
@@ -20,7 +20,7 @@ const columns: UseTableColumns<Module> = [
   {
     id: 'actions',
     header: '',
-    cell: () => h(CommonActions),
+    cell: () => h(SubjectRowActions),
     meta: { nowrap: true },
   },
 ];

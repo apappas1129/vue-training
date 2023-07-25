@@ -1,5 +1,5 @@
 <template>
-  <Dropdown placement="right">
+  <ContextMenu placement="right">
     <!-- Button content -->
     <template v-slot:button>
       <span class="p-1 text-gray-500 inline-flex items-center text-2xl font-bold">&#8942;</span>
@@ -26,9 +26,9 @@
         Delete
       </div>
     </template>
-  </Dropdown>
+  </ContextMenu>
 </template>
 
 <script setup>
-import Dropdown from './Dropdown.vue';
+import ContextMenu from '#root/components/shared/ContextMenu.vue';
 </script>
