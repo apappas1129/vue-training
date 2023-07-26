@@ -1,6 +1,6 @@
 import { ref, Ref, unref, UnwrapRef } from 'vue';
 // NOTE: ResponseType is exported through module augmentation
-import { ofetch, $Fetch, ResponseType } from 'ofetch';
+import { ofetch, $Fetch, ResponseType, FetchOptions } from 'ofetch';
 
 // TODO: Add default/global request interceptor if found necessary later on.
 const apiFetch = ofetch.create({ baseURL: 'http://localhost:4400/' });
@@ -22,10 +22,12 @@ export function useFetch<T = any, R extends ResponseType = 'json'>(...args: Para
   const error = ref<null | Record<string, any>>(null);
   const isLoading = ref(false);
 
-  async function $fetch() {
+  async function $fetch(options?: FetchOptions<R>) {
     isLoading.value = true;
 
-    const response = await apiFetch<T, R>(...args)
+    const [request, opts] = args;
+    const fetchOptions = { ...(opts || {}), ...(options || {}) };
+    const response = await apiFetch<T, R>(request, fetchOptions)
       .catch(err => (error.value = err.data))
       .finally(() => (isLoading.value = false));
 

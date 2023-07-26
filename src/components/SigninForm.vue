@@ -11,7 +11,7 @@
 
     <BaseCheckbox v-model="form.remember" label="Remember me" />
 
-    <BaseButton :disabled="isSubmitting" color="primary" type="submit">Login</BaseButton>
+    <BaseButton :disabled="isLoading" color="primary" type="submit">Login</BaseButton>
   </form>
 </template>
 
@@ -30,8 +30,7 @@ interface ILoginForm {
   remember: boolean;
 }
 
-const { login } = useAuth();
-const isSubmitting = ref(false);
+const { login, isLoading } = useAuth();
 const emit = defineEmits<{ (e: 'success'): void }>();
 
 const emailStorage = useAppStorage<string>('email', '', { prefix: 'remember:' });
@@ -50,21 +49,17 @@ const rules = {
 const v$ = useVuelidate(rules, form, { $lazy: true });
 
 async function tryLogin() {
-  isSubmitting.value = true;
   const isValid = await v$.value.$validate();
 
-  if (!isValid) {
-    isSubmitting.value = false;
-    return;
-  }
+  if (!isValid) return;
 
   try {
     await login(form.email, form.password);
     // Remember
     emailStorage.value = form.remember ? form.email : '';
     emit('success');
-  } catch {
-    isSubmitting.value = false;
+  } catch (err) {
+    console.log('Login error', err);
   }
 }
 </script>

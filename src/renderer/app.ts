@@ -10,6 +10,7 @@ import { setPageContext } from './usePageContext';
 import { PageContext } from './types';
 
 import { GuestLayout, InstructorLayout, StudentLayout } from '#root/layouts/index';
+import _ from 'lodash';
 
 export { createApp };
 
@@ -21,7 +22,7 @@ function createApp(pageContext: PageContext) {
   let rootComponentContext: PageContext;
   const app = createSSRApp({
     data: () => ({
-      Page: markRaw(pageContext.Page),
+      Page: _.isObject(pageContext.Page) ? markRaw(pageContext.Page) : pageContext.Page,
       pageProps: markRaw(pageContext.pageProps || {}),
       Layout: markRaw(pageContext.exports.Layout || selectLayout(pageContext)),
     }),

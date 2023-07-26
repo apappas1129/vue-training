@@ -7,7 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        basic: colors.gray,
         primary: colors.indigo,
+        accent: colors.sky,
         success: colors.emerald,
         warn: colors.amber,
         danger: colors.red,

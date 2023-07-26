@@ -45,7 +45,7 @@
       </tr>
     </tbody>
   </table>
-  <div class="h-2">
+  <div>
     <div class="flex items-center gap-2">
       <button class="border rounded p-1" @click="() => table.setPageIndex(0)" :disabled="!table.getCanPreviousPage()">
         «
