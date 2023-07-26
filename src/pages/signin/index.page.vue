@@ -17,7 +17,7 @@ export { default as Layout } from '#root/layouts/guest.layout.vue';
 </script>
 
 <script lang="ts" setup>
-import SigninForm from '#root/components/SigninForm.vue';
+import SigninForm from '#root/components/auth/SigninForm.vue';
 import { navigate } from 'vite-plugin-ssr/client/router';
 
 function onSuccess() {

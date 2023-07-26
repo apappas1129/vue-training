@@ -14,7 +14,7 @@
           @click="toggleSort(header, $event)"
         >
           <template v-if="!header.isPlaceholder">
-            <div class="flex justify-between gap-2">
+            <div class="flex gap-4">
               <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
               <SortButton v-if="header.column.getCanSort()" :header="header" />
             </div>
@@ -45,23 +45,26 @@
       </tr>
     </tbody>
   </table>
-  <div>
+  <div class="px-4 mt-4">
     <div class="flex items-center gap-2">
-      <button class="border rounded p-1" @click="() => table.setPageIndex(0)" :disabled="!table.getCanPreviousPage()">
-        «
-      </button>
-      <button class="border rounded p-1" @click="() => table.previousPage()" :disabled="!table.getCanPreviousPage()">
-        ‹
-      </button>
-      <button class="border rounded p-1" @click="() => table.nextPage()" :disabled="!table.getCanNextPage()">›</button>
-      <button
-        class="border rounded p-1"
+      <BaseButton icon-btn size="small" @click="() => table.setPageIndex(0)" :disabled="!table.getCanPreviousPage()">
+        &#171;
+      </BaseButton>
+      <BaseButton icon-btn size="small" @click="() => table.previousPage()" :disabled="!table.getCanPreviousPage()">
+        &#8249;
+      </BaseButton>
+      <BaseButton icon-btn size="small" @click="() => table.nextPage()" :disabled="!table.getCanNextPage()">
+        &#8250;
+      </BaseButton>
+      <BaseButton
+        icon-btn
+        size="small"
         @click="() => table.setPageIndex(table.getPageCount() - 1)"
         :disabled="!table.getCanNextPage()"
       >
-        »
-      </button>
-      <span class="flex items-center gap-1">
+        &#187;
+      </BaseButton>
+      <span class="flex items-center gap-4">
         <span>Page</span>
         <strong>
           {{ table.getState().pagination.pageIndex + 1 }} of
@@ -70,7 +73,7 @@
       </span>
       <span class="flex items-center gap-1">
         | Go to page:
-        <input type="number" :value="goToPageNumber" @change="handleGoToPage" class="border p-1 rounded w-16" />
+        <BaseInput class="w-24" type="number" v-model="goToPageNumber" @change="handleGoToPage"></BaseInput>
       </span>
       <select :value="table.getState().pagination.pageSize" @change="handlePageSizeChange">
         <option :key="pageSize" :value="pageSize" v-for="pageSize in pageSizes">Show {{ pageSize }}</option>
@@ -85,6 +88,7 @@
 import { ref } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import { FlexRender, Header, RowData } from '@tanstack/vue-table';
+import { BaseButton, BaseInput } from '#root/components/base/index';
 import useTable, { UseTableColumns, UseTableConfig } from '#root/composables/useTable';
 import SortButton from './SortButton.vue';
 import { ariaSortMap, DEFAULT_PAGE_SIZES } from './constants';
@@ -133,3 +137,19 @@ function emitChange() {
   emit('change', { data, pagination });
 }
 </script>
+
+<style lang="postcss" scoped>
+tr {
+  @apply border-b border-b-basic-300;
+
+  & td:first-child,
+  & th:first-child {
+    @apply pl-4;
+  }
+
+  & td:last-child,
+  & th:last-child {
+    @apply pr-4;
+  }
+}
+</style>

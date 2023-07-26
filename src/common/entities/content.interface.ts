@@ -8,10 +8,10 @@ export interface Content {
   subjectId: Module['id'];
   /** Foreign Key */
   authorId: User['id'];
-  /** API Specs: "For images and documents the data type should be a file." */
+  /** API Specs: "For images and documents the data type should be a file." (I'm assuming this means a Blob) */
   type: 'text' | 'image' | 'video' | 'document' | 'url';
-  // TODO: planning and implementation
-  content: File | string;
+  // TODO: planning and implementation (video content, markdown/rich-text-editor content)
+  content: Blob | string;
   isPublished: boolean;
   /** stringified ISO 8601 date */
   createdAt?: string;

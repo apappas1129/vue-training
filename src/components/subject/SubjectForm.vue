@@ -1,9 +1,7 @@
 <template>
   <form @submit.prevent="onSubmit()" class="grid sm:grid-cols-2">
     <div>
-      <BaseInput id="title" v-model="form.title" fieldSize="tiny" color="primary" label="tiny" type="text" />
-      <BaseInput id="title" v-model="form.title" fieldSize="small" color="primary" label="Small" type="text" />
-      <BaseInput id="title" v-model="form.title" color="primary" label="Title" type="text" />
+      <BaseInput id="title" v-model="form.title" label="Title" type="text" class="mb-2" />
       <BaseCheckbox v-model="form.isPublished" label="Publish" />
       <BaseButton :disabled="isLoading" color="primary" type="submit">Save</BaseButton>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col mb-4">
+  <div class="flex flex-col">
     <label v-if="label" :for="id" :class="{ 'text-danger-400': !!error }">
       {{ label }}
     </label>
@@ -23,9 +23,9 @@ import { useVModel } from '@vueuse/core';
 import type { Ref } from 'vue';
 
 interface IProps {
-  id: string;
-  modelValue: string;
-  label: string;
+  modelValue: string | number;
+  id?: string;
+  label?: string;
   error?: string | Ref<string>;
 }
 const props = defineProps<IProps>();
@@ -39,7 +39,7 @@ const modelValue = useVModel(props, 'modelValue', emit);
 
 <style lang="postcss" scoped>
 input {
-  @apply text-gray-900 bg-basic-100 focus:bg-white appearance-none border rounded w-full py-2 px-4 leading-tight focus:outline-none;
+  @apply text-gray-900 bg-basic-100 focus:bg-white appearance-none border rounded py-2 px-4 leading-tight focus:outline-none;
 }
 
 input,
@@ -65,6 +65,10 @@ input[color='warn'] {
 
 input[color='danger'] {
   @apply border-danger-500 focus:border-danger-400;
+}
+
+input[fullWidth] {
+  @apply w-full;
 }
 
 input[fieldSize='tiny'] {

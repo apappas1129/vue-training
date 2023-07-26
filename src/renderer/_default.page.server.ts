@@ -17,7 +17,11 @@ async function render(pageContext: PageContextServer) {
   const title = getPageTitle(pageContext);
   const tabIconUrl = import.meta.env.BASE_URL + 'vite.svg';
 
-  // With enableEagerStreaming, HTML template (e.g. `<title>`) is immediately written to the stream
+  // NOTE: With enableEagerStreaming, HTML template (e.g. `<title>`) is immediately written to the stream
+  /* NOTE: See https://github.com/adoxography/tailwind-scrollbar/issues/59, scrollbar properties aren't inherited.
+     However the plugin has been patched so that you can at least define colours to inherit and repeat only `.scrollbar` or `scrollbar-thin`
+     on child containers. */
+
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html class="h-full bg-gray-100 scrollbar-thin scrollbar-track-slate-300
      scrollbar-thumb-indigo-400 scrollbar-thumb-rounded-md">

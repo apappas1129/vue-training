@@ -6,7 +6,7 @@
     </div>
   </section>
   <section class="mt-4">
-    <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow">
+    <div class="block py-6 bg-white border border-gray-200 rounded-lg shadow">
       <DataTable :domain="'subjects'" :columns="columns" />
     </div>
   </section>
@@ -20,7 +20,7 @@ import DataTable from '#root/components/shared/DataTable/DataTable.vue';
 import { Subject } from '#root/common/index';
 import { UseTableColumns } from '#root/composables/useTable';
 import SubjectRowActions from '#root/components/subject/SubjectRowActions.vue';
-import { BaseButton } from '#root/components/base';
+import { BaseButton } from '#root/components/base/index';
 
 const columns: UseTableColumns<Subject> = [
   ['title', { header: 'Title', size: 100 }],

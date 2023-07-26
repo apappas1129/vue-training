@@ -16,6 +16,5 @@ export interface User {
 }
 
 export type UserAuth = User & {
-  // TODO: CASL implementation
   ability: { [key in string]: any };
 };
