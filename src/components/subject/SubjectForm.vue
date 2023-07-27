@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="onSubmit()" class="grid sm:grid-cols-2">
     <div>
-      <BaseInput id="title" v-model="form.title" label="Title" type="text" class="mb-2" />
-      <BaseCheckbox v-model="form.isPublished" label="Publish" />
+      <BaseInput id="title" v-model="form.title" label="Title" type="text" :error="v$.title?.$errors[0]?.$message" />
+      <BaseCheckbox v-model="form.isPublished" label="Publish" class="mt-2" />
       <BaseButton :disabled="isLoading" color="primary" type="submit">Save</BaseButton>
     </div>
   </form>
@@ -12,10 +12,30 @@
 import { reactive, ref } from 'vue';
 import { required, maxLength } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
+import { subject as subjectHelper } from '@casl/ability';
+import { useAbility } from '@casl/vue';
+import { FetchOptions } from 'ofetch';
 
 import { SubjectForm, SubjectFormValidator } from '#root/common/dto/subject-form.interface';
 import { BaseButton, BaseCheckbox, BaseInput } from '#root/components/base';
+import { usePageContext } from '#root/renderer/usePageContext';
 import { useFetch } from '#root/composables/useFetch';
+import { Subject } from '#root/common/index';
+import { Action } from '#casl/types';
+import postOrPatch from '#root/common/utils/post-or-patch';
+
+const { subject } = defineProps<{ subject?: Subject }>();
+
+const emit = defineEmits<{
+  (e: 'success', subject: Subject): void;
+  /* Here, it's a matter of preference whether you want your component to be solely responsible
+   in handling and displaying error response, or throw to consumer, or have both. For simplicity,
+   we will just catch and prompt errors internally but provide an option for the consumer to listen to errors as well. */
+  (e: 'error', error: any): void;
+}>();
+
+const pageContext = usePageContext();
+const { can } = useAbility();
 
 const form = reactive<SubjectForm>({
   title: '',
@@ -27,10 +47,32 @@ const rules: SubjectFormValidator = {
 };
 
 const v$ = useVuelidate(rules, form, { $lazy: true });
+const request: [string, FetchOptions][] = [
+  ['subjects', { method: 'POST' }],
+  ['subjects/' + subject?.id, { method: 'PATCH' }],
+];
 
-const { $fetch, isLoading } = useFetch('subjects', { method: 'POST' });
+const { $fetch, isLoading } = useFetch(...postOrPatch(subject, 'subject'));
 
 async function onSubmit() {
-  $fetch({ body: form });
+  const isValid = await v$.value.$validate();
+  if (!isValid || !isAuthorized()) return;
+
+  const body: Partial<Subject> = {
+    ...form,
+    // #region
+    // This isn't supposed to be needed if we're expecting backend to populate this field according to session user id.
+    // But since our mocked API is limited, we'll manually add these from the front-end until the mocked API is improved.
+    ownerId: pageContext.user!.id,
+    owner: pageContext.user,
+    // above fields should be removed in realworld/production (where the API complies to such basic requirements)
+    // #endregion
+  };
+
+  $fetch({ body });
+}
+
+function isAuthorized() {
+  return can(subject ? Action.update : Action.create, subjectHelper('subject', { authorId: pageContext.user?.id }));
 }
 </script>

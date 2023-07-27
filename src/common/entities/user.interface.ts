@@ -14,7 +14,3 @@ export interface User {
   /** stringified ISO 8601 date */
   updatedAt?: string;
 }
-
-export type UserAuth = User & {
-  ability: { [key in string]: any };
-};

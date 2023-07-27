@@ -1,7 +1,7 @@
 <template>
   <div v-bind="$attrs" class="flex items-center mb-4">
     <input v-model="modelValue" type="checkbox" ref="input" />
-    <label @click="clickCheckbox()" class="ml-2 block text-sm">
+    <label @click="clickCheckbox()" class="ml-2 block text-sm select-none">
       <slot>{{ label }}</slot>
     </label>
   </div>
@@ -49,6 +49,10 @@ input[type='checkbox'] {
   z-index: 1;
   height: 18px;
   width: 18px;
+
+  &:focus {
+    outline: none; /* Remove ugly browser-native focus */
+  }
 
   &::before {
     @apply absolute bg-basic-200 border border-basic-400 rounded-[3px];

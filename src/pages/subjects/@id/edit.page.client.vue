@@ -1,6 +1,6 @@
 <template>
   <section>
-    <p>create subject</p>
+    <p>Edit Subject</p>
     <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
       <Tabs v-model="selectedTab" class="relative">
         <div class="absolute bottom-0 border-b-2 border-b-basic-200 w-full z-10"></div>
@@ -9,10 +9,18 @@
       </Tabs>
       <TabPanels v-model="selectedTab" :animate="true">
         <TabPanel :val="'subject'" class="p-4">
-          <SubjectForm></SubjectForm>
+          <SubjectForm :subject="subject"></SubjectForm>
         </TabPanel>
         <TabPanel :val="'courses'" class="p-4 pt-8">
-          <p>Please save subject.</p>
+          <template v-if="!subject">
+            <p>This should never be displayed and should be handled elsewhere with page redirection</p>
+          </template>
+          <template v-else>
+            <SubjectCourses :subject="subject"></SubjectCourses>
+            <pre>
+              {{ subject }}
+            </pre>
+          </template>
         </TabPanel>
       </TabPanels>
     </div>
@@ -22,8 +30,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { Tabs, Tab, TabPanels, TabPanel } from 'vue3-tabs';
-import SubjectForm from '#root/components/subject/SubjectForm.vue';
-import SubjectCourses from '#root/components/subject/SubjectCourses.vue';
+
+import { Subject } from '#root/common/index';
+import { usePageContext } from '#root/renderer/usePageContext';
 
 const selectedTab = ref('subject');
+const subject = ref<Subject | null>(null);
+const pageContext = usePageContext();
+if (pageContext.pageProps?.subject) subject.value = pageContext?.pageProps?.subject as Subject;
 </script>

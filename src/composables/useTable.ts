@@ -1,4 +1,4 @@
-import useTableService from '#root/composables/useTabeService';
+import useTableService from '#root/composables/useTableService';
 import {
   getCoreRowModel,
   useVueTable,
@@ -7,6 +7,7 @@ import {
   ColumnHelper,
   TableOptions,
 } from '@tanstack/vue-table';
+import { FetchOptions } from 'ofetch';
 import { ref } from 'vue';
 
 // TODO: Sorting feature
@@ -18,6 +19,7 @@ import { ref } from 'vue';
 export interface UseTableConfig<TData = any> extends Omit<TableOptions<TData>, 'columns' | 'getCoreRowModel' | 'data'> {
   columns: UseTableColumns<TData>; // required
   domain: string; // required
+  fetchOptions?: FetchOptions;
   /** Sets the initial page if provided. */
   initialPageIndex?: number;
   /** Sets the initial page size if provided */
@@ -41,6 +43,7 @@ const INITIAL_PAGE_SIZE = 10;
 export default function useTable<T>({
   columns,
   domain,
+  fetchOptions,
   initialPageIndex,
   initialPageSize,
   onChange,
@@ -59,7 +62,7 @@ export default function useTable<T>({
     pageSize: initialPageSize || INITIAL_PAGE_SIZE,
   });
 
-  const { data, isLoading, pageCount } = useTableService<T>({ domain, pagination, onChange });
+  const { data, isLoading, pageCount } = useTableService<T>({ domain, fetchOptions, pagination, onChange });
 
   const table = useVueTable({
     get data() {

@@ -11,8 +11,8 @@ const attrs = useAttrs();
 
 <style lang="postcss" scoped>
 button {
-  @apply inline-flex justify-center items-center;
-  @apply rounded h-10 px-4 transition-colors ease-in-out;
+  @apply inline-flex justify-center items-center content-end flex-wrap;
+  @apply rounded h-10 leading-10 px-4 transition-colors ease-in-out;
 }
 
 button,
@@ -57,22 +57,22 @@ button[strong] {
 }
 
 button[icon-btn] {
-  @apply h-10 w-10 text-xl;
+  @apply h-10 w-10 leading-10 text-xl;
 
   &[size='tiny'] {
-    @apply h-5 w-5;
+    @apply h-5 w-5 leading-5;
   }
 
   &[size='small'] {
-    @apply h-8 w-8;
+    @apply h-8 w-8 leading-8;
   }
 
   &[size='default'] {
-    @apply h-10 w-10 text-xl;
+    @apply h-10 w-10 text-xl leading-10;
   }
 
   &[size='large'] {
-    @apply h-12 w-12 text-2xl leading-7;
+    @apply h-12 w-12 text-2xl leading-[3rem];
   }
 }
 

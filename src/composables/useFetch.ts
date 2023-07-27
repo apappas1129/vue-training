@@ -3,13 +3,13 @@ import { ref, Ref, unref, UnwrapRef } from 'vue';
 import { ofetch, $Fetch, ResponseType, FetchOptions } from 'ofetch';
 
 // TODO: Add default/global request interceptor if found necessary later on.
-const apiFetch = ofetch.create({ baseURL: 'http://localhost:4400/' });
+const apiFetch = ofetch.create({ baseURL: (import.meta.env as any).VITE_WEB_API_URL });
 
 type UseFetchResponse<T> = {
   data: Ref<UnwrapRef<T> | null>;
   error: Ref<Record<string, any> | null>;
   isLoading: Ref<boolean>;
-  $fetch: () => Promise<T>;
+  $fetch: (options?: FetchOptions) => Promise<T>;
 };
 
 /**
@@ -22,7 +22,7 @@ export function useFetch<T = any, R extends ResponseType = 'json'>(...args: Para
   const error = ref<null | Record<string, any>>(null);
   const isLoading = ref(false);
 
-  async function $fetch(options?: FetchOptions<R>) {
+  async function $fetch(options?: FetchOptions) {
     isLoading.value = true;
 
     const [request, opts] = args;

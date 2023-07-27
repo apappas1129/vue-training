@@ -12,3 +12,17 @@ onMounted(() => {
   isMounted.value = true;
 });
 </script>
+
+<!-- usage -->
+<!--
+<ClientOnly>
+  <ClientOnlyComponentHere/>
+  <template #serverRendered>
+    <p>This is for SSR/SEO</p>
+  </template>
+</ClientOnly>
+-->
+
+<!-- NOTE: I tried using this component on vue3-tabs (Tabs component reads `document`) but it was still executed in
+the server for some reason. For now, I utilized the `*.page.client.vue` but I need to find a way to render elements
+for SEO on serverside the same way the ClientOnly's serverRendered slot is supposed to do for us -->

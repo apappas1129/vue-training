@@ -88,13 +88,15 @@
 import { ref } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
 import { FlexRender, Header, RowData } from '@tanstack/vue-table';
+import { FetchOptions } from 'ofetch';
 import { BaseButton, BaseInput } from '#root/components/base/index';
 import useTable, { UseTableColumns, UseTableConfig } from '#root/composables/useTable';
 import SortButton from './SortButton.vue';
 import { ariaSortMap, DEFAULT_PAGE_SIZES } from './constants';
 
-const { domain, columns, ...props } = defineProps<{
+const { domain, columns, fetchOptions, ...props } = defineProps<{
   domain: string;
+  fetchOptions?: FetchOptions;
   columns: UseTableColumns;
   pageSizes?: number[];
 }>();
@@ -108,6 +110,7 @@ const pageSizes = props.pageSizes?.length ? props.pageSizes : DEFAULT_PAGE_SIZES
 
 const config: UseTableConfig = {
   domain,
+  fetchOptions,
   columns,
   onChange: () => emitChange(),
 };
@@ -139,6 +142,11 @@ function emitChange() {
 </script>
 
 <style lang="postcss" scoped>
+th,
+td {
+  @apply p-1;
+}
+
 tr {
   @apply border-b border-b-basic-300;
 

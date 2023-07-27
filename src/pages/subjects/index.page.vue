@@ -6,7 +6,7 @@
     </div>
   </section>
   <section class="mt-4">
-    <div class="block py-6 bg-white border border-gray-200 rounded-lg shadow">
+    <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
       <DataTable :domain="'subjects'" :columns="columns" />
     </div>
   </section>
@@ -24,12 +24,20 @@ import { BaseButton } from '#root/components/base/index';
 
 const columns: UseTableColumns<Subject> = [
   ['title', { header: 'Title', size: 100 }],
-  [s => `${s.owner.firstName} ${s.owner.lastName}`, { header: 'Author', meta: { nowrap: true } }],
+  [
+    // FIXME: owner should never be undefined here but we're using mocked data that may accidentally have it.
+    s => (s.owner ? `${s.owner.firstName} ${s.owner.lastName}` : 'undefined'),
+    { header: 'Author', meta: { nowrap: true } },
+  ],
   ['isPublished', { header: 'Status', cell: title => (title.getValue() ? 'Published' : 'Draft') }],
   {
     id: 'actions',
     header: '',
-    cell: () => h(SubjectRowActions),
+    cell: cell => {
+      console.log('ss', cell.row.original);
+      //bypass TS no overload issue
+      return h(SubjectRowActions as any, { subject: cell.row.original });
+    },
     meta: { nowrap: true },
   },
 ];

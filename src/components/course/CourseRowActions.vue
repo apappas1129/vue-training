@@ -7,7 +7,7 @@
 
     <!-- Opened dropdown content -->
     <template v-slot:content>
-      <button :disabled="subject.isPublished" class="menu-item" href="#">Publish</button>
+      <button :disabled="course.isPublished" class="menu-item" href="#">Publish</button>
       <button class="menu-item" href="#">Edit</button>
       <button class="menu-item" href="#">Delete</button>
     </template>
@@ -17,11 +17,11 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import ContextMenu from '#root/components/shared/ContextMenu.vue';
-import { Subject } from '#root/common/entities/index';
+import { Course } from '#root/common/entities/index';
 
 const props = defineProps<{
-  subject: {
-    type: Subject;
+  course: {
+    type: Course;
     required: true;
   };
 }>();
@@ -30,7 +30,7 @@ const props = defineProps<{
 // ATTOW. I didn't find any helper similar to Vue 3.3's withDefaults to work around TS.
 // For now, I am using computed here which is not the most optimal solution.
 // See https://vuejs.org/api/sfc-script-setup.html#defineprops-defineemits
-const subject = computed(() => props.subject as unknown as Subject);
+const course = computed(() => props.course as unknown as Course);
 </script>
 
 <style lang="postcss" scoped>

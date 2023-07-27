@@ -9,10 +9,10 @@ export enum Action {
 }
 
 export enum Subject {
-  student = 'student',
   user = 'user',
   subject = 'subject',
   module = 'module',
+  content = 'content',
   course = 'course',
   enrollment = 'enrollment',
   all = 'all',
