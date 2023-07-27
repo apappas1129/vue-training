@@ -16,6 +16,7 @@ import type {
 import type { ComponentPublicInstance } from 'vue';
 import { User } from '#root/common/entities/user.interface';
 import { packRules } from '@casl/ability/extra';
+import { IncomingHttpHeaders } from 'http';
 
 type Component = ComponentPublicInstance; // https://stackoverflow.com/questions/63985658/how-to-type-vue-instance-out-of-definecomponent-in-vue-3/63986086#63986086
 type PageProps = Record<string, unknown>;
@@ -44,6 +45,7 @@ export type PageContextCustom = {
   ability?: ReturnType<typeof packRules>;
   stream: ReturnType<typeof renderToNodeStream>;
   enableEagerStreaming: boolean;
+  headers?: IncomingHttpHeaders;
 };
 
 // Refer to pageContext https://vite-plugin-ssr.com/pageContext

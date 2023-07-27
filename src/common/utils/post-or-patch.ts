@@ -1,4 +1,5 @@
 import { useFetch } from '#root/composables/useFetch';
+import { PageContext } from '#root/renderer/types';
 import { FetchOptions } from 'ofetch';
 
 /** Just a lazy way to tidy up the decision making whether a FormComponent should do a `POST` or a `PATCH` request.
@@ -11,10 +12,11 @@ import { FetchOptions } from 'ofetch';
 export default function postOrPatch(
   entity: { id: number | string } | undefined | null,
   domainUrl: string,
+  pageContext?: PageContext,
 ): Parameters<typeof useFetch> {
-  const request: [string, FetchOptions][] = [
-    [domainUrl, { method: 'POST' }],
-    [domainUrl + '/' + entity?.id, { method: 'PATCH' }],
+  const request: Parameters<typeof useFetch>[] = [
+    [domainUrl, { method: 'POST' }, pageContext],
+    [domainUrl + '/' + entity?.id, { method: 'PATCH' }, pageContext],
   ];
 
   // Bypass TS prohibitting bitwise operation with boolean

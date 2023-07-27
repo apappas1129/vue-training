@@ -12,10 +12,6 @@ import { defineAbilityFor } from '../../casl/defineAbilityFor';
 
 /** An auth request handler that expects a session cookie written by `express-session`. */
 const auth: RequestHandler = async (req, res, next) => {
-  console.log('\x1b[32m%s\x1b[0m', '※ SSR Entrypoint Express-session middleware');
-  console.log('\t[Request Headers Cookie]\n\t', req.headers.cookie);
-  console.log('\t[REDIS SESSION]\n\t', req.session?.user);
-
   const user = req.session?.user;
   if (!user) return next();
   req.user = user;

@@ -9,7 +9,7 @@ import type { PageContextServer } from './types';
 import { getPageTitle } from './getPageTitle';
 
 // We tell `vite-plugin-ssr` to make the following data available from `pageContext` in the browser.
-const passToClient = ['initialStoreState', 'pageProps', 'routeParams', 'user', 'ability'];
+const passToClient = ['initialStoreState', 'pageProps', 'routeParams', 'user', 'ability', 'headers'];
 
 async function render(pageContext: PageContextServer) {
   const { stream } = pageContext;

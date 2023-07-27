@@ -16,13 +16,13 @@ import { subject as subjectHelper } from '@casl/ability';
 import { useAbility } from '@casl/vue';
 import { FetchOptions } from 'ofetch';
 
-import { SubjectForm, SubjectFormValidator } from '#root/common/dto/subject-form.interface';
+import { SubjectFormValue, SubjectFormValidator } from '#root/common/dto/subject-form.interface';
 import { BaseButton, BaseCheckbox, BaseInput } from '#root/components/base';
 import { usePageContext } from '#root/renderer/usePageContext';
 import { useFetch } from '#root/composables/useFetch';
 import { Subject } from '#root/common/index';
-import { Action } from '#casl/types';
 import postOrPatch from '#root/common/utils/post-or-patch';
+import { Action } from '../../../casl/types';
 
 const { subject } = defineProps<{ subject?: Subject }>();
 
@@ -37,7 +37,7 @@ const emit = defineEmits<{
 const pageContext = usePageContext();
 const { can } = useAbility();
 
-const form = reactive<SubjectForm>({
+const form = reactive<SubjectFormValue>({
   title: '',
   isPublished: false,
 });
@@ -47,12 +47,8 @@ const rules: SubjectFormValidator = {
 };
 
 const v$ = useVuelidate(rules, form, { $lazy: true });
-const request: [string, FetchOptions][] = [
-  ['subjects', { method: 'POST' }],
-  ['subjects/' + subject?.id, { method: 'PATCH' }],
-];
 
-const { $fetch, isLoading } = useFetch(...postOrPatch(subject, 'subject'));
+const { $fetch, isLoading } = useFetch(...postOrPatch(subject, 'subjects', pageContext));
 
 async function onSubmit() {
   const isValid = await v$.value.$validate();
@@ -72,7 +68,9 @@ async function onSubmit() {
   $fetch({ body });
 }
 
+// This will become redundant checking if we are able to filter-out the UI (e.g. hide component or do prior redirect from the ssr router function)
 function isAuthorized() {
-  return can(subject ? Action.update : Action.create, subjectHelper('subject', { authorId: pageContext.user?.id }));
+  if (subject) return can(Action.update, subjectHelper('subject', subject));
+  else return can(Action.create, 'subject');
 }
 </script>

@@ -12,7 +12,7 @@
             <span class="mr-2">+</span>
             <img style="height: 44px" src="../../assets/pinia.svg" class="logo vue" alt="Pinia logo" />
             <span class="mr-2">+</span>
-            <img style="height: 24px" src="tailwind.svg" class="logo vue" alt="tailwind" />
+            <img style="height: 24px" src="/tailwind.svg" class="logo vue" alt="tailwind" />
           </div>
         </a>
         <p class="mt-2 text-sm text-gray-500">Unravel Your Potential, Learn Your Future!</p>

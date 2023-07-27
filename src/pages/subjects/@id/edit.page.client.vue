@@ -17,9 +17,9 @@
           </template>
           <template v-else>
             <SubjectCourses :subject="subject"></SubjectCourses>
-            <pre>
+            <p>
               {{ subject }}
-            </pre>
+            </p>
           </template>
         </TabPanel>
       </TabPanels>
@@ -31,11 +31,13 @@
 import { ref } from 'vue';
 import { Tabs, Tab, TabPanels, TabPanel } from 'vue3-tabs';
 
+import SubjectForm from '#root/components/subject/SubjectForm.vue';
 import { Subject } from '#root/common/index';
 import { usePageContext } from '#root/renderer/usePageContext';
 
 const selectedTab = ref('subject');
-const subject = ref<Subject | null>(null);
+const subject = ref<Subject>();
 const pageContext = usePageContext();
-if (pageContext.pageProps?.subject) subject.value = pageContext?.pageProps?.subject as Subject;
+
+if (pageContext?.pageProps?.subject) subject.value = pageContext.pageProps.subject as Subject;
 </script>

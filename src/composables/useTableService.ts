@@ -1,22 +1,27 @@
 import { ref, computed, Ref, watchEffect } from 'vue';
 import { type PaginationState } from '@tanstack/vue-table';
 import { PaginatedResponse } from '#root/common/index';
+import { PageContext } from '#root/renderer/types';
 import { FetchOptions, ofetch } from 'ofetch';
+import { useCookie } from './useCookie';
 
 const DEFAULT_PAGE_COUNT = -1;
 const DEFAULT_RESULT_COUNT = -1;
 
-export default function useTableService<T>({
-  domain,
-  fetchOptions,
-  pagination,
-  onChange,
-}: {
-  domain: string;
-  fetchOptions?: FetchOptions;
-  pagination: Ref<PaginationState>;
-  onChange?: () => void;
-}) {
+export default function useTableService<T>(
+  {
+    domain,
+    fetchOptions,
+    pagination,
+    onChange,
+  }: {
+    domain: string;
+    fetchOptions?: FetchOptions;
+    pagination: Ref<PaginationState>;
+    onChange?: () => void;
+  },
+  pageContext?: PageContext,
+) {
   const totalResultCount = ref(DEFAULT_RESULT_COUNT);
 
   const url = (import.meta.env as any).VITE_WEB_API_URL;
@@ -50,15 +55,20 @@ export default function useTableService<T>({
     options = opts;
   }
 
+  const attachCookie = pageContext ? useCookie(pageContext) : {};
+
   watchEffect(() => {
     isLoading.value = true;
 
+    // Attempted a few times to reuse the useFetch composable, but failed.
+    // For now, we reimplement fetch here which unfortunately repeats code like injecting cookie headers.
     ofetch<PaginatedResponse<T>>(url + domain, {
       query: {
         ...defaultQuery,
         ...requestParams.value,
       },
-      ...options,
+      ...attachCookie,
+      ...options, // default request options per page request
     })
       .then(response => {
         data.value = response.data;
@@ -70,8 +80,7 @@ export default function useTableService<T>({
         error.value = error;
         data.value = null;
         totalResultCount.value = DEFAULT_PAGE_COUNT;
-
-        console.log('error!', error);
+        console.error(error);
       })
       .finally(() => {
         isLoading.value = false;

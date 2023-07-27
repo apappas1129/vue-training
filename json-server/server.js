@@ -25,7 +25,10 @@ server.use(cors(corsOptions));
 
 // #region json-server configuration
 middlewares.push((req, res, next) => {
-  console.log('※ json-server middleware: req.session\n', req.session);
+  console.log('\x1b[32m%s\x1b[0m', '※ json-server Entrypoint [Check express-session cookie]');
+  console.log('\t[Request Headers Cookie]\n\t', req.headers.cookie);
+  console.log('\t[REDIS SESSION USER]\n\t', req.session?.user);
+
   if (req.originalUrl.indexOf('_limit') === -1) req.query = { ...req.query, _limit: 10 }; // default limit
   next();
 });

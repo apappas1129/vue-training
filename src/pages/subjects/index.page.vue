@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { h } from 'vue';
+import { Component, h } from 'vue';
 import { navigate } from 'vite-plugin-ssr/client/router';
 
 import DataTable from '#root/components/shared/DataTable/DataTable.vue';
@@ -34,9 +34,8 @@ const columns: UseTableColumns<Subject> = [
     id: 'actions',
     header: '',
     cell: cell => {
-      console.log('ss', cell.row.original);
-      //bypass TS no overload issue
-      return h(SubjectRowActions as any, { subject: cell.row.original });
+      //bypass TS no overload issue with `as`
+      return h(SubjectRowActions as Component, { subject: cell.row.original });
     },
     meta: { nowrap: true },
   },

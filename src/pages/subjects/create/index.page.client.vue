@@ -23,7 +23,6 @@
 import { ref } from 'vue';
 import { Tabs, Tab, TabPanels, TabPanel } from 'vue3-tabs';
 import SubjectForm from '#root/components/subject/SubjectForm.vue';
-import SubjectCourses from '#root/components/subject/SubjectCourses.vue';
 
 const selectedTab = ref('subject');
 </script>

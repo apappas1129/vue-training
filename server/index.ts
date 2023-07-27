@@ -24,6 +24,8 @@ async function startServer() {
   if (isProduction) {
     const sirv = (await import('sirv')).default;
     app.use(sirv(`${root}/dist/client`));
+
+    // insert production session storage middleware here
   } else {
     const vite = await import('vite');
     const viteDevMiddleware = (
