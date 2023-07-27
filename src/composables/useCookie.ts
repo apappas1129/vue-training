@@ -15,8 +15,6 @@ export function useCookie(pageContext: PageContext) {
     // and add will continue to use this composable and explicitly pass session cookie
     // through `useCookie` so that `useFetch` does not pass cookies by default.
     context.options.credentials = 'include'; // <-- This is all we needed! :v
-
-    console.log(context.options.headers.get('content-type'));
   };
 
   return { onRequest: attachCookie };
