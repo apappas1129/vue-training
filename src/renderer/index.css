@@ -61,7 +61,7 @@
   }
 
   pre {
-    margin: 1em;
+    @apply bg-basic-100 mb-4;
   }
 
   pre code {

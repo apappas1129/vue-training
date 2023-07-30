@@ -11,4 +11,5 @@ db.subjects = seedSubjects(db.users);
 db.courses = seedCourses(db.subjects);
 db.modules = seedModules(db.courses);
 db.enrollments = seedEnrollments(db.modules, db.users);
+db.contents = [];
 console.log(JSON.stringify(db));

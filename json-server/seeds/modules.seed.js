@@ -29,7 +29,7 @@ export default function seedModules(courses) {
       });
 
       // mock join
-      // NOTE: Of course the /couse endpoint should only reveal the modules (aka. content) of the requested course
+      // NOTE: Of course the /course endpoint should only reveal the modules (aka. content) of the requested course
       // if the session user is the author of the course / owner of its subject.
       // We will attempt to create a middleware on the json-server server application that will remove this accordingly,
       // but this is low prio as we are only creating a minimum viable mocked Web API.

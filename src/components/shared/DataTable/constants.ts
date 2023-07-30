@@ -10,6 +10,6 @@ const sortIconMap = {
   desc: 'desc',
 } as const;
 
-const DEFAULT_PAGE_SIZES = [10, 20, 30, 40, 50];
+const DEFAULT_PAGE_SIZES = [10, 25, 50, 100];
 
 export { ariaSortMap, sortIconMap, DEFAULT_PAGE_SIZES };

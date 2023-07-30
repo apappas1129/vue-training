@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col">
+  <fieldset class="flex flex-col">
     <label v-if="label" :for="id" :class="{ 'text-danger-400': !!error }">
       {{ label }}
     </label>
     <input :id="id" v-model="modelValue" v-bind="$attrs" :class="{ 'border-danger-400': !!error }" />
     <!-- FIXME: class priority not working as expected even if class name is appended at the end -->
     <span v-if="error" class="text-red-400 text-xs italic mt-1">{{ error }}</span>
-  </div>
+  </fieldset>
 </template>
 
 <script lang="ts">

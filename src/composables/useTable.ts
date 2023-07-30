@@ -39,7 +39,7 @@ export type UseTableColumns<TData = any> = Array<
 >;
 
 const INITIAL_PAGE_INDEX = 0;
-const INITIAL_PAGE_SIZE = 10;
+const INITIAL_PAGE_SIZE = 25;
 
 export default function useTable<T>(
   {

@@ -64,8 +64,6 @@ const emit = defineEmits<{
   (e: 'error', error: any): void;
 }>();
 
-console.log('test course', course);
-
 // TODO: mock image upload
 
 const form = reactive<CourseFormValue>({
@@ -74,8 +72,6 @@ const form = reactive<CourseFormValue>({
   description: course?.description || '',
   subjectId: course?.subjectId || 0,
 });
-
-console.log('test subject id', course?.subjectId, course?.subject.title);
 
 const rules: CourseFormValidator = {
   title: { required, maxLength: maxLength(12) },
