@@ -56,7 +56,6 @@ export default function useTableService<T>(
   }
 
   const attachCookie = pageContext ? useCookie(pageContext) : {};
-
   watchEffect(() => {
     isLoading.value = true;
 

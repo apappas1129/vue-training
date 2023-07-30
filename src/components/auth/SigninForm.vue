@@ -30,7 +30,7 @@ interface ILoginForm {
   remember: boolean;
 }
 
-const { login, isLoading } = useAuth();
+const { login, isLoading, error } = useAuth();
 const emit = defineEmits<{ (e: 'success'): void }>();
 
 const emailStorage = useAppStorage<string>('email', '', { prefix: 'remember:' });
@@ -53,13 +53,14 @@ async function tryLogin() {
 
   if (!isValid) return;
 
-  try {
-    await login(form.email, form.password);
+  await login(form.email, form.password);
+
+  if (error.value) {
+    console.error('Failed login', { ...error.value });
+  } else {
     // Remember
     emailStorage.value = form.remember ? form.email : '';
     emit('success');
-  } catch (err) {
-    console.log('Login error', err);
   }
 }
 </script>

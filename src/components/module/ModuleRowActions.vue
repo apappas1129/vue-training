@@ -6,9 +6,8 @@
     </template>
 
     <!-- Opened dropdown content -->
-    <!-- TODO: For improvement, Create a vue component ContextMenuItem, and ContextMenuButton instead of slots -->
     <template v-slot:content>
-      <button :disabled="subject.isPublished" class="menu-item">Publish</button>
+      <button :disabled="module.isPublished" class="menu-item" href="#">Publish</button>
       <button @click="edit()" class="menu-item">Edit</button>
       <button @click="remove()" class="menu-item">Delete</button>
     </template>
@@ -18,13 +17,13 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import ContextMenu from '#root/components/shared/ContextMenu.vue';
-import { Subject } from '#root/common/entities/index';
+import { Module } from '#root/common/entities/index';
 import { useFetch } from '#root/composables/useFetch';
 import { usePageContext } from '#root/renderer/usePageContext';
 
 const props = defineProps<{
-  subject: {
-    type: Subject;
+  module: {
+    type: Module;
     required: true;
   };
 }>();
@@ -33,22 +32,23 @@ const props = defineProps<{
 // ATTOW. I didn't find any helper similar to Vue 3.3's withDefaults to work around TS.
 // For now, I am using computed here which is not the most optimal solution.
 // See https://vuejs.org/api/sfc-script-setup.html#defineprops-defineemits
-const subject = computed(() => props.subject as unknown as Subject);
+const module = computed(() => props.module as unknown as Module);
 
 const pageContext = usePageContext();
-const { $fetch } = useFetch('subjects/' + subject.value.id, { method: 'DELETE' }, pageContext);
 
 function edit() {
-  window.location.href = '/subjects/' + subject.value.id + '/edit';
+  window.location.href = '/module/' + module.value.id + '/edit';
 }
 
+const { $fetch } = useFetch('modules/' + module.value.id, { method: 'DELETE' }, pageContext);
+
 function remove() {
-  if (confirm('Are you sure you want to delete Subject?') == true) {
+  if (confirm('Are you sure you want to delete this module?') == true) {
     $fetch().then(response => {
       // BUG: Note that json-server has a bug on DELETE endpoint not deleting records.
       // We'll leave it be for now, important thing here is implementation details on handling and for that:
       // TODO: use pinia to broadcast a table refresh after successful delete
-      console.info('success! deleted subject', response);
+      console.info('success! deleted module', response);
     });
   }
 }

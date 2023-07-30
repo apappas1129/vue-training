@@ -16,7 +16,10 @@ const ssr: RequestHandler = async (req, res, next) => {
   // This is no longer needed if only for manually attaching cookie headers to API requests.
   // Keeping below for future reference that this can be done as well. But adding `credentials = 'include'`
   // to the ofetch FetchOptions automatically carries over the session cookies for the same-origin domain of the request
-  if (req.headers?.cookie) pageContextInit.headers = { cookie: req.headers.cookie };
+  if (req.headers?.cookie) {
+    pageContextInit.headers = { cookie: req.headers.cookie };
+    console.log('inserted headers to context', pageContextInit.headers);
+  }
 
   const pageContext = await renderPage(pageContextInit);
   const { httpResponse } = pageContext;

@@ -91,8 +91,11 @@ import { FlexRender, Header, RowData } from '@tanstack/vue-table';
 import { FetchOptions } from 'ofetch';
 import { BaseButton, BaseInput } from '#root/components/base/index';
 import useTable, { UseTableColumns, UseTableConfig } from '#root/composables/useTable';
+import { usePageContext } from '#root/renderer/usePageContext';
 import SortButton from './SortButton.vue';
 import { ariaSortMap, DEFAULT_PAGE_SIZES } from './constants';
+
+const pageContext = usePageContext();
 
 const { domain, columns, fetchOptions, ...props } = defineProps<{
   domain: string;
@@ -114,7 +117,7 @@ const config: UseTableConfig = {
   columns,
   onChange: () => emitChange(),
 };
-const { table, isLoading, pagination, data } = useTable(config);
+const { table, isLoading, pagination, data } = useTable(config, pageContext);
 
 function handleGoToPage(e: Event) {
   const value = (e.target as HTMLInputElement).value;

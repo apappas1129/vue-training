@@ -7,20 +7,21 @@
   </section>
   <section class="mt-4">
     <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
-      <DataTable :domain="'subjects'" :columns="columns" />
+      <DataTable :domain="'subjects'" :columns="columns" :fetchOptions="options" />
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
 import { Component, h } from 'vue';
-import { navigate } from 'vite-plugin-ssr/client/router';
+import { FetchOptions } from 'ofetch';
 
 import DataTable from '#root/components/shared/DataTable/DataTable.vue';
 import { Subject } from '#root/common/index';
 import { UseTableColumns } from '#root/composables/useTable';
 import SubjectRowActions from '#root/components/subject/SubjectRowActions.vue';
 import { BaseButton } from '#root/components/base/index';
+import { usePageContext } from '#root/renderer/usePageContext';
 
 const columns: UseTableColumns<Subject> = [
   ['title', { header: 'Title', size: 100 }],
@@ -41,8 +42,16 @@ const columns: UseTableColumns<Subject> = [
   },
 ];
 
+const pageContext = usePageContext();
+
+const options: FetchOptions = {
+  query: {
+    ownerId: pageContext.user?.id,
+  },
+};
+
 function create() {
-  navigate('/subjects/create');
+  window.location.href = '/subjects/create';
 }
 
 // For improvement, we can utilize DataTable @onChange and update the browser url bar to match the table

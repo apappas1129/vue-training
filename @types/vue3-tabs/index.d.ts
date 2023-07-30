@@ -1,5 +1,13 @@
 declare module 'vue3-tabs' {
+  // I think the library is abandoned and will be left without TS support.
+  // below is just a lazy way to supress typescript's whining over undefined Component imports.
   import type { DefineComponent } from 'vue';
-  const Tabs: DefineComponent<{}, {}, any>;
-  export { Tabs, DefineComponent as Tab, DefineComponent as TabPanels, DefineComponent as TabPanel };
+
+  type LazyComponentType = DefineComponent<{}, {}, any>;
+  const Tabs: LazyComponentType;
+  const Tab: LazyComponentType;
+  const TabPanels: LazyComponentType;
+  const TabPanel: LazyComponentType;
+
+  export { Tabs, Tab, TabPanels, TabPanel };
 }

@@ -7,6 +7,7 @@ export interface Course {
   id: number;
   /** Foreign Key */
   subjectId: Subject['id'];
+  subject: Subject;
   /** Foreign Key */
   authorId: User['id'];
   /** Joined table */
@@ -14,7 +15,7 @@ export interface Course {
   title: string;
   description: string;
   /** Image URL */
-  icon: string;
+  icon?: string;
   duration: number;
   isPublished: boolean;
   /** stringified ISO 8601 date */

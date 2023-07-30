@@ -1,15 +1,26 @@
 <template>
-  <section class="p-2">
-    <DataTable :domain="'courses'" :columns="columns" />
+  <section>
+    <div class="flex justify-between items-center">
+      <h1 class="text-2xl mb-0 pb-0 border-b-0">Courses</h1>
+      <BaseButton @click="create()">Add new course</BaseButton>
+    </div>
+  </section>
+  <section class="mt-4">
+    <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
+      <DataTable :domain="'courses'" :columns="columns" :fetchOptions="options" />
+    </div>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { Component, h } from 'vue';
+import { FetchOptions } from 'ofetch';
 import DataTable from '#root/components/shared/DataTable/DataTable.vue';
+import CourseRowActions from '#root/components/course/CourseRowActions.vue';
 import { Course } from '#root/common/index';
 import { UseTableColumns } from '#root/composables/useTable';
-import { h } from 'vue';
-import SubjectRowActions from '#root/components/subject/SubjectRowActions.vue';
+import { usePageContext } from '#root/renderer/usePageContext';
+import { BaseButton } from '#root/components/base/index';
 
 const columns: UseTableColumns<Course> = [
   ['title', { header: 'Title', size: 100 }],
@@ -20,10 +31,22 @@ const columns: UseTableColumns<Course> = [
   {
     id: 'actions',
     header: '',
-    cell: () => h(SubjectRowActions),
+    cell: cell => h(CourseRowActions as Component, { course: cell.row.original }),
     meta: { nowrap: true },
   },
 ];
+
+const pageContext = usePageContext();
+
+const options: FetchOptions = {
+  query: {
+    ownerId: pageContext.user?.id,
+  },
+};
+
+function create() {
+  window.location.href = '/courses/create';
+}
 
 // For improvement, we can utilize DataTable @onChange and update the browser url bar to match the table
 </script>

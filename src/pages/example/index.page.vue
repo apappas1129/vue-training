@@ -43,7 +43,7 @@ export const documentProps = { title: 'Home' };
 <script lang="ts" setup>
 import { onServerPrefetch, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
-import { navigate } from 'vite-plugin-ssr/client/router';
+// import { navigate } from 'vite-plugin-ssr/client/router';
 import { useCounter } from '#root/stores/useCounter';
 import { useTodos } from '#root/stores/useTodos';
 
@@ -85,6 +85,7 @@ onMounted(() => {
 
 const randomNavigation = () => {
   const randomIndex = Math.floor(Math.random() * 3);
-  navigate(['/about', '/todos/1', '/contacts'][randomIndex]);
+  // navigate(['/about', '/todos/1', '/contacts'][randomIndex]);
+  window.location.href = ['/about', '/todos/1', '/contacts'][randomIndex];
 };
 </script>

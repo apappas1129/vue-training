@@ -1,4 +1,5 @@
 import useTableService from '#root/composables/useTableService';
+import { PageContext } from '#root/renderer/types';
 import {
   getCoreRowModel,
   useVueTable,
@@ -40,15 +41,18 @@ export type UseTableColumns<TData = any> = Array<
 const INITIAL_PAGE_INDEX = 0;
 const INITIAL_PAGE_SIZE = 10;
 
-export default function useTable<T>({
-  columns,
-  domain,
-  fetchOptions,
-  initialPageIndex,
-  initialPageSize,
-  onChange,
-  ...config // We make sure to destructure every UseTableConfig custom fields above
-}: UseTableConfig<T>) {
+export default function useTable<T>(
+  {
+    columns,
+    domain,
+    fetchOptions,
+    initialPageIndex,
+    initialPageSize,
+    onChange,
+    ...config // We make sure to destructure every UseTableConfig custom fields above
+  }: UseTableConfig<T>,
+  pageContext?: PageContext,
+) {
   // foolproofing
 
   const columnHelper = createColumnHelper<T>();
@@ -62,7 +66,10 @@ export default function useTable<T>({
     pageSize: initialPageSize || INITIAL_PAGE_SIZE,
   });
 
-  const { data, isLoading, pageCount } = useTableService<T>({ domain, fetchOptions, pagination, onChange });
+  const { data, isLoading, pageCount } = useTableService<T>(
+    { domain, fetchOptions, pagination, onChange },
+    pageContext,
+  );
 
   const table = useVueTable({
     get data() {

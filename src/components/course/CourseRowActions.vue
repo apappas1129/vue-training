@@ -8,8 +8,8 @@
     <!-- Opened dropdown content -->
     <template v-slot:content>
       <button :disabled="course.isPublished" class="menu-item" href="#">Publish</button>
-      <button class="menu-item" href="#">Edit</button>
-      <button class="menu-item" href="#">Delete</button>
+      <button @click="edit()" class="menu-item">Edit</button>
+      <button @click="remove()" class="menu-item">Delete</button>
     </template>
   </ContextMenu>
 </template>
@@ -18,6 +18,8 @@
 import { computed } from 'vue';
 import ContextMenu from '#root/components/shared/ContextMenu.vue';
 import { Course } from '#root/common/entities/index';
+import { useFetch } from '#root/composables/useFetch';
+import { usePageContext } from '#root/renderer/usePageContext';
 
 const props = defineProps<{
   course: {
@@ -31,6 +33,24 @@ const props = defineProps<{
 // For now, I am using computed here which is not the most optimal solution.
 // See https://vuejs.org/api/sfc-script-setup.html#defineprops-defineemits
 const course = computed(() => props.course as unknown as Course);
+
+const pageContext = usePageContext();
+const { $fetch } = useFetch('courses/' + course.value.id, { method: 'DELETE' }, pageContext);
+
+function edit() {
+  window.location.href = '/courses/' + course.value.id + '/edit';
+}
+
+function remove() {
+  if (confirm('Are you sure you want to delete this course?') == true) {
+    $fetch().then(response => {
+      // BUG: Note that json-server has a bug on DELETE endpoint not deleting records.
+      // We'll leave it be for now, important thing here is implementation details on handling and for that:
+      // TODO: use pinia to broadcast a table refresh after successful delete
+      console.info('success! deleted course', response);
+    });
+  }
+}
 </script>
 
 <style lang="postcss" scoped>

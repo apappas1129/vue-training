@@ -38,8 +38,7 @@ export function useFetch<T = any, R extends ResponseType = 'json'>(
       ...(options || {}), // allows to still override some fetch options upon actual request
     };
 
-    console.log('final options', fetchOptions.onRequest?.toString());
-
+    error.value = null;
     const response = await apiFetch<T, R>(request, fetchOptions)
       .catch(err => {
         console.error('useFetch $fetch request error', err);

@@ -31,7 +31,7 @@
       </ul>
     </div>
   </nav>
-  <main class="content bg-white p-4 overflow-y-auto">
+  <main class="relative content bg-white p-4 overflow-y-auto">
     <slot />
   </main>
   <Footer></Footer>

@@ -9,12 +9,11 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { reactive, toRaw } from 'vue';
 import { required, maxLength } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 import { subject as subjectHelper } from '@casl/ability';
 import { useAbility } from '@casl/vue';
-import { FetchOptions } from 'ofetch';
 
 import { SubjectFormValue, SubjectFormValidator } from '#root/common/dto/subject-form.interface';
 import { BaseButton, BaseCheckbox, BaseInput } from '#root/components/base';
@@ -36,10 +35,10 @@ const emit = defineEmits<{
 
 const pageContext = usePageContext();
 const { can } = useAbility();
-
+console.log('PROPS', subject);
 const form = reactive<SubjectFormValue>({
-  title: '',
-  isPublished: false,
+  title: subject?.title || '',
+  isPublished: !!subject?.isPublished,
 });
 
 const rules: SubjectFormValidator = {
@@ -48,7 +47,7 @@ const rules: SubjectFormValidator = {
 
 const v$ = useVuelidate(rules, form, { $lazy: true });
 
-const { $fetch, isLoading } = useFetch(...postOrPatch(subject, 'subjects', pageContext));
+const { $fetch, isLoading, error } = useFetch<Subject>(...postOrPatch(subject, 'subjects', pageContext));
 
 async function onSubmit() {
   const isValid = await v$.value.$validate();
@@ -65,7 +64,9 @@ async function onSubmit() {
     // #endregion
   };
 
-  $fetch({ body });
+  const response = await $fetch({ body });
+  if (error.value) emit('error', toRaw(error.value));
+  else emit('success', response);
 }
 
 // This will become redundant checking if we are able to filter-out the UI (e.g. hide component or do prior redirect from the ssr router function)

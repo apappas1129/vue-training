@@ -6,9 +6,15 @@ import { ref } from 'vue';
 
 export function useAuth() {
   const isLoading = ref(false);
+  const error = ref<null | Record<string, any>>(null);
   const cookieName = 'connect.sid'; // The default name set by express-session.
   const cookies = useCookies([]);
   const { clear } = useClearAppStorage();
+
+  const { $fetch, error: err } = useFetch<{ user: User }>('login', {
+    method: 'POST',
+    credentials: 'include',
+  });
 
   function isAuthenticated() {
     return cookies.get(cookieName) !== undefined;
@@ -16,18 +22,11 @@ export function useAuth() {
 
   async function login(email: string, password: string) {
     isLoading.value = true;
-    // Do auth request with your API
-    console.info('Sending HTTP Request to login.', { email, password });
-
-    const { $fetch } = useFetch<{ user: User }>('login', {
-      method: 'POST',
-      body: { email, password },
-      credentials: 'include',
+    error.value = null;
+    return $fetch({ body: { email, password } }).finally(() => {
+      isLoading.value = false;
+      if (err) error.value = err.value;
     });
-    // FIXME: TS inferred type is still Promise<void> despite having T defined in useFetch above.
-    return $fetch()
-      .finally(() => (isLoading.value = false));
-
 
     // NOTE: The mocked login API uses express-session which automatically writes an
     // HttpOnly cookie on the browser upon response.
@@ -46,6 +45,7 @@ export function useAuth() {
   return {
     isAuthenticated,
     isLoading,
+    error,
     login,
     logout,
   };

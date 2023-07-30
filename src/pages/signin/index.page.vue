@@ -13,23 +13,21 @@
 // Refer to: https://vite-plugin-ssr.com/layouts#custom-export
 // Forcing layout for Home Page to be GuestLayout regardless of auth state
 export { default as Layout } from '#root/layouts/guest.layout.vue';
-// onSuccess navigate
 </script>
 
 <script lang="ts" setup>
 import SigninForm from '#root/components/auth/SigninForm.vue';
-import { navigate } from 'vite-plugin-ssr/client/router';
 
 function onSuccess() {
-  // FIXME: Have to trigger page reload fro Layout to change.
-  navigate('/subjects').then(() => location.reload());
+  // TODO: reload table via pinia or other observable-esque
+  window.location.href = '/subjects';
 }
 </script>
 
 <style>
 div.background-pattern {
   background-color: #d7b7ff;
-  background-image: url('pattern-bg.svg');
+  background-image: url('./pattern-bg.svg');
   background-attachment: fixed;
   background-size: cover;
   position: absolute;

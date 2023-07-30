@@ -9,10 +9,20 @@ import type { PageContextServer } from './types';
 import { getPageTitle } from './getPageTitle';
 
 // We tell `vite-plugin-ssr` to make the following data available from `pageContext` in the browser.
-const passToClient = ['initialStoreState', 'pageProps', 'routeParams', 'user', 'ability', 'headers'];
+const passToClient = [
+  'initialStoreState',
+  'pageProps',
+  'routeParams',
+  'urlPathname',
+  'user',
+  'ability',
+  'headers',
+  'redirectTo',
+];
 
 async function render(pageContext: PageContextServer) {
   const { stream } = pageContext;
+
   // https://github.com/brillout/vite-plugin-ssr/blob/main/examples/vue-full/renderer/getPageTitle.ts
   const title = getPageTitle(pageContext);
   const tabIconUrl = import.meta.env.BASE_URL + 'vite.svg';

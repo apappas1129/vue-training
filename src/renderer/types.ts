@@ -9,9 +9,9 @@ import { renderToNodeStream } from '@vue/server-renderer';
 import type {
   PageContextBuiltIn,
   // When using Client Routing https://vite-plugin-ssr.com/clientRouting
-  PageContextBuiltInClientWithClientRouting as PageContextBuiltInClient,
+  // PageContextBuiltInClientWithClientRouting as PageContextBuiltInClient,
   // When using Server Routing
-  // PageContextBuiltInClientWithServerRouting as PageContextBuiltInClient
+  PageContextBuiltInClientWithServerRouting as PageContextBuiltInClient,
 } from 'vite-plugin-ssr/types';
 import type { ComponentPublicInstance } from 'vue';
 import { User } from '#root/common/entities/user.interface';
@@ -25,6 +25,7 @@ export type PageContextCustom = {
   Page: Component;
   pageProps?: PageProps;
   urlPathname: string;
+  redirectTo?: string;
   exports: {
     documentProps?: {
       title?: string;
