@@ -5,6 +5,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss",
+    "cpylua.language-postcss",
     // Extras
     "hediet.vscode-drawio",
     "bierner.markdown-preview-github-styles",

@@ -6,6 +6,13 @@
 </template>
 
 <script>
+/**
+ * NOTE: This component and the other 3 child components will be written in JS for now because
+ * Tiptap is still patching up things to comply to the new ESM module exports and its yet to be released.
+ * See https://github.com/ueberdosis/tiptap/pull/4001 and for an example of what happens currently:
+ * https://github.com/ueberdosis/tiptap/issues/3785
+ */
+
 import Highlight from '@tiptap/extension-highlight';
 import StarterKit from '@tiptap/starter-kit';
 import { Editor, EditorContent } from '@tiptap/vue-3';
