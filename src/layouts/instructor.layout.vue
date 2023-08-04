@@ -1,106 +1,63 @@
 <template>
   <div class="flex">
-    <div class="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto border-r">
-      <h2 class="text-3xl font-semibold text-center text-blue-800">eLearning</h2>
-      <div class="flex flex-col justify-between mt-6">
-        <aside>
-          <nav>
-            <ul role="list">
-              <li>
-                <a class="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-md" href="/subjects">
-                  <svg
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                    />
-                  </svg>
-
-                  <span class="mx-4 font-medium">Subjects</span>
-                </a>
-              </li>
-
-              <li>
-                <a class="flex items-center px-4 py-2 mt-5 text-gray-600 rounded-md hover:bg-gray-200" href="/courses">
-                  <svg
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-
-                  <span class="mx-4 font-medium">Courses</span>
-                </a>
-              </li>
-
-              <li>
-                <a class="flex items-center px-4 py-2 mt-5 text-gray-600 rounded-md hover:bg-gray-200" href="/modules">
-                  <svg
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-
-                  <span class="mx-4 font-medium">Modules</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </aside>
+    <nav class="flex flex-col w-72 h-screen overflow-y-auto bg-slate-800" aria-label="Main Navigation">
+      <div class="flex items-center justify-between font-semibold text-center p-4 bg-slate-950">
+        <div class="text-base flex items-center justify-center gap-2">
+          <img style="height: 24px" src="/arcanys-favicon.png" class="logo vue" alt="tailwind" />
+          <span class="text-white">eLearning Portal</span>
+        </div>
+        <button>
+          <svg class="remix w-6 h-6" fill="white"><use :xlink:href="burgerIcon" /></svg>
+        </button>
       </div>
+      <div class="px-4 mt-4 mb-2 text-muted opacity-50">MANAGEMENT</div>
+      <ul role="list">
+        <li
+          v-for="item in navItems"
+          :class="{
+            'bg-accent-400': item.href === '/' ? urlPathname === item.href : urlPathname.startsWith(item.href),
+          }"
+        >
+          <a :href="item.href" class="flex items-center px-4 py-2 text-white">
+            <svg class="remix w-6 h-6" fill="currentColor"><use :xlink:href="item.icon" /></svg>
+            <span class="mx-4">{{ item.name }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="w-full h-screen relative">
+      <nav class="absolute w-full h-14 flex items-center justify-end gap-4 p-4 bg-basic-100 shadow z-50">
+        <div
+          class="h-8 w-8 rounded-full bg-center bg-contain bg-clip-border bg-no-repeat border border-success-400"
+          :style="`background-image: url(${user?.avatar || '/arcanys-favicon.png'})`"
+        ></div>
+        <span class="font-semibold text-basic-600">{{ user?.email }}</span>
+      </nav>
+      <main class="relative w-full scrollbar-thin p-4 mt-14 overflow-y-auto bg-white">
+        <div class="absolute top-0 left-0 z-10 w-full h-1/5 bg-accent-400"></div>
+        <div class="z-20 relative">
+          <slot />
+        </div>
+      </main>
     </div>
-    <main class="content w-full h-screen p-4 overflow-y-auto bg-white">
-      <slot />
-    </main>
   </div>
   <Footer></Footer>
 </template>
 
 <script lang="ts" setup>
+import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg';
 import Footer from '#root/components/layout/Footer.vue';
+import { navigation } from '#root/common/constants/page.constants';
+import { usePageContext } from '#root/renderer/usePageContext';
+const { urlPathname, user } = usePageContext();
+
+const navItems = navigation.instructor;
+const burgerIcon = remixiconUrl + '#ri-menu-line';
 </script>
 
 <style>
 main {
+  height: calc(100vh - 3.5rem);
   min-height: calc(100vh - 64px);
 }
 </style>

@@ -63,6 +63,7 @@ function onEscape(e: KeyboardEvent) {
   }
 }
 
+// NOTE: This is ssr safe since document is accessed only in onMounted hook
 onMounted(() => document?.addEventListener('keydown', onEscape));
 onBeforeUnmount(() => document?.removeEventListener('keydown', onEscape));
 </script>

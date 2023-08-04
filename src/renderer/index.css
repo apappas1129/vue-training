@@ -166,3 +166,11 @@
 .markdown-body table tr:nth-child(2n) {
   @apply bg-gray-100;
 }
+
+/* https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes */
+
+@layer components {
+  .card {
+    @apply bg-white border border-basic-200 rounded-lg;
+  }
+}

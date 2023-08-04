@@ -6,13 +6,13 @@
       <div class="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
         <a class="font-medium text-gray-900 title-font md:justify-start">
           <div aria-hidden="true" class="flex items-center justify-center">
-            <img aria-hidden="true" height="60" src="/vite.svg" class="logo" alt="Vite logo" />
+            <img aria-hidden="true" height="60" src="/vite.svg" alt="Vite logo" />
             <span class="mr-2">+</span>
             <img class="h-8 w-8" src="../../assets/vue.svg" alt="Vue logo" />
             <span class="mr-2">+</span>
-            <img style="height: 44px" src="../../assets/pinia.svg" class="logo vue" alt="Pinia logo" />
+            <img style="height: 44px" src="../../assets/pinia.svg" alt="Pinia logo" />
             <span class="mr-2">+</span>
-            <img style="height: 24px" src="/tailwind.svg" class="logo vue" alt="tailwind" />
+            <img style="height: 24px" src="/tailwind.svg" alt="tailwind" />
           </div>
         </a>
         <p class="mt-2 text-sm text-gray-500">Unravel Your Potential, Learn Your Future!</p>

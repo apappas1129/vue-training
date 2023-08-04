@@ -33,14 +33,14 @@ async function render(pageContext: PageContextServer) {
      on child containers. */
 
   const documentHtml = escapeInject`<!DOCTYPE html>
-    <html class="h-full bg-gray-100 scrollbar-thin scrollbar-track-slate-300
-     scrollbar-thumb-indigo-400 scrollbar-thumb-rounded-md">
+    <html class="h-full bg-gray-100 ">
       <head>
         <link rel="icon" href="${tabIconUrl}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>${title}</title>
       </head>
-      <body class="h-full scrollbar-thin">
+      <body class="h-full scrollbar-none scrollbar-track-slate-300
+      scrollbar-thumb-indigo-400 scrollbar-thumb-rounded-md">
         <div id="app">${stream}</div>
       </body>
     </html>`;

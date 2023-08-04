@@ -3,7 +3,7 @@ import scrollbar from 'tailwind-scrollbar';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{vue,js,ts,jsx,tsx}',],
+  content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -14,12 +14,11 @@ export default {
         warn: colors.amber,
         danger: colors.red,
         muted: colors.slate['200'],
-      }
+      },
     },
   },
   plugins: [
     // https://github.com/adoxography/tailwind-scrollbar#configuration
-    scrollbar({ nocompatible: true })
+    scrollbar({ nocompatible: true }),
   ],
-}
-
+};
