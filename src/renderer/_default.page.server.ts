@@ -21,7 +21,8 @@ const passToClient = [
 ];
 
 async function render(pageContext: PageContextServer) {
-  const { stream } = pageContext;
+  const { stream, user } = pageContext;
+  console.log('>>>>>>>>>>>>>>[][] server renderer', pageContext.exports.Layout);
 
   // https://github.com/brillout/vite-plugin-ssr/blob/main/examples/vue-full/renderer/getPageTitle.ts
   const title = getPageTitle(pageContext);
@@ -39,8 +40,10 @@ async function render(pageContext: PageContextServer) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>${title}</title>
       </head>
-      <body class="h-full scrollbar-none scrollbar-track-slate-300
-      scrollbar-thumb-indigo-400 scrollbar-thumb-rounded-md">
+      <body class="h-full scrollbar-track-slate-300 scrollbar-thumb-indigo-400 scrollbar-thumb-rounded-md
+      ${
+        !user || (pageContext.exports?.layout as any)?.__name === 'guest.layout' ? 'scrollbar-thin' : 'scrollbar-none'
+      }">
         <div id="app">${stream}</div>
       </body>
     </html>`;

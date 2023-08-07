@@ -1,9 +1,9 @@
 <template>
-  <section class="flex items-center justify-center h-screen w-full">
-    <div class="background-pattern"></div>
+  <div class="background-pattern"></div>
+  <section class="flex items-center justify-center h-full w-full">
     <div class="bg-white max-w-sm rounded overflow-hidden shadow-lg px-6 py-4 z-10">
       <h1 class="font-bold text-xl mb-2">Sign In</h1>
-      <SigninForm @success="onSuccess" />
+      <SigninForm @success="onSuccess($event)" />
       <a href="#" class="text-center text-xs mt-2 block">Forgot password?</a>
     </div>
   </section>
@@ -16,11 +16,13 @@ export { default as Layout } from '#root/layouts/guest.layout.vue';
 </script>
 
 <script lang="ts" setup>
+import { User } from '#root/common/index';
 import SigninForm from '#root/components/auth/SigninForm.vue';
 
-function onSuccess() {
-  // TODO: reload table via pinia or other observable-esque
-  window.location.href = '/subjects';
+function onSuccess(user: User) {
+  if (user.role === 'instructor') window.location.href = '/subjects';
+  else if (user.role === 'student') window.location.href = '/explore-courses';
+  else if (user.role === 'admin') console.log('todo admin pages');
 }
 </script>
 
@@ -33,5 +35,8 @@ div.background-pattern {
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
 }
 </style>

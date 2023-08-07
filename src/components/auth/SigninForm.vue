@@ -23,6 +23,7 @@ import { required, email, minLength } from '@vuelidate/validators';
 import { BaseButton, BaseCheckbox, BaseInput } from '#root/components/base';
 import { useAuth } from '#root/composables/useAuth';
 import { useAppStorage } from '#root/composables/useAppStorage';
+import { User } from '#root/common/index';
 
 interface ILoginForm {
   email: string;
@@ -31,7 +32,7 @@ interface ILoginForm {
 }
 
 const { login, isLoading, error } = useAuth();
-const emit = defineEmits<{ (e: 'success'): void }>();
+const emit = defineEmits<{ (e: 'success', user: User): void }>();
 
 const emailStorage = useAppStorage<string>('email', '', { prefix: 'remember:' });
 
@@ -53,14 +54,14 @@ async function tryLogin() {
 
   if (!isValid) return;
 
-  await login(form.email, form.password);
+  const response = await login(form.email, form.password);
 
   if (error.value) {
     console.error('Failed login', { ...error.value });
   } else {
     // Remember
     emailStorage.value = form.remember ? form.email : '';
-    emit('success');
+    emit('success', response.user);
   }
 }
 </script>
