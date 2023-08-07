@@ -1,23 +1,22 @@
-import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg';
 import { User } from '../entities/user.interface';
 
 // #region pages
 const subjects = {
   href: '/subjects',
   name: 'Subjects',
-  icon: remixiconUrl + '#ri-book-3-line',
+  icon: 'book-3-line',
 };
 
 const courses = {
   href: '/courses',
   name: 'Courses',
-  icon: remixiconUrl + '#ri-book-2-line',
+  icon: 'book-2-line',
 };
 
 const modules = {
   href: '/modules',
   name: 'Modules',
-  icon: remixiconUrl + '#ri-book-read-line',
+  icon: 'book-read-line',
 };
 // #endregion pages
 

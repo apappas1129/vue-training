@@ -1,13 +1,12 @@
 <template>
   <button class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="action" :title="title">
-    <svg class="remix">
-      <use :xlink:href="`${remixiconUrl}#ri-${icon}`" />
-    </svg>
+    <Remixicon :name="icon"></Remixicon>
   </button>
 </template>
 
 <script>
 import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg';
+import Remixicon from '../Remixicon.vue';
 
 export default {
   props: {

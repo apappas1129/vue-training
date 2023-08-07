@@ -1,7 +1,7 @@
 <template>
   <header class="flex justify-between items-center">
     <h1 class="flex items-center gap-3 text-2xl text-white mb-0 pb-0 border-b-0">
-      <svg class="remix w-6 h-6" fill="currentColor"><use :xlink:href="page.icon" /></svg>
+      <Remixicon :name="page.icon"></Remixicon>
       {{ page.name }}
     </h1>
     <BaseButton @click="create()">Add new subject</BaseButton>
@@ -18,6 +18,7 @@ import { Component, h } from 'vue';
 import { FetchOptions } from 'ofetch';
 
 import { pages } from '#root/common/constants/page.constants';
+import Remixicon from '#root/components/shared/Remixicon.vue';
 import DataTable from '#root/components/shared/DataTable/DataTable.vue';
 import { Subject } from '#root/common/index';
 import { UseTableColumns } from '#root/composables/useTable';
