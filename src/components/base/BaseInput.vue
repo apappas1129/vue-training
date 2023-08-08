@@ -1,14 +1,7 @@
 <template>
   <div class="flex flex-row relative h-10 w-full min-w-[200px] mt-1">
     <!-- Refer to https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-sibling-state for `.peer`-->
-    <input
-      :id="id"
-      v-model="modelValue"
-      v-bind="$attrs"
-      :class="{ 'border-danger-400': !!error }"
-      class="peer"
-      placeholder=" "
-    />
+    <input :id="id" v-model="modelValue" v-bind="$attrs" class="peer" placeholder=" " />
     <label class="before:content[' '] after:content[' ']">
       {{ label }}
     </label>
