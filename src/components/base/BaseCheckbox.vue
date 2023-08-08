@@ -1,5 +1,5 @@
 <template>
-  <div v-bind="$attrs" class="flex items-center mb-4">
+  <div v-bind="$attrs" class="flex items-center">
     <input v-model="modelValue" type="checkbox" ref="input" />
     <label @click="clickCheckbox()" class="ml-2 block text-sm select-none">
       <slot>{{ label }}</slot>

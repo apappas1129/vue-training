@@ -1,12 +1,19 @@
 <template>
-  <fieldset class="flex flex-col">
-    <label v-if="label" :for="id" :class="{ 'text-danger-400': !!error }">
+  <div class="flex flex-row relative h-10 w-full min-w-[200px] mt-1">
+    <!-- Refer to https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-sibling-state for `.peer`-->
+    <input
+      :id="id"
+      v-model="modelValue"
+      v-bind="$attrs"
+      :class="{ 'border-danger-400': !!error }"
+      class="peer"
+      placeholder=" "
+    />
+    <label class="before:content[' '] after:content[' ']">
       {{ label }}
     </label>
-    <input :id="id" v-model="modelValue" v-bind="$attrs" :class="{ 'border-danger-400': !!error }" />
-    <!-- FIXME: class priority not working as expected even if class name is appended at the end -->
-    <span v-if="error" class="text-red-400 text-xs italic mt-1">{{ error }}</span>
-  </fieldset>
+  </div>
+  <span v-if="error" class="text-red-400 text-xs italic mt-0.5 pl-2">{{ error }}</span>
 </template>
 
 <script lang="ts">
@@ -16,6 +23,7 @@ export default {
   // we will bind it manually so the attrs propagate directly to the input element.
   inheritAttrs: false,
 };
+// NOTE: blank placeholder is utilized here. Make sure that placeholder is not being set by attr inheritance on input tag
 </script>
 
 <script lang="ts" setup>
@@ -39,44 +47,126 @@ const modelValue = useVModel(props, 'modelValue', emit);
 
 <style lang="postcss" scoped>
 input {
-  @apply text-gray-900 bg-basic-100 focus:bg-white appearance-none border rounded py-2 px-4 leading-tight focus:outline-none;
-}
-
-input,
-input[color='basic'] {
-  @apply border-basic-200 focus:border-basic-400;
-}
-
-input[color='primary'] {
-  @apply border-primary-600 focus:border-primary-500;
-}
-
-input[color='accent'] {
-  @apply border-accent-500 focus:border-accent-400;
-}
-
-input[color='success'] {
-  @apply border-success-400 focus:border-success-300;
-}
-
-input[color='warn'] {
-  @apply border-warn-400 focus:border-warn-300;
-}
-
-input[color='danger'] {
-  @apply border-danger-500 focus:border-danger-400;
-}
-
-input[fullWidth] {
-  @apply w-full;
-}
-
-input[fieldSize='tiny'] {
-  @apply py-1 px-2;
-  font-size: 0.764rem; /* 12px */
+  /** static rules */
+  /*HACK: border-radius 7px is to work around browser rendering slightly misaligned corners */
+  @apply h-full w-full px-3 py-2.5 rounded-[7px] text-sm font-normal outline-none transition-all;
+  /** dynamic rules */
+  @apply border border-slate-400 border-t-transparent bg-transparent;
+  /* rules by state */
+  @apply placeholder-shown:border placeholder-shown:border-slate-400 placeholder-shown:border-t-slate-400;
+  @apply focus:border-2 focus:border-primary-500 focus:border-t-transparent focus:outline-0;
+  @apply disabled:border disabled:border-slate-200 cursor-default;
 }
 
 label {
-  @apply block text-basic-500 text-sm font-bold mb-2;
+  /** static rules */
+  @apply absolute flex flex-row w-full h-full pointer-events-none select-none font-normal leading-tight transition-all;
+  /** dynamic rules */
+  @apply left-0 -top-1.5 text-xs text-slate-400;
+  @apply before:mt-[6.5px] before:mr-1 before:pointer-events-none before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-slate-400 before:transition-all;
+  @apply after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-slate-400 after:transition-all;
+  /* rules by state */
+  @apply peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-slate-400;
+  @apply peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent;
+  @apply peer-focus:text-xs peer-focus:leading-tight peer-focus:text-primary-500;
+  @apply peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-primary-500;
+  @apply peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-primary-500;
+  @apply peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-slate-200;
+}
+
+input[color='primary'] {
+  @apply border-primary-500 border-t-transparent placeholder-shown:border-primary-500 placeholder-shown:border-t-primary-500;
+  @apply focus:border-primary-500 focus:border-t-transparent peer-focus:after:border-primary-500;
+
+  /*HACK: must explicitly write hierarchy below to trigger higher rule priority*/
+  &.peer {
+    & + label {
+      @apply text-primary-500;
+    }
+
+    &:not(:placeholder-shown) + label,
+    &:focus + label {
+      &::before,
+      &::after {
+        @apply border-primary-500;
+      }
+    }
+  }
+}
+
+input[color='accent'] {
+  @apply border-accent-500 border-t-transparent placeholder-shown:border-accent-500 placeholder-shown:border-t-accent-500;
+  @apply focus:border-accent-500 focus:border-t-transparent peer-focus:after:border-accent-500;
+
+  &.peer {
+    & + label {
+      @apply text-accent-500;
+    }
+
+    &:not(:placeholder-shown) + label,
+    &:focus + label {
+      &::before,
+      &::after {
+        @apply border-accent-500;
+      }
+    }
+  }
+}
+
+input[color='success'] {
+  @apply border-success-400 border-t-transparent placeholder-shown:border-success-400 placeholder-shown:border-t-success-400;
+  @apply focus:border-success-400 focus:border-t-transparent peer-focus:after:border-success-400;
+
+  &.peer {
+    & + label {
+      @apply text-success-400;
+    }
+
+    &:not(:placeholder-shown) + label,
+    &:focus + label {
+      &::before,
+      &::after {
+        @apply border-success-400;
+      }
+    }
+  }
+}
+
+input[color='warn'] {
+  @apply border-warn-400 border-t-transparent placeholder-shown:border-warn-400 placeholder-shown:border-t-warn-400;
+  @apply focus:border-warn-400 focus:border-t-transparent peer-focus:after:border-warn-400;
+
+  &.peer {
+    & + label {
+      @apply text-warn-400;
+    }
+
+    &:not(:placeholder-shown) + label,
+    &:focus + label {
+      &::before,
+      &::after {
+        @apply border-warn-400;
+      }
+    }
+  }
+}
+
+input[color='danger'] {
+  @apply border-danger-400 border-t-transparent placeholder-shown:border-danger-400 placeholder-shown:border-t-danger-400;
+  @apply focus:border-danger-400 focus:border-t-transparent peer-focus:after:border-danger-400;
+
+  &.peer {
+    & + label {
+      @apply text-danger-400;
+    }
+
+    &:not(:placeholder-shown) + label,
+    &:focus + label {
+      &::before,
+      &::after {
+        @apply border-danger-400;
+      }
+    }
+  }
 }
 </style>

@@ -7,7 +7,7 @@
       </TopBar>
       <main class="relative w-full scrollbar-thin p-4 mt-14 overflow-y-auto bg-white">
         <div class="absolute top-0 left-0 z-10 w-full h-1/5 bg-accent-400"></div>
-        <div class="z-20 relative">
+        <div class="z-20">
           <slot />
         </div>
       </main>

@@ -1,11 +1,12 @@
 <template>
-  <form class="grid gap-y-spacer" @submit.prevent="tryLogin()">
+  <form class="grid gap-y-3" @submit.prevent="tryLogin()">
     <BaseInput id="email" v-model="form.email" label="Email" type="email" :error="v$.email.$errors[0]?.$message" />
     <BaseInput
       id="password"
       v-model="form.password"
       label="Password"
       type="password"
+      color="danger"
       :error="v$.password.$errors[0]?.$message"
     />
 
