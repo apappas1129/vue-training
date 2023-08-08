@@ -16,7 +16,6 @@ export default {
   // we will bind it manually so the attrs propagate directly to the input element.
   inheritAttrs: false,
 };
-// NOTE: blank placeholder is utilized here. Make sure that placeholder is not being set by attr inheritance on input tag
 </script>
 
 <script lang="ts" setup>

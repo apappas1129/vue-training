@@ -6,7 +6,6 @@
       v-model="form.password"
       label="Password"
       type="password"
-      color="danger"
       :error="v$.password.$errors[0]?.$message"
     />
 
