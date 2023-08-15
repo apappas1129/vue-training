@@ -39,12 +39,13 @@ async function render(pageContext: PageContextServer) {
         <link rel="icon" href="${tabIconUrl}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>${title}</title>
-      </head>
-      <body class="h-full scrollbar-track-slate-300 scrollbar-thumb-indigo-400 scrollbar-thumb-rounded-md
-      ${
-        !user || (pageContext.exports?.layout as any)?.__name === 'guest.layout' ? 'scrollbar-thin' : 'scrollbar-none'
-      }">
+        </head>
+        <body class="h-full scrollbar-track-slate-300 scrollbar-thumb-indigo-400 scrollbar-thumb-rounded-md
+        ${
+          !user || (pageContext.exports?.layout as any)?.__name === 'guest.layout' ? 'scrollbar-thin' : 'scrollbar-none'
+        }">
         <div id="app">${stream}</div>
+        <script src="./unpkg.com_@material-tailwind_html@2.0.0_scripts_ripple.js"></script>
       </body>
     </html>`;
 

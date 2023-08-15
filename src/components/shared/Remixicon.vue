@@ -1,5 +1,5 @@
 <template>
-  <svg class="remix w-6 h-6" fill="white"><use :xlink:href="`${url}#ri-${name}`" /></svg>
+  <svg class="remix w-6 h-6" fill="currentColor"><use :xlink:href="`${url}#ri-${name}`" /></svg>
 </template>
 
 <script lang="ts" setup>

@@ -47,33 +47,33 @@
   </table>
   <div class="px-4 mt-4">
     <div class="flex items-center gap-2">
-      <BaseButton icon-btn size="small" @click="() => table.setPageIndex(0)" :disabled="!table.getCanPreviousPage()">
-        &#171;
+      <BaseButton ghost @click="() => table.setPageIndex(0)" :disabled="!table.getCanPreviousPage()">
+        <Remixicon class="text-basic-500" name="arrow-left-double-fill"></Remixicon>
       </BaseButton>
-      <BaseButton icon-btn size="small" @click="() => table.previousPage()" :disabled="!table.getCanPreviousPage()">
-        &#8249;
+      <BaseButton ghost @click="() => table.previousPage()" :disabled="!table.getCanPreviousPage()">
+        <Remixicon class="text-basic-500" name="arrow-left-s-line"></Remixicon>
       </BaseButton>
-      <BaseButton icon-btn size="small" @click="() => table.nextPage()" :disabled="!table.getCanNextPage()">
-        &#8250;
+      <BaseButton ghost @click="() => table.nextPage()" :disabled="!table.getCanNextPage()">
+        <Remixicon class="text-basic-500" name="arrow-right-s-line"></Remixicon>
       </BaseButton>
-      <BaseButton
-        icon-btn
-        size="small"
-        @click="() => table.setPageIndex(table.getPageCount() - 1)"
-        :disabled="!table.getCanNextPage()"
-      >
-        &#187;
+      <BaseButton ghost @click="() => table.setPageIndex(table.getPageCount() - 1)" :disabled="!table.getCanNextPage()">
+        <Remixicon class="text-basic-500" name="arrow-right-double-fill"></Remixicon>
       </BaseButton>
-      <span class="flex items-center gap-4">
+      <span class="flex items-center gap-2">
         <span>Page</span>
         <strong>
           {{ table.getState().pagination.pageIndex + 1 }} of
           {{ table.getPageCount() }}
         </strong>
       </span>
-      <span class="flex items-center gap-1">
-        | Go to page:
-        <BaseInput class="w-24" type="number" v-model="goToPageNumber" @change="handleGoToPage"></BaseInput>
+      <span class="ml-auto flex items-center gap-1">
+        <BaseInput
+          label="Go to page"
+          class="w-24"
+          type="number"
+          v-model="goToPageNumber"
+          @change="handleGoToPage"
+        ></BaseInput>
       </span>
       <select :value="table.getState().pagination.pageSize" @change="handlePageSizeChange">
         <option :key="pageSize" :value="pageSize" v-for="pageSize in pageSizes">Show {{ pageSize }}</option>
@@ -93,6 +93,7 @@ import { BaseButton, BaseInput } from '#root/components/base/index';
 import useTable, { UseTableColumns, UseTableConfig } from '#root/composables/useTable';
 import { usePageContext } from '#root/renderer/usePageContext';
 import SortButton from './SortButton.vue';
+import Remixicon from '../Remixicon.vue';
 import { ariaSortMap, DEFAULT_PAGE_SIZES } from './constants';
 
 const pageContext = usePageContext();

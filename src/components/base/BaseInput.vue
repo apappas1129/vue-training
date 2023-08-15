@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-row relative h-10 w-full min-w-[200px] mt-1">
+  <div class="flex flex-row flex-wrap relative h-10 w-full min-w-[200px] mt-1" :class="{ 'mb-4': error }">
     <!-- Refer to https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-sibling-state for `.peer`-->
     <input :id="id" v-model="modelValue" v-bind="$attrs" class="peer" placeholder=" " />
     <label class="before:content[' '] after:content[' ']">
       {{ label }}
     </label>
+    <span v-if="error" class="basis-full text-red-400 text-xs italic mt-0.5 pl-2">{{ error }}</span>
   </div>
-  <span v-if="error" class="text-red-400 text-xs italic mt-0.5 pl-2">{{ error }}</span>
 </template>
 
 <script lang="ts">

@@ -1,7 +1,7 @@
 <template>
   <button
     v-if="header.column.getCanSort()"
-    class="block relative border-none bg-transparent text-basic-800"
+    class="block relative border-none bg-transparent text-basic-600"
     :class="{
       'cursor-pointer': header.column.getIsSorted(),
       'text-slate-400': !header.column.getIsSorted(),
