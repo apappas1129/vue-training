@@ -1,40 +1,16 @@
 <template>
   <form @submit.prevent="onSubmit()" class="grid sm:grid-cols-2">
-    <div>
-      <!-- TODO: better select component (virtual scrolling, searchable, ..) -->
-      <label for="subject-id" class="block text-basic-500 text-sm font-bold mb-2">Subject</label>
-      <select
-        id="subject-id"
-        v-model="form.subjectId"
-        class="mb-2 bg-basic-50 border border-basoc-300 text-basic-900 rounded focus:ring-primary-500 focus:border-primary-500 block w-full p-2"
-      >
-        <option :key="sub.id" :value="sub.id" v-for="sub in subjects">{{ sub.title }}</option>
-      </select>
-
-      <BaseInput id="title" v-model="form.title" label="Title" type="text" :error="v$.title?.$errors[0]?.$message" />
-
-      <!-- TODO: make component for textarea
-       -->
-      <div class="flex flex-col">
-        <label
-          for="description"
-          :class="{ 'text-danger-400': !!v$.description?.$errors.length }"
-          class="block text-basic-500 text-sm font-bold my-2"
-        >
-          Description
-        </label>
-        <textarea
-          v-model="form.description"
-          id="description"
-          rows="4"
-          class="text-gray-900 bg-basic-100 border-basic-200 focus:border-basic-400 focus:bg-white appearance-none border rounded py-2 px-4 leading-tight focus:outline-none"
-          :class="{ 'border-danger-400': !!v$.description?.$errors.length }"
-        ></textarea>
-        <span v-if="v$.description?.$errors.length" class="text-red-400 text-xs italic mt-1">
-          {{ v$.description?.$errors[0]?.$message }}
-        </span>
-      </div>
-
+    <div class="flex flex-col gap-2">
+      <BaseSelect label="Subject" v-model="form.subjectId" :options="subjects" :valueKey="'id'" :labelKey="'title'">
+        <!-- Keep for future reference -->
+        <!-- <template #option="{ title, id }">
+          <div>[{{ id }}] {{ title }}</div>
+        </template> -->
+      </BaseSelect>
+      <BaseInput id="title" v-model="form.title" label="Title" type="text" :error="v$.title?.$errors[0]?.$message">
+        <!-- <template v-slot:suffix><span>test</span></template> -->
+      </BaseInput>
+      <BaseTextArea v-model="form.description" label="Description" rows="4"></BaseTextArea>
       <BaseCheckbox v-model="form.isPublished" label="Publish" class="mt-2" />
       <BaseButton :disabled="isLoading" color="primary" type="submit">Save</BaseButton>
     </div>
@@ -47,7 +23,7 @@ import { required, maxLength } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 
 import { CourseFormValue, CourseFormValidator } from '#root/common/dto/course-form.interface';
-import { BaseButton, BaseCheckbox, BaseInput } from '#root/components/base';
+import { BaseButton, BaseCheckbox, BaseInput, BaseSelect, BaseTextArea } from '#root/components/base';
 import { usePageContext } from '#root/renderer/usePageContext';
 import { useFetch } from '#root/composables/useFetch';
 import postOrPatch from '#root/common/utils/post-or-patch';

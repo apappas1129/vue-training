@@ -9,7 +9,7 @@
       </Tabs>
       <TabPanels v-model="selectedTab" :animate="true">
         <TabPanel :val="'subject'" class="p-4">
-          <CourseForm></CourseForm>
+          <SubjectForm></SubjectForm>
         </TabPanel>
         <TabPanel :val="'courses'" class="p-4 pt-8">
           <p>Please save subject.</p>
@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { Tabs, Tab, TabPanels, TabPanel } from 'vue3-tabs';
-import CourseForm from '#root/components/course/CourseForm.vue';
+import SubjectForm from '#root/components/subject/SubjectForm.vue';
 
 const selectedTab = ref('subject');
 </script>

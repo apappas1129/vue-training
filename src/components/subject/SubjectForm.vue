@@ -3,7 +3,7 @@
     <div>
       <BaseInput id="title" v-model="form.title" label="Title" type="text" :error="v$.title?.$errors[0]?.$message" />
       <BaseCheckbox v-model="form.isPublished" label="Publish" class="mt-2" />
-      <BaseButton :disabled="isLoading" color="primary" type="submit">Save</BaseButton>
+      <BaseButton :disabled="isLoading" color="primary" type="submit" class="mt-4">Save</BaseButton>
     </div>
   </form>
 </template>

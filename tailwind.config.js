@@ -21,4 +21,9 @@ export default {
     // https://github.com/adoxography/tailwind-scrollbar#configuration
     scrollbar({ nocompatible: true }),
   ],
+  purge: {
+    options: {
+      safelist: ['pr-12', 'rotate-180', 'transition-transform'],
+    },
+  },
 };

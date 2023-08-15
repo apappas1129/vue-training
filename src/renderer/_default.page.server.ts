@@ -45,7 +45,7 @@ async function render(pageContext: PageContextServer) {
           !user || (pageContext.exports?.layout as any)?.__name === 'guest.layout' ? 'scrollbar-thin' : 'scrollbar-none'
         }">
         <div id="app">${stream}</div>
-        <script src="./unpkg.com_@material-tailwind_html@2.0.0_scripts_ripple.js"></script>
+        <script src="/unpkg.com_@material-tailwind_html@2.0.0_scripts_ripple.js"></script>
       </body>
     </html>`;
 

@@ -1,28 +1,11 @@
 <template>
-  <div class="flex flex-row flex-wrap relative h-10 w-full min-w-[200px] mt-1" :class="{ 'mb-4': error }">
+  <div class="flex flex-row flex-wrap relative w-full min-w-[200px] mt-1" :class="{ 'mb-4': error }">
     <!-- Refer to https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-sibling-state for `.peer`-->
-    <input
-      :id="id"
-      v-model="modelValue"
-      v-bind="$attrs"
-      class="peer z-20 px-3"
-      placeholder=" "
-      :class="{ 'pr-12': $slots.suffix }"
-      ref="input"
-      @focus="$emit('focus', $event)"
-      @blur="$emit('blur', $event)"
-      @mousedown="$emit('mousedown', $event)"
-    />
+    <textarea :id="id" v-model="modelValue" v-bind="$attrs" class="peer" placeholder=" " />
     <label class="before:content[' '] after:content[' ']">
       {{ label }}
     </label>
     <span v-if="error" class="basis-full text-red-400 text-xs italic mt-0.5 pl-2">{{ error }}</span>
-    <div
-      class="absolute z-10 right-0 h-full flex items-center justify-center pr-3 aspect-square"
-      @click="if (!blockSuffixAutoFocus) input.focus();"
-    >
-      <slot name="suffix"></slot>
-    </div>
   </div>
 </template>
 
@@ -30,40 +13,35 @@
 // https://vuejs.org/api/sfc-script-setup.html#usage-alongside-normal-script
 export default {
   // We don't want the attrs to bind on the root element (i.e. div)
-  // we will bind it manually so the attrs propagate directly to the input element.
+  // we will bind it manually so the attrs propagate directly to the textarea element.
   inheritAttrs: false,
 };
 </script>
 
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core';
-import { ref, Ref } from 'vue';
+import type { Ref } from 'vue';
 
-interface BaseInputProps {
+interface BaseTextAreaProps {
   modelValue: string | number;
   id?: string;
   label?: string;
   error?: string | Ref<string>;
-  blockSuffixAutoFocus?: boolean;
 }
-const props = defineProps<BaseInputProps>();
+const props = defineProps<BaseTextAreaProps>();
 
 const emit = defineEmits<IEmits>();
 interface IEmits {
   (e: 'update:modelValue', modelValue: string): void;
-  (e: 'focus', event: Event): void;
-  (e: 'blur', event: Event): void;
-  (e: 'mousedown', event: Event): void;
 }
 const modelValue = useVModel(props, 'modelValue', emit);
-const input = ref();
 </script>
 
 <style lang="postcss" scoped>
-input {
+textarea {
   /** static rules */
   /*HACK: border-radius 7px is to work around browser rendering slightly misaligned corners */
-  @apply h-full w-full py-2.5 rounded-[7px] text-sm font-normal outline-none transition-all;
+  @apply h-full w-full px-3 py-2.5 rounded-[7px] text-sm font-normal outline-none transition-colors;
   /** dynamic rules */
   @apply border border-slate-400 border-t-transparent bg-transparent;
   /* rules by state */
@@ -88,7 +66,7 @@ label {
   @apply peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-slate-200;
 }
 
-input[color='primary'] {
+textarea[color='primary'] {
   @apply border-primary-500 border-t-transparent placeholder-shown:border-primary-500 placeholder-shown:border-t-primary-500;
   @apply focus:border-primary-500 focus:border-t-transparent peer-focus:after:border-primary-500;
 
@@ -108,7 +86,7 @@ input[color='primary'] {
   }
 }
 
-input[color='accent'] {
+textarea[color='accent'] {
   @apply border-accent-500 border-t-transparent placeholder-shown:border-accent-500 placeholder-shown:border-t-accent-500;
   @apply focus:border-accent-500 focus:border-t-transparent peer-focus:after:border-accent-500;
 
@@ -127,7 +105,7 @@ input[color='accent'] {
   }
 }
 
-input[color='success'] {
+textarea[color='success'] {
   @apply border-success-400 border-t-transparent placeholder-shown:border-success-400 placeholder-shown:border-t-success-400;
   @apply focus:border-success-400 focus:border-t-transparent peer-focus:after:border-success-400;
 
@@ -146,7 +124,7 @@ input[color='success'] {
   }
 }
 
-input[color='warn'] {
+textarea[color='warn'] {
   @apply border-warn-400 border-t-transparent placeholder-shown:border-warn-400 placeholder-shown:border-t-warn-400;
   @apply focus:border-warn-400 focus:border-t-transparent peer-focus:after:border-warn-400;
 
@@ -165,7 +143,7 @@ input[color='warn'] {
   }
 }
 
-input[color='danger'] {
+textarea[color='danger'] {
   @apply border-danger-400 border-t-transparent placeholder-shown:border-danger-400 placeholder-shown:border-t-danger-400;
   @apply focus:border-danger-400 focus:border-t-transparent peer-focus:after:border-danger-400;
 
