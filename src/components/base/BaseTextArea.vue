@@ -30,10 +30,11 @@ interface BaseTextAreaProps {
 }
 const props = defineProps<BaseTextAreaProps>();
 
-const emit = defineEmits<IEmits>();
-interface IEmits {
+interface BaseTextAreaEmits {
   (e: 'update:modelValue', modelValue: string): void;
 }
+const emit = defineEmits<BaseTextAreaEmits>();
+
 const modelValue = useVModel(props, 'modelValue', emit);
 </script>
 

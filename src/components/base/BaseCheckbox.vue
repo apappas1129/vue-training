@@ -26,16 +26,16 @@ function clickCheckbox() {
   input.value?.focus();
 }
 
-interface IProps {
+interface BaseCheckboxProps {
   modelValue: boolean;
   label: string;
 }
-const props = defineProps<IProps>();
+const props = defineProps<BaseCheckboxProps>();
 
-const emit = defineEmits<IEmits>();
-interface IEmits {
+interface BaseCheckboxEmits {
   (e: 'update:modelValue', modelValue: string): void;
 }
+const emit = defineEmits<BaseCheckboxEmits>();
 const modelValue = useVModel(props, 'modelValue', emit);
 </script>
 

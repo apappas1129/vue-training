@@ -68,8 +68,8 @@ interface BaseSelectProps<TOption = any> {
 const props = withDefaults(defineProps<BaseSelectProps>(), {
   options: () => [],
 });
-const emit = defineEmits<IEmits>();
-interface IEmits {
+const emit = defineEmits<BaseSelectEmits>();
+interface BaseSelectEmits {
   (e: 'update:modelValue', modelValue: string): void;
 }
 const modelValue = useVModel(props, 'modelValue', emit);

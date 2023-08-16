@@ -25,7 +25,7 @@ import { useAuth } from '#root/composables/useAuth';
 import { useAppStorage } from '#root/composables/useAppStorage';
 import { User } from '#root/common/index';
 
-interface ILoginForm {
+interface LoginForm {
   email: string;
   password: string;
   remember: boolean;
@@ -36,7 +36,7 @@ const emit = defineEmits<{ (e: 'success', user: User): void }>();
 
 const emailStorage = useAppStorage<string>('email', '', { prefix: 'remember:' });
 
-const form = reactive<ILoginForm>({
+const form = reactive<LoginForm>({
   email: emailStorage.value,
   password: '',
   remember: !!emailStorage.value,

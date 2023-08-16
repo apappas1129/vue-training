@@ -48,13 +48,14 @@ interface BaseInputProps {
 }
 const props = defineProps<BaseInputProps>();
 
-const emit = defineEmits<IEmits>();
-interface IEmits {
+interface BaseInputEmits {
   (e: 'update:modelValue', modelValue: string): void;
   (e: 'focus', event: Event): void;
   (e: 'blur', event: Event): void;
   (e: 'mousedown', event: Event): void;
 }
+const emit = defineEmits<BaseInputEmits>();
+
 const modelValue = useVModel(props, 'modelValue', emit);
 const input = ref();
 </script>
