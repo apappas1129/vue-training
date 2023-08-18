@@ -7,6 +7,12 @@
       @blur="onBlur()"
       @focus="onFocus()"
       @mousedown="onMousedown($event)"
+      @keydown.esc="onEsc($event)"
+      @keydown.arrow-down.prevent="onArrowDown"
+      @keydown.arrow-up.prevent="onArrowUp"
+      @keydown.enter.prevent="onKeyEnter()"
+      @keydown="!searchable && $event.preventDefault()"
+      ref="inputRef"
       :id="id"
       :label="label"
       :error="error"
@@ -14,8 +20,6 @@
       type="text"
       class="pr-6 cursor-pointer"
       blockSuffixAutoFocus
-      @keydown.esc="onEsc($event)"
-      @keydown="!searchable && $event.preventDefault()"
     >
       <template v-slot:suffix>
         <Remixicon class="right-1 absolute transition-transform" name="arrow-down-s-fill" ref="iconRef"></Remixicon>
@@ -34,16 +38,18 @@
       :style="{ width: width, marginTop: `calc(.25rem + ${height})` }"
       class="options shadow border border-basic-200 rounded-md py-2 h- absolute z-50 pr-[2px] bg-white"
     >
-      <ul class="max-h-60 overflow-y-auto scrollbar-thin">
-        <template v-for="option in options">
+      <ul ref="ulRef" class="max-h-60 overflow-y-auto scrollbar-thin">
+        <template v-for="(option, index) in filteredOptions">
           <li
-            v-if="filterOption(option)"
-            class="hover:bg-accent-200 hover:text-basic-950 cursor-pointer"
+            @mousedown="onSelectOption(option)"
+            @mouseover="hoveredOption = index"
+            @mouseleave="if (enableMouseHover) hoveredOption = -1;"
             :class="{
               'px-2 py-1': !$slots.option,
+              'bg-accent-200 text-basic-950': hoveredOption === index,
               'bg-primary-500 text-white': getOptionValue(option) === modelValue,
             }"
-            @mousedown="onSelectOption(option)"
+            class="cursor-pointer"
           >
             <slot name="option" v-bind="option">{{ getOptionLabel(option) }}</slot>
           </li>
@@ -64,11 +70,12 @@ export default {
 
 <script lang="ts" setup>
 // TODO: Implement server-side paginated & filtered options. aka. Async Select
-import { useVModel } from '@vueuse/core';
+import { useVModel, watchDebounced, useMouse } from '@vueuse/core';
 import { vElementSize } from '@vueuse/components';
-import { Ref, ref, onMounted, watch } from 'vue';
+import { ComponentPublicInstance, Ref, ref, toRaw, watch, watchEffect } from 'vue';
 import { BaseInput } from '#root/components/base';
 import Remixicon from '#root/components/shared/Remixicon.vue';
+import getDomElement from '#root/common/utils/get-dom-element';
 import _ from 'lodash';
 
 interface BaseSelectProps<TOption = any> {
@@ -83,23 +90,24 @@ interface BaseSelectProps<TOption = any> {
   label?: string;
   error?: string | Ref<string>;
   searchable?: boolean;
+  debounceSearch?: number;
 }
 const props = withDefaults(defineProps<BaseSelectProps>(), {
   options: () => [],
   searchable: false,
+  debounceSearch: 300,
 });
 const emit = defineEmits<BaseSelectEmits>();
 interface BaseSelectEmits {
   (e: 'update:modelValue', modelValue: string): void;
 }
 const modelValue = useVModel(props, 'modelValue', emit, { deep: true });
+const search = ref('');
 
 watch(
   () => props.modelValue,
   value => {
-    console.log('model change', value);
     const option = props.options.find(o => getOptionValue(o) === value);
-    console.log;
     if (option) {
       selectedOption.value = option;
       search.value = ' '; // push label up
@@ -107,10 +115,26 @@ watch(
   },
 );
 
+const filteredOptions = ref<BaseSelectProps['options']>([]);
+
+watchEffect(() => {
+  filteredOptions.value = props.options.filter(o => filterOption(o));
+});
+
+watchDebounced(
+  search,
+  () => {
+    filteredOptions.value = props.options.filter(o => filterOption(o));
+  },
+  { debounce: props.debounceSearch },
+);
+
 const selectedOption = ref<any>(null);
-const search = ref('');
+const hoveredOption = ref(-1);
 const focused = ref(false);
 const iconRef = ref();
+const inputRef = ref<ComponentPublicInstance<typeof BaseInput>>();
+const ulRef = ref();
 const width = ref('auto');
 const height = ref('auto');
 
@@ -200,5 +224,52 @@ function filterOption(option: any) {
   }
 
   return props.filterFunction(option);
+}
+
+const { x, y } = useMouse({ touch: false });
+const enableMouseHover = ref(true);
+
+watch([x, y], () => {
+  const ul = getDomElement<HTMLUListElement>(ulRef);
+  // return ability to hover li's to choose options.
+  if (!ul) return;
+
+  ul.style.pointerEvents = 'auto';
+  enableMouseHover.value = true;
+});
+
+function scrollToOption() {
+  const ul = disableMouseEvents();
+  if (!ul) return;
+
+  ul.children[hoveredOption.value]?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' });
+}
+
+function disableMouseEvents() {
+  const ul = getDomElement<HTMLUListElement>(ulRef);
+  if (!ul) return;
+  // disables mouseover and mouseenter from triggering on another li upon scrolling.
+  ul.style.pointerEvents = 'none';
+  enableMouseHover.value = false;
+  return ul;
+}
+
+function onArrowDown() {
+  disableMouseEvents();
+  if (hoveredOption.value < props.options.length - 1) hoveredOption.value++;
+  scrollToOption();
+}
+
+function onArrowUp() {
+  disableMouseEvents();
+  if (hoveredOption.value > 0) hoveredOption.value--;
+  scrollToOption();
+}
+
+function onKeyEnter() {
+  if (hoveredOption.value < 0 || !filteredOptions.value?.length) return;
+
+  onSelectOption(filteredOptions.value[hoveredOption.value]);
+  inputRef.value?.getInputElement()?.blur();
 }
 </script>

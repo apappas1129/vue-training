@@ -40,6 +40,7 @@ export default {
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core';
 import { ref, Ref } from 'vue';
+import getDomElement from '#root/common/utils/get-dom-element';
 
 interface BaseInputProps {
   modelValue?: string | number;
@@ -60,6 +61,12 @@ const emit = defineEmits<BaseInputEmits>();
 
 const modelValue = useVModel(props, 'modelValue', emit);
 const input = ref();
+
+function getInputElement() {
+  return getDomElement<HTMLInputElement>(input);
+}
+
+defineExpose({ getInputElement });
 </script>
 
 <style lang="postcss" scoped>
