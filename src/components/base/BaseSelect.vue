@@ -149,6 +149,8 @@ function onFocus() {
   if (search.value === ' ') {
     search.value = '';
   }
+
+  setTimeout(() => scrollToOption({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }), 100); // give time to render
 }
 
 function onBlur() {
@@ -238,11 +240,13 @@ watch([x, y], () => {
   enableMouseHover.value = true;
 });
 
-function scrollToOption() {
+function scrollToOption(option?: Parameters<Element['scrollIntoView']>[0]) {
   const ul = disableMouseEvents();
   if (!ul) return;
 
-  ul.children[hoveredOption.value]?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' });
+  ul.children[hoveredOption.value]?.scrollIntoView(
+    option || { behavior: 'instant', block: 'nearest', inline: 'nearest' },
+  );
 }
 
 function disableMouseEvents() {
