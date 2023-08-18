@@ -1,8 +1,12 @@
 <template>
-  <button data-ripple-light="true">
+  <button v-bind="$attrs" data-ripple-light="true">
     <slot></slot>
   </button>
 </template>
+
+<script lang="ts" setup>
+// required even if empty for auto inheritAttrs to
+</script>
 
 <style lang="postcss" scoped>
 button {
@@ -78,13 +82,5 @@ button[size='medium'] {
 
 button[size='large'] {
   @apply py-3.5 px-7;
-}
-
-button[fit] {
-  @apply h-fit;
-}
-
-button[fullWidth] {
-  @apply w-full;
 }
 </style>

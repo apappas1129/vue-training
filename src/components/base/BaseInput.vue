@@ -1,23 +1,25 @@
 <template>
-  <div class="flex flex-row flex-wrap relative h-10 w-full min-w-[200px] mt-1" :class="{ 'mb-4': error }">
+  <div class="flex flex-col relative min-w-[200px] mt-1">
     <!-- Refer to https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-sibling-state for `.peer`-->
     <input
-      :id="id"
+      ref="input"
       v-model="modelValue"
       v-bind="$attrs"
+      @blur="$emit('blur', $event)"
+      @focus="$emit('focus', $event)"
+      @mousedown="$emit('mousedown', $event)"
+      :id="id"
+      :class="{ 'pr-12': $slots.suffix }"
       class="peer z-20 px-3"
       placeholder=" "
-      :class="{ 'pr-12': $slots.suffix }"
-      ref="input"
-      @focus="$emit('focus', $event)"
-      @blur="$emit('blur', $event)"
-      @mousedown="$emit('mousedown', $event)"
     />
     <label class="before:content[' '] after:content[' ']">
       {{ label }}
+      <span v-if="input?.hasAttribute('required')">*</span>
     </label>
-    <span v-if="error" class="basis-full text-red-400 text-xs italic mt-0.5 pl-2">{{ error }}</span>
+    <span v-if="error" class="text-red-400 text-xs italic mt-0.5 pl-2">{{ error }}</span>
     <div
+      v-if="$slots.suffix"
       class="absolute z-10 right-0 h-full flex items-center justify-center pr-3 aspect-square"
       @click="if (!blockSuffixAutoFocus) input.focus();"
     >
@@ -40,7 +42,7 @@ import { useVModel } from '@vueuse/core';
 import { ref, Ref } from 'vue';
 
 interface BaseInputProps {
-  modelValue: string | number;
+  modelValue?: string | number;
   id?: string;
   label?: string;
   error?: string | Ref<string>;
@@ -64,13 +66,26 @@ const input = ref();
 input {
   /** static rules */
   /*HACK: border-radius 7px is to work around browser rendering slightly misaligned corners */
-  @apply h-full w-full py-2.5 rounded-[7px] text-sm font-normal outline-none transition-all;
+  @apply h-10 w-full py-2.5 rounded-[7px] text-sm font-normal outline-none transition-all;
   /** dynamic rules */
   @apply border border-slate-400 border-t-transparent bg-transparent;
   /* rules by state */
   @apply placeholder-shown:border placeholder-shown:border-slate-400 placeholder-shown:border-t-slate-400;
   @apply focus:border-2 focus:border-primary-500 focus:border-t-transparent focus:outline-0;
-  @apply disabled:border disabled:border-slate-200 cursor-default;
+  @apply disabled:border disabled:focus:border-2 disabled:focus:border-primary-500 disabled:focus:border-t-transparent disabled:border-slate-200 cursor-default;
+
+  /* Refer to:
+    https://github.com/vuejs/vue/issues/7058#issuecomment-441322358
+    The same exact bugged ui: https://stackoverflow.com/questions/55427966/inputnotplaceholder-shown-label-selector-does-not-work-with-autofill
+  */
+  &:-webkit-autofill {
+    /*https://stackoverflow.com/a/62624824/2678218*/
+    -webkit-background-clip: text;
+
+    & + label {
+      @apply text-slate-400;
+    }
+  }
 }
 
 label {
@@ -86,7 +101,7 @@ label {
   @apply peer-focus:text-xs peer-focus:leading-tight peer-focus:text-primary-500;
   @apply peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-primary-500;
   @apply peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-primary-500;
-  @apply peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-slate-200;
+  @apply peer-disabled:peer-placeholder-shown:text-slate-200;
 }
 
 input[color='primary'] {
@@ -95,7 +110,8 @@ input[color='primary'] {
 
   /*HACK: must explicitly write hierarchy below to trigger higher rule priority*/
   &.peer {
-    & + label {
+    & + label,
+    &:-webkit-autofill + label {
       @apply text-primary-500;
     }
 
@@ -112,9 +128,11 @@ input[color='primary'] {
 input[color='accent'] {
   @apply border-accent-500 border-t-transparent placeholder-shown:border-accent-500 placeholder-shown:border-t-accent-500;
   @apply focus:border-accent-500 focus:border-t-transparent peer-focus:after:border-accent-500;
+  @apply disabled:focus:border-t-transparent disabled:focus:border-accent-500;
 
   &.peer {
-    & + label {
+    & + label,
+    &:-webkit-autofill + label {
       @apply text-accent-500;
     }
 
@@ -131,9 +149,11 @@ input[color='accent'] {
 input[color='success'] {
   @apply border-success-400 border-t-transparent placeholder-shown:border-success-400 placeholder-shown:border-t-success-400;
   @apply focus:border-success-400 focus:border-t-transparent peer-focus:after:border-success-400;
+  @apply disabled:focus:border-t-transparent disabled:focus:border-success-400;
 
   &.peer {
-    & + label {
+    & + label,
+    &:-webkit-autofill + label {
       @apply text-success-400;
     }
 
@@ -150,9 +170,11 @@ input[color='success'] {
 input[color='warn'] {
   @apply border-warn-400 border-t-transparent placeholder-shown:border-warn-400 placeholder-shown:border-t-warn-400;
   @apply focus:border-warn-400 focus:border-t-transparent peer-focus:after:border-warn-400;
+  @apply disabled:focus:border-t-transparent disabled:focus:border-warn-400;
 
   &.peer {
-    & + label {
+    & + label,
+    &:-webkit-autofill + label {
       @apply text-warn-400;
     }
 
@@ -169,9 +191,11 @@ input[color='warn'] {
 input[color='danger'] {
   @apply border-danger-400 border-t-transparent placeholder-shown:border-danger-400 placeholder-shown:border-t-danger-400;
   @apply focus:border-danger-400 focus:border-t-transparent peer-focus:after:border-danger-400;
+  @apply disabled:focus:border-t-transparent disabled:focus:border-danger-400;
 
   &.peer {
-    & + label {
+    & + label,
+    &:-webkit-autofill + label {
       @apply text-danger-400;
     }
 

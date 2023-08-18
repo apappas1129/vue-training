@@ -1,40 +1,48 @@
 <template>
-  <div class="flex flex-col relative">
+  <div class="flex flex-col">
     <BaseInput
       v-model="search"
-      :label="label"
-      @mousedown="onMousedown($event)"
-      @focus="onFocus()"
+      v-bind="$attrs"
+      v-element-size="onResize"
       @blur="onBlur()"
-      :error="error"
+      @focus="onFocus()"
+      @mousedown="onMousedown($event)"
       :id="id"
+      :label="label"
+      :error="error"
+      :class="{ 'text-transparent': !searchable }"
       type="text"
       class="pr-6 cursor-pointer"
       blockSuffixAutoFocus
       @keydown.esc="onEsc($event)"
+      @keydown="!searchable && $event.preventDefault()"
     >
       <template v-slot:suffix>
         <Remixicon class="right-1 absolute transition-transform" name="arrow-down-s-fill" ref="iconRef"></Remixicon>
       </template>
     </BaseInput>
 
-    <div class="absolute h-11 w-full pt-1 flex flex-col justify-center">
-      <div v-if="selectedOption && !focused" :class="{ 'px-3': !$slots.option }">
-        <slot name="option" v-bind="selectedOption">{{ getOptionLabel(selectedOption) }}</slot>
+    <div :style="{ width: width }" class="absolute h-11 w-full pt-1 flex flex-col justify-center">
+      <div v-if="!searchable || !focused" :class="{ 'px-3': !$slots.option }">
+        <slot v-if="selectedOption" name="option" v-bind="selectedOption">{{ getOptionLabel(selectedOption) }}</slot>
+        <div v-else class="w-full h-full" @click.stop></div>
       </div>
     </div>
-
     <div
       v-if="focused"
       @click="$event.preventDefault()"
-      class="options shadow border border-basic-200 rounded-md py-2 absolute w-full z-50 top-11 pr-[2px] bg-white"
+      :style="{ width: width, marginTop: `calc(.25rem + ${height})` }"
+      class="options shadow border border-basic-200 rounded-md py-2 h- absolute z-50 pr-[2px] bg-white"
     >
       <ul class="max-h-60 overflow-y-auto scrollbar-thin">
         <template v-for="option in options">
           <li
             v-if="filterOption(option)"
             class="hover:bg-accent-200 hover:text-basic-950 cursor-pointer"
-            :class="{ 'px-2 py-1': !$slots.option, 'bg-primary-500 text-white': getOptionValue(option) === modelValue }"
+            :class="{
+              'px-2 py-1': !$slots.option,
+              'bg-primary-500 text-white': getOptionValue(option) === modelValue,
+            }"
             @mousedown="onSelectOption(option)"
           >
             <slot name="option" v-bind="option">{{ getOptionLabel(option) }}</slot>
@@ -45,16 +53,26 @@
   </div>
 </template>
 
+<script lang="ts">
+// https://vuejs.org/api/sfc-script-setup.html#usage-alongside-normal-script
+export default {
+  // We don't want the attrs to bind on the root element (i.e. div)
+  // we will bind it manually so the attrs propagate directly to the input element.
+  inheritAttrs: false,
+};
+</script>
+
 <script lang="ts" setup>
 // TODO: Implement server-side paginated & filtered options. aka. Async Select
 import { useVModel } from '@vueuse/core';
-import { Ref, ref } from 'vue';
+import { vElementSize } from '@vueuse/components';
+import { Ref, ref, onMounted, watch } from 'vue';
 import { BaseInput } from '#root/components/base';
 import Remixicon from '#root/components/shared/Remixicon.vue';
 import _ from 'lodash';
 
 interface BaseSelectProps<TOption = any> {
-  modelValue: string | number | undefined;
+  modelValue: string | number | boolean | Symbol | undefined | null;
   options?: TOption[];
   /** If TOptions is an object, `valueKey` must be provided. */
   valueKey?: string;
@@ -64,20 +82,42 @@ interface BaseSelectProps<TOption = any> {
   id?: string;
   label?: string;
   error?: string | Ref<string>;
+  searchable?: boolean;
 }
 const props = withDefaults(defineProps<BaseSelectProps>(), {
   options: () => [],
+  searchable: false,
 });
 const emit = defineEmits<BaseSelectEmits>();
 interface BaseSelectEmits {
   (e: 'update:modelValue', modelValue: string): void;
 }
-const modelValue = useVModel(props, 'modelValue', emit);
-const selectedOption = ref<any>(null);
+const modelValue = useVModel(props, 'modelValue', emit, { deep: true });
 
+watch(
+  () => props.modelValue,
+  value => {
+    console.log('model change', value);
+    const option = props.options.find(o => getOptionValue(o) === value);
+    console.log;
+    if (option) {
+      selectedOption.value = option;
+      search.value = ' '; // push label up
+    }
+  },
+);
+
+const selectedOption = ref<any>(null);
 const search = ref('');
 const focused = ref(false);
 const iconRef = ref();
+const width = ref('auto');
+const height = ref('auto');
+
+function onResize({ width: clientWidth, height: clientHeight }: { width: number; height: number }) {
+  width.value = clientWidth + 'px';
+  height.value = clientHeight + 'px';
+}
 
 function onFocus() {
   focused.value = true;
@@ -153,10 +193,10 @@ function getOptionValue<TOption = any>(option: TOption) {
 }
 
 function filterOption(option: any) {
+  if (!props.searchable) return true;
+
   if (!props.filterFunction) {
-    return getOptionLabel(option)
-      .toLowerCase()
-      .includes((search.value + '').toLocaleLowerCase());
+    return !search.value.trim() || getOptionLabel(option).toLowerCase().includes(search.value.toLocaleLowerCase());
   }
 
   return props.filterFunction(option);

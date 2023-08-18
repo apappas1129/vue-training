@@ -1,16 +1,9 @@
 <template>
-  <div class="relative">
+  <div class="relative" v-on-click-outside="close">
     <button class="z-10 relative flex items-center focus:outline-none select-none" @click="open = !open">
       <slot name="button"></slot>
     </button>
 
-    <!-- to close when clicked on space around it in desktop-->
-    <button
-      class="fixed inset-0 h-full w-full cursor-default focus:outline-none"
-      v-if="open"
-      @click="open = false"
-      tabindex="-1"
-    ></button>
     <!--dropdown content: desktop-->
     <transition
       enter-active-class="transition-all duration-200 ease-out b"
@@ -41,25 +34,24 @@
         <slot name="content"></slot>
       </div>
     </transition>
-    <!-- to close when clicked on space around it in mobile-->
-    <div
-      class="md:hidden fixed w-full h-full inset-0 bg-gray-900 opacity-50 z-10"
-      @click="open = false"
-      v-if="open"
-    ></div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { vOnClickOutside } from '@vueuse/components';
 
 const open = ref(false);
 
 const { placement } = defineProps<{ placement: 'left' | 'right' }>();
 
+function close() {
+  open.value = false;
+}
+
 function onEscape(e: KeyboardEvent) {
   if (e.key === 'Esc' || e.key === 'Escape') {
-    open.value = false;
+    close();
   }
 }
 

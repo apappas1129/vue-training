@@ -5,7 +5,7 @@
         <img style="height: 24px" src="/arcanys-favicon.png" class="logo vue" alt="tailwind" />
         <span class="text-white">eLearning Portal</span>
       </div>
-      <button>
+      <button class="text-white">
         <Remixicon :name="'menu-line'"></Remixicon>
       </button>
     </div>

@@ -10,13 +10,27 @@
   <div class="spacer"></div>
 
   <div class="mt-4">
-    <CourseCard></CourseCard>
-    <CourseCard></CourseCard>
+    <div class="flex flex-row items-center gap-4">
+      <BaseInput v-model="course" id="search-course" label="Search for a course" type="text" />
+      <div class="ml-auto"></div>
+      <BaseInput v-model="subject" id="filter-subject" label="Subject" type="text" />
+      <BaseInput v-model="instructor" id="filter-instructor" label="Instructor" type="text" />
+    </div>
+    <div class="mt-4">
+      <CourseCard></CourseCard>
+      <CourseCard></CourseCard>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue';
 import CourseCard from '#root/components/course/CourseCard.vue';
+import { BaseInput } from '#root/components/base/index';
+
+const course = ref('');
+const subject = ref('');
+const instructor = ref('');
 </script>
 
 <style scoped>

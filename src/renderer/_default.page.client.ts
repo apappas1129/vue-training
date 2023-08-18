@@ -17,7 +17,6 @@ import type { PageContextClient } from './types';
 
 let app: ReturnType<typeof createApp>['app'];
 function render(pageContext: PageContextClient) {
-  console.log('____client____render');
   const { redirectTo } = pageContext;
   if (redirectTo) {
     window.location.href = redirectTo;

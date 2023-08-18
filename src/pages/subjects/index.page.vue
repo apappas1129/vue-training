@@ -1,9 +1,10 @@
 <template>
-  <header class="flex justify-between items-center">
-    <h1 class="flex items-center gap-3 text-2xl text-white mb-0 pb-0 border-b-0">
+  <header class="flex flex-wrap gap-2 justify-between items-center">
+    <h1 class="max-sm:basis-full flex items-center gap-3 text-2xl text-white mb-0 pb-0 border-b-0">
       <Remixicon :name="page.icon"></Remixicon>
       {{ page.name }}
     </h1>
+    <QueryBar class="max-sm:w-2/5 w-1/3"></QueryBar>
     <BaseButton @click="create()">Add new subject</BaseButton>
   </header>
   <section class="mt-4">
@@ -19,6 +20,7 @@ import { FetchOptions } from 'ofetch';
 
 import { pages } from '#root/common/constants/page.constants';
 import Remixicon from '#root/components/shared/Remixicon.vue';
+import QueryBar from '#root/components/shared/QueryBar.vue';
 import DataTable from '#root/components/shared/DataTable/DataTable.vue';
 import { Subject } from '#root/common/index';
 import { UseTableColumns } from '#root/composables/useTable';

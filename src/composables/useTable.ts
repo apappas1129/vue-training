@@ -13,10 +13,10 @@ import { ref } from 'vue';
 
 // TODO: Sorting feature
 
-// NOTE: We ommit column here and have decalred our own column typing since
+// NOTE: We ommit column here and have decalared our own column typing since
 // we have only hardcoded the use of columnHelper.accessor and columnHelper.display only.
 // columnHelper.group is not yet supported. Until useTable is patched to support all the three
-// options provided by columnHelper, we will ommit this field 'column'.
+// options provided by columnHelper, we will ommit this field 'columns'.
 export interface UseTableConfig<TData = any> extends Omit<TableOptions<TData>, 'columns' | 'getCoreRowModel' | 'data'> {
   columns: UseTableColumns<TData>; // required
   domain: string; // required
@@ -41,6 +41,7 @@ export type UseTableColumns<TData = any> = Array<
 const INITIAL_PAGE_INDEX = 0;
 const INITIAL_PAGE_SIZE = 25;
 
+/** Server-side processed data-table */
 export default function useTable<T>(
   {
     columns,

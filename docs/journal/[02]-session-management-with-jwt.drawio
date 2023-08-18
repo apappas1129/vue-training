@@ -1,0 +1,66 @@
+<mxfile host="65bd71144e">
+    <diagram id="uy3eqfMaQyZE9SiFHUju" name="Page-1">
+        <mxGraphModel dx="1109" dy="489" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="8" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="Client/Browser request page" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3EAF7C;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="60" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="3" target="7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="SSR application server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="60" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="No sever side authorization of requested pages anymore since page request does not have user info in the payload" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="120" width="160" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" style="edgeStyle=none;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6" target="19">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Web API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="510" y="60" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="7" target="6">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="500" y="90" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="16" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="7" target="15">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="client-side routing hooks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=#FF0000;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="220" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="no cookie session here" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="150" y="40" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="As mentioned in cooke-based-session-design diagram, I am unable to understand and properly utlize the routing hooks/functions provided by vite-plugin-ssr. I should be able to request authorization from Web API before requesting the HTML upon navigation in some way.&lt;br&gt;&lt;br&gt;For now, my authorization of content will be template level. I will hide individual components that will require specific access policy. And for the page components, I will create a reusable composable that will run onMounted (so that it only runs client-side) where it will take the JWT stored on browser (e.g. localStorage) and attach it on headers. Probably have to add a `/me` endpoint which is not part of the Web API specs. I will have to make this to fetch the current user (if JWT passed is valid), current user can be stored on pinia store at this point since we cannot have userdetails from the server's passToClient -&amp;gt; pageContext anymore." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;align=left;verticalAlign=top;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="200" width="190" height="440" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="send JWT header bearer token" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="130" width="170" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" style="edgeStyle=none;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="14" target="7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="should be possible but ATTOW, I am unable to figure it out.&amp;nbsp;&lt;br&gt;&lt;br&gt;Supposed steps:&lt;br&gt;1. on before rendering the page to load, ask for current user details (e.g. /me endpoint) with the JWT from browser.&lt;br&gt;2. Use current user role and build CASL ability to check for user permission." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="210" width="210" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="15" target="6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="component level auth. on page components run auth on component mounted hook. on component islands, auth at template level" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=#33FF33;" vertex="1" parent="1">
+                    <mxGeometry x="240" y="310" width="160" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Redis session storage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7D699F;strokeColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="110" width="160" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

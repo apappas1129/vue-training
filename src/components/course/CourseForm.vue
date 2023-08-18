@@ -1,8 +1,15 @@
 <template>
   <form @submit.prevent="onSubmit()" class="grid sm:grid-cols-2">
     <div class="flex flex-col gap-2">
-      <BaseSelect label="Subject" v-model="form.subjectId" :options="subjects" :valueKey="'id'" :labelKey="'title'">
-        <!-- Keep for future reference -->
+      <BaseSelect
+        searchable
+        label="Subject"
+        v-model="form.subjectId"
+        :options="subjects"
+        :valueKey="'id'"
+        :labelKey="'title'"
+      >
+        <!-- Keep below for future reference in making custom option UI -->
         <!-- <template #option="{ title, id }">
           <div>[{{ id }}] {{ title }}</div>
         </template> -->
@@ -23,7 +30,7 @@ import { required, maxLength } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 
 import { CourseFormValue, CourseFormValidator } from '#root/common/dto/course-form.interface';
-import { BaseButton, BaseCheckbox, BaseInput, BaseSelect, BaseTextArea } from '#root/components/base';
+import { BaseButton, BaseCheckbox, BaseInput, BaseSelect, BaseTextArea } from '#root/components/base/index';
 import { usePageContext } from '#root/renderer/usePageContext';
 import { useFetch } from '#root/composables/useFetch';
 import postOrPatch from '#root/common/utils/post-or-patch';
@@ -66,7 +73,7 @@ async function onSubmit() {
   const body: Partial<Course> = {
     ...form,
     // #region
-    // relworld API is expected to do this for us. Remove on  or when mocked API is improved to do so.
+    // HACK: realworld API is expected to do this for us. Remove on prod or when mocked API is improved to do so.
     authorId: pageContext.user!.id,
     author: pageContext.user,
     // #endregion

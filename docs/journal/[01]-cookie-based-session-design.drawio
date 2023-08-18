@@ -1,0 +1,95 @@
+<mxfile host="65bd71144e">
+    <diagram id="2KypKroISbxaror4fNxb" name="Page-1">
+        <mxGraphModel dx="924" dy="326" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="9" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="2" target="4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="Client/Browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3EAF7C;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="15" y="130" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="3" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Web API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="455" y="130" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="4" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#A72121;strokeColor=#FF9999;dashed=1;dashPattern=8 8;startArrow=cross;startFill=0;" parent="1" source="4" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="SSR application server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="215" y="130" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;" parent="1" source="6" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="292.5" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="21" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" parent="1" source="6" target="20" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Redis session storage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#7D699F;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="322.5" y="200" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="Authorize requested page/content" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="212.5" y="310" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="&lt;b&gt;Why shared Redis?&lt;/b&gt;&lt;br&gt;For experimental/learning purposes, I am simulating a setup here where the Web API and the SSR server application&amp;nbsp;are hosted together (i.e. in dev both localhost, different ports). I don't want to make the SSR server app to do HTTP request to the Web API for authing. Instead, I wanted to experiment and try if sharing the same Redis instance can work. Anyway, this concern is no longer part of exercising Vue (the main objective of this project) but I recognize that while it seem optimal in a sense, it is more impractical in realworld apps.&lt;br&gt;&lt;br&gt;&lt;b&gt;About authorizing routes:&lt;/b&gt;&lt;br&gt;I will block specific routes based on the user.role taken from the session which will be the key to define the abilities of the user.&lt;br&gt;&lt;br&gt;There are various strategies on managing role access policies (i.e. CASL &quot;abilities&quot;). Since this is a Vue Training exercise project, I opt to just hard code the abilities by role name instead of other ways like storing it on db. If this were on db and designed in a way where it should ONLY be accessed from the Web API, then the shared Redis will not make sense. It may if there's another stand-alone application for policy management that both servers can point to.&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;b&gt;About the Routing Strategy:&lt;/b&gt;&lt;br&gt;&lt;br&gt;See&amp;nbsp;https://vite-plugin-ssr.com/routing#server-routing-or-client-routing&lt;br&gt;&lt;br&gt;I wanted to fully utilize the Client-side Routing feature (DOM mutations upon page navigation) but due to confusion to how the routing hooks/functions behave with this type of routing vs Server Routing, I was unable to successfully implement a proper working routeguards. ATTOW., I moved back to the default Server Routing (full HTML reload upon page navigation) just to move on with a working auth guard.&lt;br&gt;&lt;br&gt;Supposedly, with Client Routing, I should be able to do page transition animations and preserve Client-side state across navigation when needed. But this took too much time for me to commit to. In production, it's better to use matured SSR frameworks like Nuxt for Vue." style="rounded=0;whiteSpace=wrap;html=1;glass=0;shadow=0;align=left;verticalAlign=top;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" parent="1" vertex="1">
+                    <mxGeometry x="402.5" y="370" width="430" height="540" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;For more complex pages. e.g. user is authorized to read the page but some content in it have their own access rights, there are couple of ways to auth and filter out:&lt;/span&gt;&lt;/div&gt;e.g. at component template level, authorize prefetching (if fetching data from server side ahead of time is possible) with routing hooks or at the component (.vue)&amp;nbsp;level" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="197.5" y="360" width="190" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="Authorize HTTP requested&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="432.5" y="310" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Shared Redis and CASL abilitiy definition (hard coded)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;" parent="1" vertex="1">
+                    <mxGeometry x="322.5" y="240" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="browser automatically sends stored &lt;b&gt;cookie&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;glass=0;sketch=1;fontColor=#FFFFFF;labelBackgroundColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="130" y="160" width="85" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;strokeColor=#ffffff;fontSize=10;fontColor=#FFFFFF;startArrow=classic;startFill=1;endArrow=none;endFill=0;" parent="1" source="27" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="282.66666666666674" y="520" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="27" value="at this point I allow server side rendering to prefetch data&amp;nbsp; from Web API, given that access has passed the auth blockers. Although I realize that authorization will be redundant here given that the Web API has its own authorization of the requests as well.&amp;nbsp;&lt;br&gt;&lt;br&gt;At the end of the day, I believe authorizing routes should be requested via API if the policy management (redis and casl ability) is scoped within the Web API application." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="197.5" y="560" width="170" height="270" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="&lt;div&gt;Upon the initial code review, the reviewer has raised concerns about using cookies due to the requirement of using JWT headers in the Web API. As a result, I will revamp the auth design and eliminate the use of cookies. Furthermore, given the inability to include Bearer token headers in page requests, we will need to shift our approach from server-side route authorization to client-side. Consequently, our focus will shift to client-side authorization, with route access being requested from client to the Web API and template level authorizations.&lt;/div&gt;&lt;div&gt;I will discontinue the shared Redis approach and move the session management within the scope of Web API only. The web application will persist the JWT token in localStorage. While it's possible to still use cookies, it's important to note that neither approach is considered secure and should not be implemented on production (More on security issues about storing session with JWT).&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e51400;strokeColor=#B20000;fontColor=#ffffff;align=left;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="10" y="10" width="830" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="auth create entity page" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="15" y="930" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="has pageContext.ability (defined CASL abilities for current user) ?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="15" y="960" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="has ability to create entity?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="15" y="1010" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="auth update entity page" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="175" y="930" width="160" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" value="has pageContext.ability (defined CASL abilities for current user) ?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="185" y="950" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="fetch entity success?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="185" y="1000" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="(casl) can(update, fetchedEntity)?" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#314559;strokeColor=none;glass=0;sketch=1;curveFitting=1;jiggle=2;shadow=0;" vertex="1" parent="1">
+                    <mxGeometry x="185" y="1050" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="flow on routing hook:" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+                    <mxGeometry y="900" width="160" height="20" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
