@@ -10,7 +10,7 @@
   </section>
   <section class="mt-4">
     <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
-      <DataTable :domain="'courses'" :columns="columns" :fetchOptions="options" />
+      <DataTable :domain="'courses'" :columns="columns" useColumnHelpers :fetchOptions="options" />
     </div>
   </section>
 </template>

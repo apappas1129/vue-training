@@ -7,6 +7,7 @@ import {
   PaginationState,
   ColumnHelper,
   TableOptions,
+  ColumnDef,
 } from '@tanstack/vue-table';
 import { FetchOptions } from 'ofetch';
 import { ref } from 'vue';
@@ -18,13 +19,15 @@ import { ref } from 'vue';
 // columnHelper.group is not yet supported. Until useTable is patched to support all the three
 // options provided by columnHelper, we will ommit this field 'columns'.
 export interface UseTableConfig<TData = any> extends Omit<TableOptions<TData>, 'columns' | 'getCoreRowModel' | 'data'> {
-  columns: UseTableColumns<TData>; // required
+  columns: UseTableColumns<TData> | ColumnDefs; // required
   domain: string; // required
   fetchOptions?: FetchOptions;
   /** Sets the initial page if provided. */
   initialPageIndex?: number;
   /** Sets the initial page size if provided */
   initialPageSize?: number;
+  /** Automatically map each element of `columns` array using `@tanstack/vue-table`'s `createColumnHelper`. */
+  mapWithHelpers?: boolean;
   /**
    * Invoked every time the table state is changed (e.g. paginated, sorted).
    *
@@ -35,7 +38,9 @@ export interface UseTableConfig<TData = any> extends Omit<TableOptions<TData>, '
 }
 
 export type UseTableColumns<TData = any> = Array<
-  Parameters<ColumnHelper<TData>['accessor']> | Parameters<ColumnHelper<TData>['display']>[0]
+  | Parameters<ColumnHelper<TData>['accessor']>
+  | Parameters<ColumnHelper<TData>['display']>[0]
+  | Parameters<ColumnHelper<TData>['group']>[0]
 >;
 
 const INITIAL_PAGE_INDEX = 0;
@@ -49,6 +54,7 @@ export default function useTable<T>(
     fetchOptions,
     initialPageIndex,
     initialPageSize,
+    mapWithHelpers,
     onChange,
     ...config // We make sure to destructure every UseTableConfig custom fields above
   }: UseTableConfig<T>,
@@ -58,9 +64,17 @@ export default function useTable<T>(
 
   const columnHelper = createColumnHelper<T>();
 
-  const columnDefs = columns.map(args =>
-    Array.isArray(args) ? columnHelper.accessor(...args) : columnHelper.display(args),
-  );
+  let columnDefs = columns as ColumnDef<T, any>[];
+
+  if (mapWithHelpers) {
+    columnDefs = columns.map(args =>
+      Array.isArray(args)
+        ? columnHelper.accessor(...args)
+        : 'columns' in args
+        ? columnHelper.group(args as any)
+        : columnHelper.display(args as any),
+    );
+  }
 
   const pagination = ref<PaginationState>({
     pageIndex: initialPageIndex || INITIAL_PAGE_INDEX,

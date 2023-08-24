@@ -1,6 +1,6 @@
 <template>
   <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
-    <DataTable :domain="'modules'" :columns="columns" :fetch-options="fetchOptions" />
+    <DataTable :domain="'modules'" :columns="columns" useColumnHelpers :fetch-options="fetchOptions" />
   </div>
 </template>
 

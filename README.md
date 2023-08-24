@@ -9,7 +9,9 @@ This project serves as an exercise for my Vue 3 Training program. **eLearning Pl
 - [Prerequisite](#prerequisite)
 - [Running the Project](#running-the-project)
 - [Environment](#environment)
-- [Implementation Details](#implementationdetails)
+- [Dev Docs](dev-docs)
+   - [Components]()
+- [Implementation Overview](#implementation-overview)
 
 ## Prerequisite
 
@@ -94,7 +96,7 @@ The current file structure is mainly based on `vite-ssr-plugin`'s [Basic File St
 
 The rest is personal preference that attempts to emulate some parts of [Nuxt's directory structure](https://nuxt.com/docs/guide/directory-structure/nuxt).
 
-## Implementation Details
+## Implementation Overview
 
  I wanted experience a bit of the dirty low level jobs regarding SSR and overall boilerplating by cooking up my own vanilla Vue project before relying on Starter kits/boilerplates, or frameworks like Nuxt on my future Vue projects. I found `vite-plugin-ssr` from one of Vite's official recommended plugins for SSR and decided to try it out here. Integrating every tool I want such us Tailwind, `ofetch` to hopefully emulate and have a feel at Nuxt's `$fetch`, `Pinia` and how to make it work with SSR pages, etc.
 

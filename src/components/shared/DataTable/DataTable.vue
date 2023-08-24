@@ -87,7 +87,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useDebounceFn } from '@vueuse/core';
-import { FlexRender, Header, RowData } from '@tanstack/vue-table';
+import { ColumnDef, FlexRender, Header, RowData } from '@tanstack/vue-table';
 import { FetchOptions } from 'ofetch';
 import { BaseButton, BaseInput } from '#root/components/base/index';
 import useTable, { UseTableColumns, UseTableConfig } from '#root/composables/useTable';
@@ -96,19 +96,24 @@ import SortButton from './SortButton.vue';
 import Remixicon from '../Remixicon.vue';
 import { ariaSortMap, DEFAULT_PAGE_SIZES } from './constants';
 
-const pageContext = usePageContext();
-
-const { domain, columns, fetchOptions, ...props } = defineProps<{
+export interface DataTableProps<TData = any> {
   domain: string;
   fetchOptions?: FetchOptions;
-  columns: UseTableColumns;
+  columns: UseTableColumns | ColumnDef<TData, any>[];
+  /** Automatically map each element of `columns` array using `@tanstack/vue-table`'s `ColumnHelper`.
+   *
+   * **NOTE:** Although this component may accept `grouped` column definitions (i.e. using `ColumnHelper.group`) without errors,
+   * it is not supported yet and will not be rendered correctly on the DOM.
+   */
+  useColumnHelpers?: boolean;
   pageSizes?: number[];
-}>();
+}
 
+const pageContext = usePageContext();
+const { domain, columns, useColumnHelpers, fetchOptions, ...props } = defineProps<DataTableProps>();
 const emit = defineEmits<{
   (e: 'change', table: Pick<ReturnType<typeof useTable>, 'data' | 'pagination'>): void;
 }>();
-
 const goToPageNumber = ref(1);
 const pageSizes = props.pageSizes?.length ? props.pageSizes : DEFAULT_PAGE_SIZES;
 
@@ -116,6 +121,7 @@ const config: UseTableConfig = {
   domain,
   fetchOptions,
   columns,
+  mapWithHelpers: useColumnHelpers,
   onChange: () => emitChange(),
 };
 const { table, isLoading, pagination, data } = useTable(config, pageContext);

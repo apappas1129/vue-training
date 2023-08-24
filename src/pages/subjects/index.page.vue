@@ -17,6 +17,7 @@
 <script lang="ts" setup>
 import { Component, h } from 'vue';
 import { FetchOptions } from 'ofetch';
+import { createColumnHelper } from '@tanstack/vue-table';
 
 import { pages } from '#root/common/constants/page.constants';
 import Remixicon from '#root/components/shared/Remixicon.vue';
@@ -29,16 +30,17 @@ import { BaseButton } from '#root/components/base/index';
 import { usePageContext } from '#root/renderer/usePageContext';
 
 const page = pages.instructor.subjects;
+const columnHelper = createColumnHelper<Subject>();
 
-const columns: UseTableColumns<Subject> = [
-  ['title', { header: 'Title', size: 100 }],
-  [
+const columns = [
+  columnHelper.accessor('title', { header: 'Title', size: 100, id: 'title' }),
+  columnHelper.accessor(
     // FIXME: owner should never be undefined here but we're using mocked data that may accidentally have it.
     s => (s.owner ? `${s.owner.firstName} ${s.owner.lastName}` : 'undefined'),
-    { header: 'Author', meta: { nowrap: true } },
-  ],
-  ['isPublished', { header: 'Status', cell: title => (title.getValue() ? 'Published' : 'Draft') }],
-  {
+    { header: 'Author', meta: { nowrap: true }, id: 'owner' },
+  ),
+  columnHelper.accessor('isPublished', { header: 'Status', cell: title => (title.getValue() ? 'Published' : 'Draft') }),
+  columnHelper.display({
     id: 'actions',
     header: '',
     cell: cell => {
@@ -46,7 +48,7 @@ const columns: UseTableColumns<Subject> = [
       return h(SubjectRowActions as Component, { subject: cell.row.original });
     },
     meta: { nowrap: true },
-  },
+  }),
 ];
 
 const pageContext = usePageContext();
