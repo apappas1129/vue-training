@@ -1,9 +1,14 @@
 <template>
   <form @submit.prevent="onSubmit()" class="grid sm:grid-cols-2 gap-4">
-    <div>
-      <div class="mb-2">
-        <BaseInput id="title" v-model="form.title" label="Title" type="text" :error="v$.title?.$errors[0]?.$message" />
-      </div>
+    <div class="flex flex-col gap-2">
+      <BaseInput
+        id="title"
+        v-model="form.title"
+        label="Title"
+        type="text"
+        :error="v$.title?.$errors[0]?.$message"
+        required
+      />
       <BaseInput
         id="duration"
         v-model="form.duration"
@@ -12,27 +17,30 @@
         :error="v$.duration?.$errors[0]?.$message"
       />
     </div>
-    <div>
-      <fieldset>
-        <label for="course-id" class="block text-basic-500 text-sm font-bold mb-2">Subject</label>
-        <select
-          id="course-id"
-          v-model="form.courseId"
-          class="mb-2 bg-basic-50 border border-basoc-300 text-basic-900 rounded focus:ring-primary-500 focus:border-primary-500 block w-full p-2"
-        >
-          <option :key="course.id" :value="course.id" v-for="course in courses">{{ course.title }}</option>
-        </select>
-      </fieldset>
+    <div class="flex flex-col gap-2">
+      <BaseSelect
+        searchable
+        label="Course"
+        v-model="form.courseId"
+        :options="courses"
+        :valueKey="'id'"
+        :labelKey="'title'"
+        required
+      ></BaseSelect>
 
-      <fieldset>
-        <label class="block text-basic-500 text-sm font-bold mb-2">Status</label>
-        <BaseCheckbox v-model="form.isPublished" label="Publish" class="mt-2" />
-      </fieldset>
+      <!-- <BaseCheckbox v-model="form.isPublished" label="Publish" class="mt-2" /> -->
+      <BaseSelect
+        v-model="form.isPublished"
+        label="Status"
+        :options="statusOptions"
+        valueKey="value"
+        labelKey="label"
+      ></BaseSelect>
     </div>
     <div class="col-span-2">
       <Editor v-model="content" />
     </div>
-    <BaseButton :disabled="isLoading" color="primary" type="submit" class="mt-4">Save</BaseButton>
+    <!-- <BaseButton :disabled="isLoading" color="primary" type="submit" class="mt-4">Save</BaseButton> -->
   </form>
 </template>
 
@@ -43,7 +51,7 @@ import useVuelidate from '@vuelidate/core';
 
 import Editor from '#root/components/shared/RichEditor/Editor.vue';
 import { ModuleFormValue, ModuleFormValidator } from '#root/common/dto/module-form.interface';
-import { BaseButton, BaseCheckbox, BaseInput } from '#root/components/base';
+import { BaseButton, BaseSelect, BaseInput } from '#root/components/base';
 import { usePageContext } from '#root/renderer/usePageContext';
 import { useFetch } from '#root/composables/useFetch';
 import postOrPatch from '#root/common/utils/post-or-patch';
@@ -59,6 +67,11 @@ const emit = defineEmits<{
   (e: 'success', course: Course): void;
   (e: 'error', error: any): void;
 }>();
+
+const statusOptions = ref([
+  { label: 'Draft', value: false },
+  { label: 'Published', value: true },
+]);
 
 const content = ref<string>('<p>A Vue.js wrapper component for tiptap to use <code>v-model</code>.</p>');
 
@@ -108,5 +121,10 @@ onMounted(async () => {
   const response = await getSubjects();
 
   courses.value = response.data;
+});
+
+defineExpose({
+  onSubmit,
+  isLoading,
 });
 </script>

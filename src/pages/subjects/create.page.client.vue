@@ -34,8 +34,4 @@ import { BaseButton } from '#root/components/base/index';
 
 const selectedTab = ref('subject');
 const form = ref();
-
-function submit() {
-  console.log(form.value, form.value.onSubmit);
-}
 </script>

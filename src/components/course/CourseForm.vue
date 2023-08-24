@@ -8,18 +8,32 @@
         :options="subjects"
         :valueKey="'id'"
         :labelKey="'title'"
+        required
       >
         <!-- Keep below for future reference in making custom option UI -->
         <!-- <template #option="{ title, id }">
           <div>[{{ id }}] {{ title }}</div>
         </template> -->
       </BaseSelect>
-      <BaseInput id="title" v-model="form.title" label="Title" type="text" :error="v$.title?.$errors[0]?.$message">
+      <BaseInput
+        id="title"
+        v-model="form.title"
+        label="Title"
+        type="text"
+        :error="v$.title?.$errors[0]?.$message"
+        required
+      >
         <!-- <template v-slot:suffix><span>test</span></template> -->
       </BaseInput>
       <BaseTextArea v-model="form.description" label="Description" rows="4"></BaseTextArea>
-      <BaseCheckbox v-model="form.isPublished" label="Publish" class="mt-2" />
-      <BaseButton :disabled="isLoading" color="primary" type="submit">Save</BaseButton>
+      <BaseSelect
+        v-model="form.isPublished"
+        label="Status"
+        :options="statusOptions"
+        valueKey="value"
+        labelKey="label"
+      ></BaseSelect>
+      <!-- <BaseButton :disabled="isLoading" color="primary" type="submit">Save</BaseButton> -->
     </div>
   </form>
 </template>
@@ -30,7 +44,7 @@ import { required, maxLength } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 
 import { CourseFormValue, CourseFormValidator } from '#root/common/dto/course-form.interface';
-import { BaseButton, BaseCheckbox, BaseInput, BaseSelect, BaseTextArea } from '#root/components/base/index';
+import { BaseInput, BaseSelect, BaseTextArea } from '#root/components/base/index';
 import { usePageContext } from '#root/renderer/usePageContext';
 import { useFetch } from '#root/composables/useFetch';
 import postOrPatch from '#root/common/utils/post-or-patch';
@@ -46,6 +60,11 @@ const emit = defineEmits<{
   (e: 'success', course: Course): void;
   (e: 'error', error: any): void;
 }>();
+
+const statusOptions = ref([
+  { label: 'Draft', value: false },
+  { label: 'Published', value: true },
+]);
 
 // TODO: mock image upload
 
@@ -95,5 +114,10 @@ onMounted(async () => {
   const response = await getSubjects();
 
   subjects.value = response.data;
+});
+
+defineExpose({
+  onSubmit,
+  isLoading,
 });
 </script>

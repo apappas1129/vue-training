@@ -1,7 +1,13 @@
 <template>
   <div class="flex flex-row flex-wrap relative w-full min-w-[200px] mt-1" :class="{ 'mb-4': error }">
     <!-- Refer to https://tailwindcss.com/docs/hover-focus-and-other-states#styling-based-on-sibling-state for `.peer`-->
-    <textarea :id="id" v-model="modelValue" v-bind="$attrs" class="peer" placeholder=" " />
+    <textarea
+      :id="id"
+      v-model="modelValue"
+      v-bind="$attrs"
+      class="peer scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100"
+      placeholder=" "
+    />
     <label class="before:content[' '] after:content[' ']">
       {{ label }}
     </label>

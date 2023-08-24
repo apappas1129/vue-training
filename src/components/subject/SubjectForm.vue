@@ -16,7 +16,6 @@
         valueKey="value"
         labelKey="label"
       ></BaseSelect>
-      <BaseCheckbox v-model="form.isPublished" label="Publish" />
     </div>
   </form>
 </template>
@@ -29,7 +28,7 @@ import { subject as subjectHelper } from '@casl/ability';
 import { useAbility } from '@casl/vue';
 
 import { SubjectFormValue, SubjectFormValidator } from '#root/common/dto/subject-form.interface';
-import { BaseCheckbox, BaseInput, BaseSelect } from '#root/components/base';
+import { BaseInput, BaseSelect } from '#root/components/base';
 import { usePageContext } from '#root/renderer/usePageContext';
 import { useFetch } from '#root/composables/useFetch';
 import { Subject } from '#root/common/index';

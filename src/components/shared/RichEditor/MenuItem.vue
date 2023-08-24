@@ -1,14 +1,20 @@
 <template>
-  <button class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="action" :title="title">
+  <button
+    class="menu-item text-white"
+    :class="{ 'is-active': isActive ? isActive() : null }"
+    @click="action"
+    :title="title"
+  >
     <Remixicon :name="icon"></Remixicon>
   </button>
 </template>
 
 <script>
 import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg';
-import Remixicon from '../Remixicon.vue';
+import Remixicon from '#root/components/shared/Remixicon.vue';
 
 export default {
+  components: { Remixicon },
   props: {
     icon: {
       type: String,
