@@ -47,6 +47,7 @@ interface BaseInputProps {
   id?: string;
   label?: string;
   error?: string | Ref<string>;
+  /** By default, clicking suffix slot will focus the input. Set this to `true` to disable the feature. */
   blockSuffixAutoFocus?: boolean;
 }
 const props = defineProps<BaseInputProps>();

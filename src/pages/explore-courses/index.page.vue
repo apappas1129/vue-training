@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-0 left-0 z-10 w-full h-1/5 bg-accent-400 flex flex-col justify-center items-center">
+  <div class="absolute top-0 left-0 z-10 w-full h-1/5 p-4 bg-accent-400 flex flex-col justify-center items-center">
     <p class="text-xl mb-2 text-basic-700">Welcome to the eLearning portal</p>
     <p class="text-lg text-basic-700">
       Our course will step you through the process of building a small application, or adding a new feature to an
@@ -13,10 +13,17 @@
     <div class="flex flex-row items-center gap-4">
       <BaseInput v-model="course" id="search-course" label="Search for a course" type="text" />
       <div class="ml-auto"></div>
-      <BaseInput v-model="subject" id="filter-subject" label="Subject" type="text" />
+      <BaseSelect
+        searchable
+        label="Subject"
+        v-model="subject"
+        :options="subjects"
+        :valueKey="'id'"
+        :labelKey="'title'"
+      ></BaseSelect>
       <BaseInput v-model="instructor" id="filter-instructor" label="Instructor" type="text" />
     </div>
-    <div class="mt-4">
+    <div class="mt-4 flex gap-4 flex-wrap">
       <CourseCard></CourseCard>
       <CourseCard></CourseCard>
     </div>
@@ -24,13 +31,32 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import CourseCard from '#root/components/course/CourseCard.vue';
-import { BaseInput } from '#root/components/base/index';
+import { BaseInput, BaseSelect } from '#root/components/base/index';
+import { PaginatedResponse, Subject } from '#root/common/index';
+import { usePageContext } from '#root/renderer/usePageContext';
+import { useFetch } from '#root/composables/useFetch';
 
 const course = ref('');
-const subject = ref('');
+const subject = ref<number>();
 const instructor = ref('');
+
+const pageContext = usePageContext();
+const subjects = ref<Subject[]>([]);
+
+onMounted(async () => {
+  // TODO: correct data fetching for dropdown
+  const { $fetch: getSubjects /*, isLoading: fetchingSubjects*/ } = useFetch<PaginatedResponse<Subject>>(
+    'subjects',
+    { query: { _limit: 50, _page: 1 } },
+    pageContext,
+  );
+
+  const response = await getSubjects();
+
+  subjects.value = response.data;
+});
 </script>
 
 <style scoped>

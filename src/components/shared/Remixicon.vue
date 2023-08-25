@@ -11,6 +11,5 @@ const { name } = defineProps({
     required: true,
   },
 });
-console.log('the name', name);
 const url = remixiconUrl;
 </script>

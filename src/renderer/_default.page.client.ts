@@ -6,7 +6,7 @@ export { onPageTransitionEnd };
 // enable Client-side Routing
 // WARNING: Before doing so, read https://vite-plugin-ssr.com/clientRouting */
 // export const clientRouting = true;
-// BUG: unresolved bugs on routing functions for ClientRouting (e.g. pageContext custom fields nit available on onBeforeRender, guard, etc.)
+// BUG: unresolved bugs on routing functions for ClientRouting (e.g. pageContext custom fields not available on onBeforeRender and guard)
 // using default SSR for now.
 
 // Import Tailwind directives
@@ -24,6 +24,7 @@ function render(pageContext: PageContextClient) {
   }
 
   if (!app) {
+    console.log('Creating fresh app instance');
     const instance = createApp(pageContext);
     app = instance.app;
     instance.store.state.value = pageContext.initialStoreState;

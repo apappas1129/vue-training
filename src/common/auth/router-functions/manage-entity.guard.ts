@@ -17,7 +17,7 @@ export default function manageEntityGuard(entity: `${Subject}`) {
     }
 
     const unpackedRules = unpackRules(pageContext.ability);
-    const ability = createMongoAbility(unpackedRules as any); // FIXME: lazy bypass
+    const ability = createMongoAbility(unpackedRules as any);
     if (!ability.can('manage', entity)) {
       throw RenderErrorPage({
         pageContext: {

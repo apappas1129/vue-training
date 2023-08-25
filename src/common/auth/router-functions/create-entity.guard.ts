@@ -10,8 +10,7 @@ export default function createEntityGuard(entity: `${Subject}`, redirectTo: stri
     if (!pageContext.ability) return { pageContext: { redirectTo: '/subjects' } };
 
     const unpackedRules = unpackRules(pageContext.ability);
-    const ability = createMongoAbility(unpackedRules as any); // FIXME: lazy bypass
-
+    const ability = createMongoAbility(unpackedRules as any);
     if (!ability.can('create', entity)) return { pageContext: { redirectTo } };
     return { pageContext: {} };
   };

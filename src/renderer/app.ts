@@ -41,7 +41,7 @@ function createApp(pageContext: PageContext) {
   if (pageContext.ability) {
     try {
       const unpackedRules = unpackRules(pageContext.ability);
-      const ability = createMongoAbility(unpackedRules as any); // FIXME: lazy bypass
+      const ability = createMongoAbility(unpackedRules as any);
       app.use(casl, ability, {
         useGlobalProperties: true,
       });

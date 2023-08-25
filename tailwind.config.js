@@ -23,7 +23,7 @@ export default {
   ],
   purge: {
     options: {
-      safelist: ['pr-12', 'rotate-180', 'transition-transform'],
+      safelist: ['pr-12', 'rotate-180', 'transition-transform', 'w-0', 'opacity-0', 'opacity-100'],
     },
   },
 };

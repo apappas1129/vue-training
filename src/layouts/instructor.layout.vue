@@ -3,6 +3,15 @@
     <SideNav :navItems="navItems"></SideNav>
     <div class="w-full h-screen relative">
       <TopBar class="justify-end">
+        <transition
+          enter-from-class="opacity-0"
+          enter-to-class="opacity-100"
+          enter-active-class="transition-all delay-200 duration-7500 ease-out"
+        >
+          <button v-if="sideNavHidden" @click="layout.toggleSideNav" class="mr-auto">
+            <Remixicon :name="'menu-line'"></Remixicon>
+          </button>
+        </transition>
         <UserNav></UserNav>
       </TopBar>
       <main class="relative w-full scrollbar-thin p-4 mt-14 overflow-y-auto bg-white">
@@ -17,13 +26,18 @@
 </template>
 
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia';
 import SideNav from '#root/components/layout/SideNav.vue';
 import TopBar from '#root/components/layout/TopBar.vue';
 import UserNav from '#root/components/layout/UserNav.vue';
 import Footer from '#root/components/layout/Footer.vue';
+import Remixicon from '#root/components/shared/Remixicon.vue';
 import { navigation } from '#root/common/constants/page.constants';
+import { useLayout } from '#root/stores/useLayout';
 
 const navItems = [{ navItems: navigation.instructor, groupName: 'MANAGEMENT' }];
+const layout = useLayout();
+const { sideNavHidden } = storeToRefs(layout);
 </script>
 
 <style>

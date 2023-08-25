@@ -1,7 +1,7 @@
 <template>
   <header class="flex gap-2 justify-between items-center">
     <h1 class="max-sm:basis-full flex items-center gap-3 text-2xl text-white mb-0 pb-0 border-b-0">
-      <Remixicon name="book-2-line"></Remixicon>
+      <Remixicon name="book-read-line"></Remixicon>
       Add a module
     </h1>
     <BaseButton @click="form.onSubmit()" :disabled="form?.isLoading" class="h-fit">Save</BaseButton>

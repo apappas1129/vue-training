@@ -1,11 +1,16 @@
 <template>
-  <nav class="flex flex-col w-72 h-screen overflow-y-auto bg-slate-800" aria-label="Main Navigation">
+  <nav
+    ref="divRef"
+    :class="{ 'w-0 min-w-0': sideNavHidden, 'w-72 min-w-[14rem]': !sideNavHidden }"
+    class="flex flex-col h-screen overflow-y-auto overflow-x-hidden bg-slate-800 transition-all"
+    aria-label="Main Navigation"
+  >
     <div class="flex items-center justify-between font-semibold text-center p-4 bg-slate-950">
       <div class="text-base flex items-center justify-center gap-2">
         <img style="height: 24px" src="/arcanys-favicon.png" class="logo vue" alt="tailwind" />
-        <span class="text-white">eLearning Portal</span>
+        <span class="text-white whitespace-nowrap">eLearning Portal</span>
       </div>
-      <button class="text-white">
+      <button @click="layout.toggleSideNav()" class="text-white">
         <Remixicon :name="'menu-line'"></Remixicon>
       </button>
     </div>
@@ -29,10 +34,14 @@
 </template>
 
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia';
 import Remixicon from '../shared/Remixicon.vue';
 import { usePageContext } from '#root/renderer/usePageContext';
-const { urlPathname } = usePageContext();
+import { useLayout } from '#root/stores/useLayout';
 
+const layout = useLayout();
+const { sideNavHidden } = storeToRefs(layout);
+const { urlPathname } = usePageContext();
 const { navItems } = defineProps({
   navItems: {
     type: Array<any>,

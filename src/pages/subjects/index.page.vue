@@ -35,7 +35,7 @@ const columnHelper = createColumnHelper<Subject>();
 const columns = [
   columnHelper.accessor('title', { header: 'Title', size: 100, id: 'title' }),
   columnHelper.accessor(
-    // FIXME: owner should never be undefined here but we're using mocked data that may accidentally have it.
+    // NOTE: owner should never be undefined here but we're using mocked data that may accidentally have it.
     s => (s.owner ? `${s.owner.firstName} ${s.owner.lastName}` : 'undefined'),
     { header: 'Author', meta: { nowrap: true }, id: 'owner' },
   ),
