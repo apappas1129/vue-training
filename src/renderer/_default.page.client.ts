@@ -13,16 +13,26 @@ export { onPageTransitionEnd };
 import './index.css';
 
 import { createApp } from './app';
-import type { PageContextClient } from './types';
+import type { PageContextServer } from './types';
+import type {
+  // When using Client Routing https://vite-plugin-ssr.com/clientRouting
+  // PageContextBuiltInClientWithClientRouting as PageContextBuiltInClient
+  // When using Server Routing
+  PageContextBuiltInClientWithServerRouting as PageContextBuiltInClient,
+} from 'vite-plugin-ssr/types';
 
 let app: ReturnType<typeof createApp>['app'];
-function render(pageContext: PageContextClient) {
+function render(pageContext: PageContextBuiltInClient & PageContextServer) {
   const { redirectTo } = pageContext;
   if (redirectTo) {
     window.location.href = redirectTo;
     return;
   }
-
+  console.log('Application:', app);
+  // NOTE: As far as I can observe, the app instance only persists on ClientRouting mode.
+  //       In ServerRouting mode, app is always undefined and recreated every navigation, which makes a new pinia store.
+  //       I am not sure yet if this is normal and that there is no way around this but to use localStorage to rehydrate current store upon navigation
+  //       with the last state before navigation.
   if (!app) {
     console.log('Creating fresh app instance');
     const instance = createApp(pageContext);

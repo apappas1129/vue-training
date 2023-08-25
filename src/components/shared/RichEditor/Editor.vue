@@ -67,7 +67,6 @@ export default {
         // this.$emit('update:modelValue', this.editor.getJSON())
       },
     });
-    console.log('editor', this.editor);
   },
 
   beforeUnmount() {

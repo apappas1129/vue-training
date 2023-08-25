@@ -36,6 +36,8 @@ import { usePageContext } from '#root/renderer/usePageContext';
 const selectedTab = ref('subject');
 const subject = ref<Subject>();
 const pageContext = usePageContext();
-console.log('test pageprops', pageContext?.pageProps);
-if (pageContext?.pageProps?.subject) subject.value = pageContext.pageProps.subject as Subject;
+
+if (pageContext?.pageProps?.subject) {
+  subject.value = pageContext.pageProps.subject as Subject;
+}
 </script>

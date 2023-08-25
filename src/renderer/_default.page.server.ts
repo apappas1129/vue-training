@@ -22,7 +22,6 @@ const passToClient = [
 
 async function render(pageContext: PageContextServer) {
   const { stream, user } = pageContext;
-  console.log('>>>>>>>>>>>>>>[][] server renderer', pageContext.exports.Layout);
 
   // https://github.com/brillout/vite-plugin-ssr/blob/main/examples/vue-full/renderer/getPageTitle.ts
   const title = getPageTitle(pageContext);

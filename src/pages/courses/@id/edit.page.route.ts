@@ -12,8 +12,6 @@ export const guard = async (pageContext: PageContext) => {
     pageContext,
   );
 
-  console.log('UPDATE COURSE', course);
-
   // pass prefetched data to lighten up the processing load on client side
   pageContext.pageProps = { course };
 };

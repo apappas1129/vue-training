@@ -47,7 +47,6 @@ import { useTodos } from '#root/stores/useTodos';
 
 const counterStore = useCounter();
 const { count } = storeToRefs(counterStore);
-console.log('test', { ...counterStore });
 
 const todosStore = useTodos();
 const { todoList } = storeToRefs(todosStore);
