@@ -38,7 +38,7 @@ const module = computed(() => props.module as unknown as Module);
 const pageContext = usePageContext();
 
 function edit() {
-  navigate('/module/' + module.value.id + '/edit');
+  navigate('/modules/' + module.value.id + '/edit');
 }
 
 const { $fetch } = useFetch('modules/' + module.value.id, { method: 'DELETE' }, pageContext);

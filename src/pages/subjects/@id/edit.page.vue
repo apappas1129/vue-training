@@ -1,39 +1,38 @@
 <template>
-  <section>
-    <p>Edit Subject</p>
+  <header class="flex gap-2 justify-between items-center">
+    <h1 class="max-sm:basis-full flex items-center gap-3 text-2xl text-white mb-0 pb-0 border-b-0">
+      <Remixicon name="book-3-line"></Remixicon>
+      Edit subject
+    </h1>
+    <BaseButton @click="form.onSubmit()" :disabled="form?.isLoading" class="h-fit">Save</BaseButton>
+  </header>
+  <section class="mt-4">
     <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
-      <Tabs v-model="selectedTab" class="relative">
-        <div class="absolute bottom-0 border-b-2 border-b-basic-200 w-full z-10"></div>
-        <Tab :val="'subject'" :label="'Subject'" :indicator="true" class="z-20 cursor-pointer"></Tab>
-        <Tab :val="'courses'" :label="'Courses'" :indicator="true" class="z-20 cursor-pointer"></Tab>
-      </Tabs>
-      <TabPanels v-model="selectedTab" :animate="true">
-        <TabPanel :val="'subject'" class="p-4">
-          <SubjectForm :subject="subject"></SubjectForm>
-        </TabPanel>
-        <TabPanel :val="'courses'" class="p-4 pt-8">
+      <TabsWrapper>
+        <Tab title="Subject"><SubjectForm :subject="subject"></SubjectForm></Tab>
+        <Tab title="Courses">
           <template v-if="!subject">
             <p>This should never be displayed and should be handled elsewhere with page redirection</p>
           </template>
           <template v-else>
             <SubjectCourses :subject="subject"></SubjectCourses>
           </template>
-        </TabPanel>
-      </TabPanels>
+        </Tab>
+      </TabsWrapper>
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { Tabs, Tab, TabPanels, TabPanel } from 'vue3-tabs';
-
+import { TabsWrapper, Tab } from '#root/components/shared/Tabs';
+import Remixicon from '#root/components/shared/Remixicon.vue';
 import SubjectForm from '#root/components/subject/SubjectForm.vue';
 import SubjectCourses from '#root/components/subject/SubjectCourses.vue';
 import { Subject } from '#root/common/index';
 import { usePageContext } from '#root/renderer/usePageContext';
 
-const selectedTab = ref('subject');
+const form = ref();
 const subject = ref<Subject>();
 const pageContext = usePageContext();
 

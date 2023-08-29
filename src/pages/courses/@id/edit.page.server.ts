@@ -5,8 +5,6 @@ import { PageContext } from '#root/renderer/types';
 
 export { onBeforeRender };
 
-// TODO: use Action.update with object fetched for comparison
-
 async function onBeforeRender(pageContext: PageContext) {
   const data = async () => {
     const url = import.meta.env.VITE_WEB_API_URL + 'courses/' + pageContext.routeParams!.id;

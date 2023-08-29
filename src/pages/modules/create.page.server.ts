@@ -3,4 +3,4 @@ import { Action, Subject } from '#casl/types';
 
 export { onBeforeRender };
 
-const onBeforeRender = can(Action.manage, Subject.module, '/signin');
+const onBeforeRender = can(Action.create, Subject.module, '/modules');
