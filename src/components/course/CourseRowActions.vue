@@ -16,6 +16,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
+import { navigate } from 'vite-plugin-ssr/client/router';
 import ContextMenu from '#root/components/shared/ContextMenu.vue';
 import { Course } from '#root/common/entities/index';
 import { useFetch } from '#root/composables/useFetch';
@@ -38,7 +39,7 @@ const pageContext = usePageContext();
 const { $fetch } = useFetch('courses/' + course.value.id, { method: 'DELETE' }, pageContext);
 
 function edit() {
-  window.location.href = '/courses/' + course.value.id + '/edit';
+  navigate('/courses/' + course.value.id + '/edit');
 }
 
 function remove() {

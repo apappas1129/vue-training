@@ -21,9 +21,6 @@ import { User } from '#root/common/index';
 import SigninForm from '#root/components/auth/SigninForm.vue';
 
 function onSuccess(user: User) {
-  // if (user.role === 'instructor') window.location.href = '/subjects';
-  // else if (user.role === 'student') window.location.href = '/explore-courses';
-
   // FIXME: Have to trigger page reload fro Layout to change.
   navigate(user.role === 'student' ? '/explore-courses' : '/subjects').then(() => location.reload());
 }

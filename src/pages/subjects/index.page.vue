@@ -17,6 +17,7 @@
 <script lang="ts" setup>
 import { Component, h } from 'vue';
 import { FetchOptions } from 'ofetch';
+import { navigate } from 'vite-plugin-ssr/client/router';
 import { createColumnHelper } from '@tanstack/vue-table';
 
 import { pages } from '#root/common/constants/page.constants';
@@ -60,7 +61,7 @@ const options: FetchOptions = {
 };
 
 function create() {
-  window.location.href = '/subjects/create';
+  navigate('/subjects/create');
 }
 
 // For improvement, we can utilize DataTable @onChange and update the browser url bar to match the table

@@ -17,6 +17,7 @@
 
 <script lang="ts" setup>
 import { Component, h } from 'vue';
+import { navigate } from 'vite-plugin-ssr/client/router';
 import { FetchOptions } from 'ofetch';
 import { pages } from '#root/common/constants/page.constants';
 import Remixicon from '#root/components/shared/Remixicon.vue';
@@ -52,7 +53,7 @@ const options: FetchOptions = {
 };
 
 function create() {
-  window.location.href = '/courses/create';
+  navigate('/courses/create');
 }
 
 // For improvement, we can utilize DataTable @onChange and update the browser url bar to match the table

@@ -18,6 +18,7 @@
 <script lang="ts" setup>
 import { Component, h, reactive } from 'vue';
 import { FetchOptions } from 'ofetch';
+import { navigate } from 'vite-plugin-ssr/client/router';
 
 import { pages } from '#root/common/constants/page.constants';
 import Remixicon from '#root/components/shared/Remixicon.vue';
@@ -52,7 +53,7 @@ const columns: UseTableColumns<Module> = [
 ];
 
 function create() {
-  window.location.href = '/modules/create';
+  navigate('/modules/create');
 }
 // For improvement, we can utilize DataTable @onChange and update the browser url bar to match the table
 </script>
