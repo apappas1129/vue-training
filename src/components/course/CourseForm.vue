@@ -2,6 +2,7 @@
   <form @submit.prevent="onSubmit()" class="grid sm:grid-cols-2">
     <div class="flex flex-col gap-2">
       <BaseSelect
+        ref="subjectIdSelect"
         searchable
         label="Subject"
         v-model="form.subjectId"
@@ -55,6 +56,7 @@ const pageContext = usePageContext();
 
 const { course } = defineProps<{ course?: Course }>();
 const subjects = ref<Subject[]>([]);
+const subjectIdSelect = ref<InstanceType<typeof BaseSelect>>();
 
 const emit = defineEmits<{
   (e: 'success', course: Course): void;
@@ -107,7 +109,7 @@ onMounted(async () => {
   // TODO: correct data fetching for dropdown
   const { $fetch: getSubjects /*, isLoading: fetchingSubjects*/ } = useFetch<PaginatedResponse<Subject>>(
     'subjects',
-    { query: { _limit: 50, _page: 1 } },
+    { query: { _limit: 1000, _page: 1 } },
     pageContext,
   );
 

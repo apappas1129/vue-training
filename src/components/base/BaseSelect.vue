@@ -26,12 +26,15 @@
       </template>
     </BaseInput>
 
+    <!-- current value view -->
     <div :style="{ width: width }" class="absolute h-11 w-full pt-1 flex flex-col justify-center">
       <div v-if="!searchable || !focused" :class="{ 'px-3': !$slots.option }">
         <slot v-if="selectedOption" name="option" v-bind="selectedOption">{{ getOptionLabel(selectedOption) }}</slot>
         <div v-else class="w-full h-full" @click.stop></div>
       </div>
     </div>
+
+    <!-- options -->
     <div
       v-if="focused"
       @click="$event.preventDefault()"
@@ -72,7 +75,7 @@ export default {
 // TODO: Implement server-side paginated & filtered options. aka. Async Select
 import { useVModel, watchDebounced, useMouse } from '@vueuse/core';
 import { vElementSize } from '@vueuse/components';
-import { ComponentPublicInstance, Ref, ref, toRaw, watch, watchEffect } from 'vue';
+import { ComponentPublicInstance, Ref, onMounted, ref, toRaw, watch, watchEffect } from 'vue';
 import { BaseInput } from '#root/components/base';
 import Remixicon from '#root/components/shared/Remixicon.vue';
 import getDomElement from '#root/common/utils/get-dom-element';
@@ -101,18 +104,35 @@ const emit = defineEmits<BaseSelectEmits>();
 interface BaseSelectEmits {
   (e: 'update:modelValue', modelValue: string): void;
 }
-const modelValue = useVModel(props, 'modelValue', emit, { deep: true });
 const search = ref('');
+const selectedOption = ref<any>(null);
+const modelValue = useVModel(props, 'modelValue', emit, { deep: true });
+
+function updateSelectedOption(value: BaseSelectProps['modelValue']) {
+  const option = (props.options || []).find(o => getOptionValue(o) === value);
+  if (option) {
+    selectedOption.value = option;
+    search.value = ' '; // push label up
+  }
+}
+
+/** Manually trigger rendering of current value. Useful especially for async options. */
+function renderValue() {
+  updateSelectedOption(modelValue.value);
+}
+
+onMounted(() => {
+  renderValue();
+});
+
+watch(
+  () => props.options,
+  () => renderValue(),
+);
 
 watch(
   () => props.modelValue,
-  value => {
-    const option = props.options.find(o => getOptionValue(o) === value);
-    if (option) {
-      selectedOption.value = option;
-      search.value = ' '; // push label up
-    }
-  },
+  value => updateSelectedOption(value),
 );
 
 const filteredOptions = ref<BaseSelectProps['options']>([]);
@@ -129,7 +149,6 @@ watchDebounced(
   { debounce: props.debounceSearch },
 );
 
-const selectedOption = ref<any>(null);
 const hoveredOption = ref(-1);
 const focused = ref(false);
 const iconRef = ref();
@@ -276,4 +295,9 @@ function onKeyEnter() {
   onSelectOption(filteredOptions.value[hoveredOption.value]);
   inputRef.value?.getInputElement()?.blur();
 }
+
+defineExpose({
+  value: modelValue.value,
+  renderValue,
+});
 </script>

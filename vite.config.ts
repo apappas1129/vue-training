@@ -11,6 +11,7 @@ const config: UserConfig = {
     alias: {
       // We prefix path aliases with '#', see https://vite-plugin-ssr.com/path-aliases#vite
       '#root': path.resolve(__dirname, './src/'),
+      '#casl': path.resolve(__dirname, './casl/'),
     },
   },
   // We manually add a list of dependencies to be pre-bundled, in order to avoid a page reload at dev start which breaks vite-plugin-ssr's CI

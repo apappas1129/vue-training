@@ -1,5 +1,5 @@
 import { User } from '#root/common/entities/user.interface';
-import { defineAbilityFor } from '../../casl/defineAbilityFor';
+import { defineAbilityFor } from '#casl/defineAbilityFor';
 
 // // Augment express-session with a custom SessionData object
 declare module 'express-session' {

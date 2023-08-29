@@ -1,4 +1,4 @@
-import { Role } from '../../../casl/types';
+import { Role } from '#casl/types';
 
 export interface User {
   id: number;

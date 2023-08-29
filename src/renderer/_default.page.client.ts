@@ -5,7 +5,7 @@ export { onPageTransitionEnd };
 
 // enable Client-side Routing
 // WARNING: Before doing so, read https://vite-plugin-ssr.com/clientRouting */
-// export const clientRouting = true;
+export const clientRouting = true;
 // BUG: unresolved bugs on routing functions for ClientRouting (e.g. pageContext custom fields not available on onBeforeRender and guard)
 // using default SSR for now.
 
@@ -28,6 +28,7 @@ function render(pageContext: PageContextBuiltInClient & PageContextServer) {
     window.location.href = redirectTo;
     return;
   }
+
   console.log('Application:', app);
   // NOTE: As far as I can observe, the app instance only persists on ClientRouting mode.
   //       In ServerRouting mode, app is always undefined and recreated every navigation, which makes a new pinia store.

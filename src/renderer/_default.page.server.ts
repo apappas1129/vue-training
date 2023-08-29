@@ -26,6 +26,7 @@ async function render(pageContext: PageContextServer) {
   // https://github.com/brillout/vite-plugin-ssr/blob/main/examples/vue-full/renderer/getPageTitle.ts
   const title = getPageTitle(pageContext);
   const tabIconUrl = import.meta.env.BASE_URL + 'vite.svg';
+  // const rippleJS = import.meta.env.BASE_URL + 'unpkg.com_@material-tailwind_html@2.0.0_scripts_ripple.js';
 
   // NOTE: With enableEagerStreaming, HTML template (e.g. `<title>`) is immediately written to the stream
   /* NOTE: See https://github.com/adoxography/tailwind-scrollbar/issues/59, scrollbar properties aren't inherited.
@@ -44,7 +45,6 @@ async function render(pageContext: PageContextServer) {
           !user || (pageContext.exports?.layout as any)?.__name === 'guest.layout' ? 'scrollbar-thin' : 'scrollbar-none'
         }">
         <div id="app">${stream}</div>
-        <script src="/unpkg.com_@material-tailwind_html@2.0.0_scripts_ripple.js"></script>
       </body>
     </html>`;
 

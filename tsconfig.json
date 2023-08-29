@@ -9,7 +9,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
       "paths": {
-      "#root/*": ["./src/*"]
+      "#root/*": ["./src/*"],
+      "#casl/*": ["./casl/*"]
     },
     "typeRoots": ["./@types", "./node_modules/@types", "./node_modules"],
     "allowJs": true
@@ -22,5 +23,5 @@
       "esModuleInterop": true
     }
   },
-  "exclude": ["node_modules", "json-server/*"]
+  "exclude": ["node_modules", "json-server/**/*"]
 }

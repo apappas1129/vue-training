@@ -34,14 +34,22 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import Remixicon from '../shared/Remixicon.vue';
 import { usePageContext } from '#root/renderer/usePageContext';
 import { useLayout } from '#root/stores/useLayout';
 
-const layout = useLayout();
-const { sideNavHidden } = storeToRefs(layout);
-const { urlPathname } = usePageContext();
+const sideNavHidden = ref(false);
+// const layout = useLayout();
+// const { sideNavHidden } = storeToRefs(layout);
+const pageContext = usePageContext();
+
+const urlPathname = computed(() => {
+  const { urlPathname: path } = pageContext;
+  return path;
+});
+
 const { navItems } = defineProps({
   navItems: {
     type: Array<any>,

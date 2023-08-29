@@ -34,10 +34,15 @@ import Footer from '#root/components/layout/Footer.vue';
 import Remixicon from '#root/components/shared/Remixicon.vue';
 import { navigation } from '#root/common/constants/page.constants';
 import { useLayout } from '#root/stores/useLayout';
+import { ref } from 'vue';
 
 const navItems = [{ navItems: navigation.instructor, groupName: 'MANAGEMENT' }];
-const layout = useLayout();
-const { sideNavHidden } = storeToRefs(layout);
+const sideNavHidden = ref(false);
+// if (!import.meta.env.SSR) {
+//   console.log('TEST client only');
+//   const layout = useLayout();
+//   sideNavHidden.value = layout.sideNavHidden;
+// }
 </script>
 
 <style>

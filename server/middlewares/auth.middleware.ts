@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import { packRules } from '@casl/ability/extra';
-import { defineAbilityFor } from '../../casl/defineAbilityFor';
+import { defineAbilityFor } from '#casl/defineAbilityFor';
 
 /**
  * See https://vite-plugin-ssr.com/auth

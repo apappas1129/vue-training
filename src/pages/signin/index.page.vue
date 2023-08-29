@@ -16,13 +16,16 @@ export { default as Layout } from '#root/layouts/guest.layout.vue';
 </script>
 
 <script lang="ts" setup>
+import { navigate } from 'vite-plugin-ssr/client/router';
 import { User } from '#root/common/index';
 import SigninForm from '#root/components/auth/SigninForm.vue';
 
 function onSuccess(user: User) {
-  if (user.role === 'instructor') window.location.href = '/subjects';
-  else if (user.role === 'student') window.location.href = '/explore-courses';
-  else if (user.role === 'admin') console.log('todo admin pages');
+  // if (user.role === 'instructor') window.location.href = '/subjects';
+  // else if (user.role === 'student') window.location.href = '/explore-courses';
+
+  // FIXME: Have to trigger page reload fro Layout to change.
+  navigate(user.role === 'student' ? '/explore-courses' : '/subjects').then(() => location.reload());
 }
 </script>
 

@@ -1,3 +1,6 @@
+import can from '#root/common/auth/router-functions/can';
+import { Action, Subject } from '#casl/types';
+
 export { onBeforeRender };
-import createEntityGuard from '#root/common/auth/router-functions/create-entity.guard';
-const onBeforeRender = createEntityGuard('subject', '/subjects');
+
+const onBeforeRender = can(Action.create, Subject.course, '/subjects');

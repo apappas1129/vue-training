@@ -20,6 +20,8 @@ interface AppPageElement extends App<Element> {
 
 function createApp(pageContext: PageContext) {
   let rootComponentContext: PageContext;
+  const store = createPinia();
+
   const app = createSSRApp({
     data: () => ({
       Page: _.isObject(pageContext.Page) ? markRaw(pageContext.Page) : pageContext.Page,
@@ -35,7 +37,6 @@ function createApp(pageContext: PageContext) {
     },
   }) as AppPageElement;
 
-  const store = createPinia();
   app.use(store);
 
   if (pageContext.ability) {

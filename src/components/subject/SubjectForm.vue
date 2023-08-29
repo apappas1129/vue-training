@@ -33,7 +33,7 @@ import { usePageContext } from '#root/renderer/usePageContext';
 import { useFetch } from '#root/composables/useFetch';
 import { Subject } from '#root/common/index';
 import postOrPatch from '#root/common/utils/post-or-patch';
-import { Action } from '../../../casl/types';
+import { Action } from '#casl/types';
 
 const { subject } = defineProps<{ subject?: Subject }>();
 
