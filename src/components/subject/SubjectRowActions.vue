@@ -21,6 +21,7 @@ import ContextMenu from '#root/components/shared/ContextMenu.vue';
 import { Subject } from '#root/common/entities/index';
 import { useFetch } from '#root/composables/useFetch';
 import { usePageContext } from '#root/renderer/usePageContext';
+import { navigate } from 'vite-plugin-ssr/client/router';
 
 const props = defineProps<{
   subject: {
@@ -39,7 +40,7 @@ const pageContext = usePageContext();
 const { $fetch } = useFetch('subjects/' + subject.value.id, { method: 'DELETE' }, pageContext);
 
 function edit() {
-  window.location.href = '/subjects/' + subject.value.id + '/edit';
+  navigate('/subjects/' + subject.value.id + '/edit');
 }
 
 function remove() {

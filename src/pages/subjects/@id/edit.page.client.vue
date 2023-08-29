@@ -39,5 +39,6 @@ const pageContext = usePageContext();
 
 if (pageContext?.pageProps?.subject) {
   subject.value = pageContext.pageProps.subject as Subject;
+  console.log('test', subject.value);
 }
 </script>
