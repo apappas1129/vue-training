@@ -5,7 +5,7 @@
       <button class="flex items-center gap-2">
         <div
           class="h-8 w-8 rounded-full bg-center bg-contain bg-clip-border bg-no-repeat border border-success-400"
-          :style="`background-image: url(${user?.avatar || '/arcanys-favicon.png'})`"
+          :style="`background-image: url(${user?.avatar || '/company-favicon.png'})`"
         ></div>
         <span class="font-semibold text-basic-600">{{ user?.email }}</span>
         <Remixicon name="arrow-down-s-line"></Remixicon>

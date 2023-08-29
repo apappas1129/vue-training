@@ -1,4 +1,5 @@
 import { App, createSSRApp, h, reactive, markRaw } from 'vue';
+import AppComponent from './App.vue';
 
 import { createMongoAbility } from '@casl/ability';
 import { unpackRules } from '@casl/ability/extra';
@@ -26,11 +27,20 @@ function createApp(pageContext: PageContext) {
     data: () => ({
       Page: _.isObject(pageContext.Page) ? markRaw(pageContext.Page) : pageContext.Page,
       pageProps: markRaw(pageContext.pageProps || {}),
-      Layout: markRaw(pageContext.exports.Layout || selectLayout(pageContext)),
+      // Layout: markRaw(pageContext.exports.Layout || selectLayout(pageContext)),
     }),
     render() {
-      const renderLayoutSlot = () => h(this.Page, this.pageProps || {});
-      return h(this.Layout, {}, { default: renderLayoutSlot });
+      // const renderLayoutSlot = () => h(this.Page, this.pageProps || {});
+      // return h(this.Layout, {}, { default: renderLayoutSlot });
+      return h(
+        AppComponent,
+        {},
+        {
+          default: () => {
+            return h(this.Page, this.pageProps);
+          },
+        },
+      );
     },
     created() {
       rootComponentContext = this;
@@ -52,7 +62,7 @@ function createApp(pageContext: PageContext) {
   }
 
   // We use `app.changePage()` to do Client Routing, see `_default.page.client.js`
-  Object.assign(app, {
+  objectAssign(app, {
     changePage: (pageContext: PageContext) => {
       Object.assign(pageContextReactive, pageContext);
       rootComponentContext.Page = markRaw(pageContext.Page);
@@ -69,13 +79,21 @@ function createApp(pageContext: PageContext) {
   return { app, store };
 }
 
-function selectLayout(pageContext: PageContext) {
-  switch (pageContext.user?.role) {
-    case 'instructor':
-      return InstructorLayout;
-    case 'student':
-      return StudentLayout;
-    default:
-      return GuestLayout;
-  }
+// Same as `Object.assign()` but with type inference
+function objectAssign<Obj extends object, ObjAddendum>(
+  obj: Obj,
+  objAddendum: ObjAddendum,
+): asserts obj is Obj & ObjAddendum {
+  Object.assign(obj, objAddendum);
 }
+
+// function selectLayout(pageContext: PageContext) {
+//   switch (pageContext.user?.role) {
+//     case 'instructor':
+//       return InstructorLayout;
+//     case 'student':
+//       return StudentLayout;
+//     default:
+//       return GuestLayout;
+//   }
+// }

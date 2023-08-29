@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <SideNav :navItems="navItems"></SideNav>
+    <SideNav ref="sideNav" :navItems="navItems"></SideNav>
     <div class="w-full h-screen relative">
       <TopBar class="justify-end">
         <transition
@@ -8,7 +8,7 @@
           enter-to-class="opacity-100"
           enter-active-class="transition-all delay-200 duration-7500 ease-out"
         >
-          <button v-if="sideNavHidden" @click="layout.toggleSideNav" class="mr-auto">
+          <button v-if="!sideNav || sideNav.sideNavHidden" @click="sideNav?.toggleSideNav()" class="mr-auto">
             <Remixicon :name="'menu-line'"></Remixicon>
           </button>
         </transition>
@@ -35,14 +35,12 @@ import Remixicon from '#root/components/shared/Remixicon.vue';
 import { navigation } from '#root/common/constants/page.constants';
 import { useLayout } from '#root/stores/useLayout';
 import { ref } from 'vue';
-
 const navItems = [{ navItems: navigation.instructor, groupName: 'MANAGEMENT' }];
-const sideNavHidden = ref(false);
-// if (!import.meta.env.SSR) {
-//   console.log('TEST client only');
-//   const layout = useLayout();
-//   sideNavHidden.value = layout.sideNavHidden;
-// }
+
+const sideNav = ref<InstanceType<typeof SideNav>>();
+
+// const layout = useLayout();
+// const { sideNavHidden } = storeToRefs(layout);
 </script>
 
 <style>

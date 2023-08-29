@@ -7,10 +7,10 @@
   >
     <div class="flex items-center justify-between font-semibold text-center p-4 bg-slate-950">
       <div class="text-base flex items-center justify-center gap-2">
-        <img style="height: 24px" src="/arcanys-favicon.png" class="logo vue" alt="tailwind" />
+        <img style="height: 24px" src="/company-favicon.png" class="logo vue" alt="tailwind" />
         <span class="text-white whitespace-nowrap">eLearning Portal</span>
       </div>
-      <button @click="layout.toggleSideNav()" class="text-white">
+      <button @click="toggleSideNav()" class="text-white">
         <Remixicon :name="'menu-line'"></Remixicon>
       </button>
     </div>
@@ -50,10 +50,17 @@ const urlPathname = computed(() => {
   return path;
 });
 
+function toggleSideNav() {
+  // layout.toggleSideNav()
+  sideNavHidden.value = !sideNavHidden.value;
+}
+
 const { navItems } = defineProps({
   navItems: {
     type: Array<any>,
     required: true,
   },
 });
+
+defineExpose({ toggleSideNav, sideNavHidden });
 </script>
