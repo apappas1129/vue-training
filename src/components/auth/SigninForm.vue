@@ -39,6 +39,7 @@ const emit = defineEmits<{
 }>();
 
 const emailStorage = useAppStorage<string>('email', '', { prefix: 'remember:' });
+const jwtStorage = useAppStorage<string>('jwt', '', { prefix: 'session:' });
 
 const form = reactive<LoginForm>({
   email: emailStorage.value,
@@ -65,7 +66,13 @@ async function tryLogin() {
   } else {
     // Remember
     emailStorage.value = form.remember ? form.email : '';
-    emit('success', response.user);
+
+    // Web API specs includes JWT (to be used as "Bearer Token" attached on HTTP Request Headers) authorization
+    // Although cookies are not in specs, we will still be using it to be able to authorize page requests from the SSR App's server side.
+    // At this point, the response has also written a session cookie (As implemented in the mocked API json-server)
+    jwtStorage.value = response.accessToken;
+
+    emit('success', response);
   }
 }
 </script>

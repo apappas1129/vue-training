@@ -11,7 +11,7 @@ export function useAuth() {
   const cookies = useCookies([]);
   const { clear } = useClearAppStorage();
 
-  const { $fetch, error: err } = useFetch<{ user: User }>('login', {
+  const { $fetch, error: err } = useFetch<User & { accessToken: string }>('login', {
     method: 'POST',
     credentials: 'include',
   });

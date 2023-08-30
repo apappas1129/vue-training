@@ -4,6 +4,7 @@ import { PaginatedResponse } from '#root/common/index';
 import { PageContext } from '#root/renderer/types';
 import { FetchOptions, ofetch } from 'ofetch';
 import { useCookie } from './useCookie';
+import { useAppStorage } from './useAppStorage';
 
 const DEFAULT_PAGE_COUNT = -1;
 const DEFAULT_RESULT_COUNT = -1;
@@ -59,16 +60,25 @@ export default function useTableService<T>(
   watchEffect(() => {
     isLoading.value = true;
 
-    // Attempted a few times to reuse the useFetch composable, but failed.
-    // For now, we reimplement fetch here which unfortunately repeats code like injecting cookie headers.
-    ofetch<PaginatedResponse<T>>(url + domain, {
+    const mergedOptions: FetchOptions = {
       query: {
         ...defaultQuery,
         ...requestParams.value,
       },
       ...attachCookie,
       ...options, // default request options per page request
-    })
+    };
+
+    const jwtStorage = useAppStorage<string>('jwt', '', { prefix: 'session:' });
+
+    mergedOptions.headers = {
+      Authorization: jwtStorage.value,
+      ...(mergedOptions.headers || {}),
+    };
+
+    // Attempted a few times to reuse the useFetch composable, but failed.
+    // For now, we reimplement fetch here which unfortunately repeats code like injecting cookie headers.
+    ofetch<PaginatedResponse<T>>(url + domain, mergedOptions)
       .then(response => {
         data.value = response.data;
         error.value = null;

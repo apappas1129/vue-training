@@ -25,6 +25,13 @@
   </section>
 </template>
 
+<script lang="ts">
+// https://github.com/akauppi/GroundLevel-firebase-es/issues/20#issuecomment-825578298
+export default {
+  inheritAttrs: false,
+};
+</script>
+
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { notify } from 'notiwind';

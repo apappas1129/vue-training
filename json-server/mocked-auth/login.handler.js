@@ -16,7 +16,7 @@ export default function mockLogin(app, router) {
     if (user) {
       req.session.user = user;
       req.session.save();
-      res.jsonp({ user });
+      res.jsonp({ ...user, accessToken: 'This is a JWT Token' });
     } else {
       console.log('USER NOTE FOUND! Returning 401, { error: "Invalid credentials" } ');
       // Clear the session cookie on the client side

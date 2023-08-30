@@ -3,6 +3,7 @@ import { ref, Ref, unref, UnwrapRef } from 'vue';
 import { ofetch, $Fetch, ResponseType, FetchOptions } from 'ofetch';
 import { useCookie } from './useCookie';
 import { PageContext } from '#root/renderer/types';
+import { useAppStorage } from './useAppStorage';
 
 // TODO: Add default/global request interceptor if found necessary later on.
 const apiFetch = ofetch.create({ baseURL: (import.meta.env as any).VITE_WEB_API_URL });
@@ -36,6 +37,13 @@ export function useFetch<T = any, R extends ResponseType = 'json'>(
       ...attachCookie,
       ...(opts || {}), // default options upon invoking useFetch
       ...(options || {}), // allows to still override some fetch options upon actual request
+    };
+
+    const jwtStorage = useAppStorage<string>('jwt', '', { prefix: 'session:' });
+
+    fetchOptions.headers = {
+      Authorization: jwtStorage.value,
+      ...(fetchOptions.headers || {}),
     };
 
     error.value = null;
