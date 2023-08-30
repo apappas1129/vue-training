@@ -33,14 +33,10 @@ import UserNav from '#root/components/layout/UserNav.vue';
 import Footer from '#root/components/layout/Footer.vue';
 import Remixicon from '#root/components/shared/Remixicon.vue';
 import { navigation } from '#root/common/constants/page.constants';
-import { useLayout } from '#root/stores/useLayout';
 import { ref } from 'vue';
 const navItems = [{ navItems: navigation.instructor, groupName: 'MANAGEMENT' }];
 
 const sideNav = ref<InstanceType<typeof SideNav>>();
-
-// const layout = useLayout();
-// const { sideNavHidden } = storeToRefs(layout);
 </script>
 
 <style>

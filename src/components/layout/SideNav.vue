@@ -35,14 +35,12 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { storeToRefs } from 'pinia';
 import Remixicon from '../shared/Remixicon.vue';
 import { usePageContext } from '#root/renderer/usePageContext';
-import { useLayout } from '#root/stores/useLayout';
+import { useAppStorage } from '#root/composables/useAppStorage';
 
-const sideNavHidden = ref(false);
-// const layout = useLayout();
-// const { sideNavHidden } = storeToRefs(layout);
+const sideNavHidden = useAppStorage<boolean>('sidemenu', false, { prefix: 'layout:' });
+
 const pageContext = usePageContext();
 
 const urlPathname = computed(() => {

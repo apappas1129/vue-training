@@ -16,7 +16,7 @@
             <RouterLink href="/about">About</RouterLink>
           </li>
           <li>
-            <RouterLink href="/courses">Courses</RouterLink>
+            <RouterLink href="/explore-courses">Courses</RouterLink>
           </li>
           <li>
             <RouterLink href="/subscription">Subscription</RouterLink>
