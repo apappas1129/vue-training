@@ -6,6 +6,7 @@ import { unpackRules } from '@casl/ability/extra';
 import { abilitiesPlugin as casl } from '@casl/vue';
 
 import { createPinia } from 'pinia';
+import Notifications from 'notiwind';
 
 import { setPageContext } from './usePageContext';
 import { PageContext } from './types';
@@ -48,6 +49,8 @@ function createApp(pageContext: PageContext) {
   }) as AppPageElement;
 
   app.use(store);
+  console.log('USE NOTIFS', Notifications);
+  app.use(Notifications);
 
   if (pageContext.ability) {
     try {

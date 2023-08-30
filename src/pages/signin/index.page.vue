@@ -3,7 +3,7 @@
   <section class="flex items-center justify-center h-full w-full">
     <div class="bg-white max-w-sm rounded overflow-hidden shadow-lg px-6 py-4 z-10">
       <h1 class="font-bold text-xl mb-2">Sign In</h1>
-      <SigninForm @success="onSuccess($event)" />
+      <SigninForm @success="onSuccess($event)" @error="onError($event)" />
       <a href="#" class="text-center text-xs mt-2 block">Forgot password?</a>
     </div>
   </section>
@@ -17,12 +17,25 @@ export { default as Layout } from '#root/layouts/guest.layout.vue';
 
 <script lang="ts" setup>
 import { navigate } from 'vite-plugin-ssr/client/router';
+import { notify } from 'notiwind';
 import { User } from '#root/common/index';
 import SigninForm from '#root/components/auth/SigninForm.vue';
 
 function onSuccess(user: User) {
   // FIXME: Have to trigger page reload fro Layout to change.
   navigate(user.role === 'student' ? '/explore-courses' : '/subjects').then(() => location.reload());
+}
+
+function onError(err: any) {
+  notify(
+    {
+      group: 'main',
+      title: 'Error!',
+      text: err,
+      type: 'danger',
+    },
+    2000,
+  );
 }
 </script>
 

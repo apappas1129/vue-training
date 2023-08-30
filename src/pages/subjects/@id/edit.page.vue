@@ -9,7 +9,9 @@
   <section class="mt-4">
     <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
       <TabsWrapper>
-        <Tab title="Subject"><SubjectForm :subject="subject"></SubjectForm></Tab>
+        <Tab title="Subject">
+          <SubjectForm ref="form" :subject="subject" @success="onSuccess()" @error="onError($event)"></SubjectForm>
+        </Tab>
         <Tab title="Courses">
           <template v-if="!subject">
             <p>This should never be displayed and should be handled elsewhere with page redirection</p>
@@ -25,8 +27,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { TabsWrapper, Tab } from '#root/components/shared/Tabs';
-import Remixicon from '#root/components/shared/Remixicon.vue';
+import { notify } from 'notiwind';
+import { BaseButton, Remixicon, Tab, TabsWrapper } from '#root/components/shared/index';
 import SubjectForm from '#root/components/subject/SubjectForm.vue';
 import SubjectCourses from '#root/components/subject/SubjectCourses.vue';
 import { Subject } from '#root/common/index';
@@ -38,6 +40,29 @@ const pageContext = usePageContext();
 
 if (pageContext?.pageProps?.subject) {
   subject.value = pageContext.pageProps.subject as Subject;
-  console.log('test', subject.value);
+}
+
+function onSuccess() {
+  notify(
+    {
+      group: 'main',
+      title: 'Success',
+      text: 'The subject has been updated.',
+      type: 'success',
+    },
+    2000,
+  );
+}
+
+function onError(err: any) {
+  notify(
+    {
+      group: 'main',
+      title: 'Error!',
+      text: err,
+      type: 'danger',
+    },
+    2000,
+  );
 }
 </script>

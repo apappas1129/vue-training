@@ -9,7 +9,9 @@
   <section class="mt-4">
     <div class="card block py-6 shadow">
       <TabsWrapper>
-        <Tab title="Subject"><SubjectForm ref="form"></SubjectForm></Tab>
+        <Tab title="Subject">
+          <SubjectForm ref="form" @success="onSuccess()" @error="onError($event)"></SubjectForm>
+        </Tab>
         <Tab title="Courses"><p>Please save subject.</p></Tab>
       </TabsWrapper>
     </div>
@@ -18,10 +20,33 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { TabsWrapper, Tab } from '#root/components/shared/Tabs';
+import { notify } from 'notiwind';
 import SubjectForm from '#root/components/subject/SubjectForm.vue';
-import Remixicon from '#root/components/shared/Remixicon.vue';
-import { BaseButton } from '#root/components/base/index';
+import { BaseButton, Remixicon, Tab, TabsWrapper } from '#root/components/shared/index';
 
 const form = ref();
+
+function onSuccess() {
+  notify(
+    {
+      group: 'main',
+      title: 'Success',
+      text: 'New subject created.',
+      type: 'success',
+    },
+    2000,
+  );
+}
+
+function onError(err: any) {
+  notify(
+    {
+      group: 'main',
+      title: 'Error!',
+      text: err,
+      type: 'danger',
+    },
+    2000,
+  );
+}
 </script>

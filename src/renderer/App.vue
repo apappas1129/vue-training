@@ -2,6 +2,7 @@
   <component :is="layout">
     <slot />
   </component>
+  <ToastNotification></ToastNotification>
 </template>
 
 <script setup lang="ts">
@@ -9,7 +10,7 @@ import { usePageContext } from '#root/renderer/usePageContext';
 import { ref, markRaw } from 'vue';
 import { PageContext } from './types';
 import { GuestLayout } from '#root/layouts';
-
+import ToastNotification from '#root/components/shared/ToastNotification.vue';
 const layout = ref();
 const pageContext = usePageContext();
 

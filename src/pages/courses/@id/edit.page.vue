@@ -11,7 +11,7 @@
     <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
       <TabsWrapper>
         <Tab title="Course">
-          <CourseForm :course="course"></CourseForm>
+          <CourseForm ref="form" :course="course" @success="onSuccess()" @error="onError($event)"></CourseForm>
         </Tab>
         <Tab title="Modules">
           <template v-if="!course">
@@ -28,8 +28,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { TabsWrapper, Tab } from '#root/components/shared/Tabs';
-import Remixicon from '#root/components/shared/Remixicon.vue';
+import { notify } from 'notiwind';
+import { BaseButton, Remixicon, Tab, TabsWrapper } from '#root/components/shared/index';
 import CourseForm from '#root/components/course/CourseForm.vue';
 import CourseModules from '#root/components/course/CourseModules.vue';
 import { Course } from '#root/common/index';
@@ -38,6 +38,31 @@ import { usePageContext } from '#root/renderer/usePageContext';
 const form = ref();
 const course = ref<Course>();
 const pageContext = usePageContext();
-if (pageContext?.pageProps?.course) course.value = pageContext.pageProps.course as Course;
-console.log('prop context', pageContext?.pageProps);
+if (pageContext?.pageProps?.course) {
+  course.value = pageContext.pageProps.course as Course;
+}
+
+function onSuccess() {
+  notify(
+    {
+      group: 'main',
+      title: 'Success',
+      text: 'The course has been updated.',
+      type: 'success',
+    },
+    2000,
+  );
+}
+
+function onError(err: any) {
+  notify(
+    {
+      group: 'main',
+      title: 'Error!',
+      text: err,
+      type: 'danger',
+    },
+    2000,
+  );
+}
 </script>

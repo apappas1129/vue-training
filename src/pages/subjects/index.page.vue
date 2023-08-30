@@ -21,13 +21,9 @@ import { navigate } from 'vite-plugin-ssr/client/router';
 import { createColumnHelper } from '@tanstack/vue-table';
 
 import { pages } from '#root/common/constants/page.constants';
-import Remixicon from '#root/components/shared/Remixicon.vue';
-import QueryBar from '#root/components/shared/QueryBar.vue';
-import DataTable from '#root/components/shared/DataTable/DataTable.vue';
+import { BaseButton, Remixicon, QueryBar, DataTable } from '#root/components/shared/index';
 import { Subject } from '#root/common/index';
-import { UseTableColumns } from '#root/composables/useTable';
 import SubjectRowActions from '#root/components/subject/SubjectRowActions.vue';
-import { BaseButton } from '#root/components/base/index';
 import { usePageContext } from '#root/renderer/usePageContext';
 
 const page = pages.instructor.subjects;

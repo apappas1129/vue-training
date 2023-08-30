@@ -9,7 +9,9 @@
   <section class="mt-4">
     <div class="block py-6 bg-white border border-basic-200 rounded-lg shadow">
       <TabsWrapper>
-        <Tab title="Course"><CourseForm ref="form"></CourseForm></Tab>
+        <Tab title="Course">
+          <CourseForm ref="form" @success="onSuccess()" @error="onError($event)"></CourseForm>
+        </Tab>
         <Tab title="Modules"><p>Please save course.</p></Tab>
       </TabsWrapper>
     </div>
@@ -18,11 +20,33 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { TabsWrapper, Tab } from '#root/components/shared/Tabs';
+import { notify } from 'notiwind';
+import { BaseButton, Remixicon, Tab, TabsWrapper } from '#root/components/shared/index';
 import CourseForm from '#root/components/course/CourseForm.vue';
-import Remixicon from '#root/components/shared/Remixicon.vue';
-import { BaseButton } from '#root/components/base/index';
 
-const selectedTab = ref('subject');
 const form = ref();
+
+function onSuccess() {
+  notify(
+    {
+      group: 'main',
+      title: 'Success',
+      text: 'New course created.',
+      type: 'success',
+    },
+    2000,
+  );
+}
+
+function onError(err: any) {
+  notify(
+    {
+      group: 'main',
+      title: 'Error!',
+      text: err,
+      type: 'danger',
+    },
+    2000,
+  );
+}
 </script>

@@ -28,7 +28,7 @@
       leave-to-class="opacity-0 scale-75"
     >
       <div
-        class="md:hidden fixed inset-x-0 bottom-0 bg-white w-full z-20 px-2 py-2 shadow-2xl leading-loose"
+        class="md:hidden fixed inset-x-0 bottom-0 bg-white w-full z-[99] px-2 py-2 shadow-2xl leading-loose"
         v-if="open"
       >
         <slot name="content"></slot>

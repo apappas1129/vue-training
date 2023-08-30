@@ -34,6 +34,7 @@
     "express-session": "^1.17.3",
     "json-server": "^0.17.3",
     "lodash": "^4.17.21",
+    "notiwind": "^2.0.2",
     "ofetch": "^1.1.1",
     "pinia": "^2.1.4",
     "redis": "^4.6.7",

@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, toRaw } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, email, minLength } from '@vuelidate/validators';
 
@@ -24,6 +24,7 @@ import { BaseButton, BaseCheckbox, BaseInput } from '#root/components/base';
 import { useAuth } from '#root/composables/useAuth';
 import { useAppStorage } from '#root/composables/useAppStorage';
 import { User } from '#root/common/index';
+import e from 'express';
 
 interface LoginForm {
   email: string;
@@ -32,7 +33,10 @@ interface LoginForm {
 }
 
 const { login, isLoading, error } = useAuth();
-const emit = defineEmits<{ (e: 'success', user: User): void }>();
+const emit = defineEmits<{
+  (e: 'success', user: User): void;
+  (e: 'error', error: any): void;
+}>();
 
 const emailStorage = useAppStorage<string>('email', '', { prefix: 'remember:' });
 
@@ -57,7 +61,7 @@ async function tryLogin() {
   const response = await login(form.email, form.password);
 
   if (error.value) {
-    console.error('Failed login', { ...error.value });
+    emit('error', toRaw(error.value));
   } else {
     // Remember
     emailStorage.value = form.remember ? form.email : '';
